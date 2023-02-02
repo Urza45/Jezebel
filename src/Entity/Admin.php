@@ -41,6 +41,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $society;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Users::class, mappedBy="idAdmin", cascade={"persist", "remove"})
+     */
+    private $users;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,28 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSociety(?Society $Society): self
     {
         $this->society = $Society;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($users === null && $this->users !== null) {
+            $this->users->setIdAdmin(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($users !== null && $users->getIdAdmin() !== $this) {
+            $users->setIdAdmin($this);
+        }
+
+        $this->users = $users;
 
         return $this;
     }

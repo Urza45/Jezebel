@@ -80,7 +80,7 @@ class Society
     private $parametersSociety;
 
     /**
-     * @ORM\OneToOne(targetEntity=Users::class, mappedBy="society", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Users::class, mappedBy="society", cascade={"persist", "remove"})
      */
     private $users;
 

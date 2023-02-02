@@ -126,7 +126,7 @@ class Dossier
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_formateur", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_formateur", referencedColumnName="id"),
      * })
      */
     private $idFormateur;

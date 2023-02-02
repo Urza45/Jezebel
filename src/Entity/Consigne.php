@@ -40,7 +40,7 @@ class Consigne
      *
      * @ORM\ManyToOne(targetEntity="Theme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_theme", referencedColumnName="id")
+     *  @ORM\JoinColumn(name="id_theme", referencedColumnName="id")
      * })
      */
     private $idTheme;

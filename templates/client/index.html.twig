@@ -5,22 +5,25 @@
 
 {% block body %}
 	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Liste des clients</h1>
+		<h1>Liste des sociétés clientes</h1>
 
 		<center>
-			<a href="{{ path('app_client_new') }}">Créer un nouveau client</a>
+			Il y a actuellement
+			{{ clients|length }}
+			sociétés.<br/>
+			<a href="{{ path('app_client_new') }}">Créer une nouvelle société cliente</a>
 		</center>
 
 		<table>
 			<thead>
 				<tr>
 					<th>Id</th>
-					<th>NomClient</th>
-					<th>AdresseClient</th>
-					<th>CpClient</th>
-					<th>VilleClient</th>
+					<th>Nom</th>
+					<th>Adresse</th>
+					<th>CP</th>
+					<th>Ville</th>
 					<th>Codeagence</th>
-					<th>actions</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>

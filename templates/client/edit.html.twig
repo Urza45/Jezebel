@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier un client{% endblock %}
+{% block title %}Modifier un client
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier un client</h1>
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Modifier une société</h1>
 
-    {{ include('client/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+		{{ include('client/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_client_index') }}">Retour à la liste des clients</a>
+		<a href="{{ path('app_client_index') }}">Retour à la liste des sociéte</a>
 
-    {{ include('client/_delete_form.html.twig') }}
+		{{ include('client/_delete_form.html.twig') }}
+	</section>
 {% endblock %}

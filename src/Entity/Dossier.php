@@ -24,7 +24,7 @@ class Dossier
     /**
      * @var string
      *
-     * @ORM\Column(name="num_facture", type="string", length=50, nullable=false)
+     * @ORM\Column(name="num_facture", type="string", length=50, nullable=true)
      */
     private $numFacture;
 

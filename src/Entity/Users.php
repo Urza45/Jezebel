@@ -78,7 +78,7 @@ class Users
     private $idRole;
 
     /**
-     * @ORM\OneToOne(targetEntity=Society::class, inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Society::class, inversedBy="users", cascade={"persist", "remove"})
      */
     private $society;
 

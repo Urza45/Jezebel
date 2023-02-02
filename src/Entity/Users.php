@@ -77,6 +77,16 @@ class Users
      */
     private $idRole;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Society::class, inversedBy="users", cascade={"persist", "remove"})
+     */
+    private $society;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Admin::class, inversedBy="users", cascade={"persist", "remove"})
+     */
+    private $idAdmin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,5 +191,29 @@ class Users
     public function __toString()
     {
         return $this->getName() . ' ' . $this->getSurname();
+    }
+
+    public function getSociety(): ?Society
+    {
+        return $this->society;
+    }
+
+    public function setSociety(?Society $society): self
+    {
+        $this->society = $society;
+
+        return $this;
+    }
+
+    public function getIdAdmin(): ?Admin
+    {
+        return $this->idAdmin;
+    }
+
+    public function setIdAdmin(?Admin $idAdmin): self
+    {
+        $this->idAdmin = $idAdmin;
+
+        return $this;
     }
 }

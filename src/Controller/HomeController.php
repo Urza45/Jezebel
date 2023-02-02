@@ -35,8 +35,8 @@ class HomeController extends AbstractController
         // // Send Mail here
         // $sendEmail->send($emailParameters);
 
-        $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
-        $this->redirectToRoute('app_login');
+        // $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
+        // $this->redirectToRoute('app_login');
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',

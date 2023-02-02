@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Admin;
+use App\Entity\Client;
 use App\Entity\Norme;
 use App\Entity\Dossier;
 use App\Entity\Society;
+use App\Entity\Users;
 // use App\Entity\Society;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\NormeRepository;
@@ -12,6 +15,7 @@ use App\Repository\SocietyRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\NormesAutoriseesRepository;
+use PhpParser\Node\Expr\AssignOp\Concat;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -69,9 +73,43 @@ class DossierType extends AbstractType
             ->add('villeIntervention')
             ->add('cpIntervention')
             ->add('commentaires')
-            ->add('codeagence')
-            ->add('idClient')
-            ->add('idTesteur');
+            ->add('codeagence');
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            $builder->add('idClient');
+        } else {
+            $builder->add('idClient', EntityType::class, [
+                'class' => Client::class,
+                'query_builder' => function (EntityRepository  $er) {
+                    return $er->createQueryBuilder('qq')
+                        ->select('u') // string 'u' is converted to array internally
+                        ->from('App\Entity\Client', 'u')
+                        // ->from('App\Entity\NormesAutorisees', 'v')
+                        // ->where('u.id = v.normes')
+                        ->Where('u.society = :idSociety')
+                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                        ->orderBy('u.nomClient', 'ASC');
+                },
+                'choice_label' => 'nomClient',
+            ]);
+        }
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            $builder->add('idTesteur');
+        } else {
+            $builder->add('idTesteur', EntityType::class, [
+                'class' => Users::class,
+                'query_builder' => function (EntityRepository  $er) {
+                    return $er->createQueryBuilder('qq')
+                        ->select('u') // string 'u' is converted to array internally
+                        ->from('App\Entity\Users', 'u')
+                        // ->from('App\Entity\NormesAutorisees', 'v')
+                        // ->where('u.id = v.normes')
+                        ->Where('u.society = :idSociety')
+                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                        ->orderBy('u.name', 'ASC');
+                },
+                'choice_label' => 'login',
+            ]);
+        }
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add('idNorme');
         } else {
@@ -90,8 +128,24 @@ class DossierType extends AbstractType
                 'choice_label' => 'label',
             ]);
         }
-        $builder
-            ->add('idFormateur');                                                                
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            $builder->add('idFormateur');
+        } else {
+            $builder->add('idFormateur', EntityType::class, [
+                'class' => Users::class,
+                'query_builder' => function (EntityRepository  $er) {
+                    return $er->createQueryBuilder('qq')
+                        ->select('u') // string 'u' is converted to array internally
+                        ->from('App\Entity\Users', 'u')
+                        // ->from('App\Entity\NormesAutorisees', 'v')
+                        // ->where('u.id = v.normes')
+                        ->Where('u.society = :idSociety')
+                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                        ->orderBy('u.name', 'ASC');
+                },
+                'choice_label' => 'login',
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

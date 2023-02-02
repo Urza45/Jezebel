@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ParametersSociety{% endblock %}
+
+{% block body %}
+    <h1>ParametersSociety</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ parameters_society.id }}</td>
+            </tr>
+            <tr>
+                <th>CodeDossier</th>
+                <td>{{ parameters_society.codeDossier }}</td>
+            </tr>
+            <tr>
+                <th>IncCodeDossier</th>
+                <td>{{ parameters_society.incCodeDossier }}</td>
+            </tr>
+            <tr>
+                <th>CodeFacture</th>
+                <td>{{ parameters_society.codeFacture }}</td>
+            </tr>
+            <tr>
+                <th>IncCodeFacture</th>
+                <td>{{ parameters_society.incCodeFacture }}</td>
+            </tr>
+            <tr>
+                <th>CodeConvention</th>
+                <td>{{ parameters_society.codeConvention }}</td>
+            </tr>
+            <tr>
+                <th>IncCodeConvention</th>
+                <td>{{ parameters_society.incCodeConvention }}</td>
+            </tr>
+            <tr>
+                <th>CodeDevis</th>
+                <td>{{ parameters_society.codeDevis }}</td>
+            </tr>
+            <tr>
+                <th>IncCodeDevis</th>
+                <td>{{ parameters_society.incCodeDevis }}</td>
+            </tr>
+            <tr>
+                <th>CodeConvocation</th>
+                <td>{{ parameters_society.codeConvocation }}</td>
+            </tr>
+            <tr>
+                <th>IncCodeConvocation</th>
+                <td>{{ parameters_society.incCodeConvocation }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_parameters_society_index') }}">back to list</a>
+
+    <a href="{{ path('app_parameters_society_edit', {'id': parameters_society.id}) }}">edit</a>
+
+    {{ include('parameters_society/_delete_form.html.twig') }}
+{% endblock %}

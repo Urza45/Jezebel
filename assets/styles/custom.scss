@@ -1,0 +1,16 @@
+@import "utils/variables";
+@import "base/base";
+@import "base/typography";
+@import "components/table";
+@import "components/carrousel";
+@import "components/arrow";
+@import "components/div";
+@import "components/link";
+@import "layout/hero";
+@import "layout/header";
+@import "layout/footer";
+@import "layout/nav";
+
+body {
+    background-color: lightgray;
+}

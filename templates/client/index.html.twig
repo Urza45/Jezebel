@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des clients
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des clients</h1>
+
+		<center>
+			<a href="{{ path('app_client_new') }}">Créer un nouveau client</a>
+		</center>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>NomClient</th>
+					<th>AdresseClient</th>
+					<th>CpClient</th>
+					<th>VilleClient</th>
+					<th>Codeagence</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if clients %}
+					{% for client in clients %}
+						<tr>
+							<td>{{ client.id }}</td>
+							<td>{{ client.nomClient }}</td>
+							<td>{{ client.adresseClient }}</td>
+							<td>{{ client.cpClient }}</td>
+							<td>{{ client.villeClient }}</td>
+							<td>{{ client.codeagence }}</td>
+							<td>
+								<a href="{{ path('app_client_show', {'id': client.id}) }}" alt="Consulter">
+									<i class="fa-regular fa-eye"></i>
+								</a>
+								<a href="{{ path('app_client_edit', {'id': client.id}) }}" alt="Modifier">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					<tr>
+						<td colspan="7">no records found</td>
+					</tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

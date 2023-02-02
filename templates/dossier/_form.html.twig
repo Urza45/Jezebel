@@ -1,0 +1,73 @@
+<div class="container container-fluid">
+	<div class="row justify-content-evenly">
+		<div class="col-lg-12">
+			{{ form_start(form) }}
+			{# {{ form_widget(form) }} #}
+			<div class="form-group">
+				<div class="row justify-content-evenly">
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.numDossier, {'disabled': 'true', 'label': 'Numéro de dossier (*) :', 'attr' : {   'placeholder': 'Généré automatiquement', 'class': 'form-control'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.numFacture, {'label': 'Numéro de facture (*) :', 'attr' : {   'placeholder': 'Numéro de facture', 'class': 'form-control'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.idClient, {'label': 'Client (*) :', 'attr' : {   'placeholder': 'Client', 'class': 'form-select'} })}}
+					</div>
+				</div>
+				<br/>
+				<div class="row justify-content-evenly">
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.type, {"label": "Intitulé de l'action", "params": {"inline": true } }) }}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.dateDebut, {'label': 'Date de début (*) :', 'attr' : { 'class': 'form-select'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.dateFin, {'label': 'Date de fin (*) :', 'attr' : { 'class': 'form-select'} })}}
+					</div>
+				</div>
+				<br/>
+				<div class="row justify-content-evenly">
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.adresseIntervention, {'label': 'Adresse intervention (*) :', 'attr' : { 'class': 'form-control'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.cpIntervention, {'label': 'Code postal (*) :', 'attr' : { 'class': 'form-control'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.villeIntervention, {'label': 'Ville (*) :', 'attr' : { 'class': 'form-control'} })}}
+					</div>
+				</div>
+				<br/>
+				<div class="row justify-content-evenly">
+					<div class="col-lg-8 col-12">
+						{{ form_row(form.commentaires, {'label': 'Commentaire (*) :', 'attr' : { 'class': 'form-control'} })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.codeagence, {'label': 'Code agence (*) :', 'attr' : { 'class': 'form-control'} })}}
+					</div>
+				</div>
+				<br/>
+				<div class="row justify-content-evenly">
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.idTesteur, {'label': 'Testeur (*) :', 'attr' : {'placeholder': 'Norme', 'class': 'form-select' } })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.idFormateur, {'label': 'Formateur (*) :', 'attr' : {'placeholder': 'Norme', 'class': 'form-select' } })}}
+					</div>
+					<div class="col-lg-4 col-12">
+						{{ form_row(form.idNorme, {'label': 'Norme (*) :', 'attr' : {'placeholder': 'Norme', 'class': 'form-select' } })}}
+					</div>
+				</div>
+				{# <div class="col-lg-4 col-12">
+					{{ form_row(form.society, {'label': 'Société (*) :', 'attr' : {
+							
+					 } })}}
+				</div> #}
+				<button class="btn btn-success">
+					{{ button_label|default('Enregistrer') }}</button>
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Dossier</h1>
+
+		<table>
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ dossier.id }}</td>
+				</tr>
+				<tr>
+					<th>NumFacture</th>
+					<td>{{ dossier.numFacture }}</td>
+				</tr>
+				<tr>
+					<th>DateDebut</th>
+					<td>{{ dossier.dateDebut ? dossier.dateDebut|date('Y-m-d') : '' }}</td>
+				</tr>
+				<tr>
+					<th>DateFin</th>
+					<td>{{ dossier.dateFin ? dossier.dateFin|date('Y-m-d') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Type</th>
+					<td>{{ dossier.type }}</td>
+				</tr>
+				<tr>
+					<th>AdresseIntervention</th>
+					<td>{{ dossier.adresseIntervention }}</td>
+				</tr>
+				<tr>
+					<th>NumDossier</th>
+					<td>{{ dossier.numDossier }}</td>
+				</tr>
+				<tr>
+					<th>VilleIntervention</th>
+					<td>{{ dossier.villeIntervention }}</td>
+				</tr>
+				<tr>
+					<th>CpIntervention</th>
+					<td>{{ dossier.cpIntervention }}</td>
+				</tr>
+				<tr>
+					<th>Commentaires</th>
+					<td>{{ dossier.commentaires }}</td>
+				</tr>
+				<tr>
+					<th>Codeagence</th>
+					<td>{{ dossier.codeagence }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
+		-
+		<a href="{{ path('app_dossier_edit', {'id': dossier.id}) }}">Modifier</a>
+
+		{{ include('dossier/_delete_form.html.twig') }}
+	</section>
+{% endblock %}

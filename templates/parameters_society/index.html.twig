@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ParametersSociety index
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des</h1>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>N° Dossier</th>
+					<th>IncCodeDossier</th>
+					<th>N° Facture</th>
+					<th>IncCodeFacture</th>
+					<th>N° Convention</th>
+					<th>IncCodeConvention</th>
+					<th>N° Devis</th>
+					<th>IncCodeDevis</th>
+					<th>N° Convocation</th>
+					<th>IncCodeConvocation</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for parameters_society in parameters_societies %}
+					<tr>
+						<td>{{ parameters_society.id }}</td>
+						<td>{{ parameters_society.codeDossier }}</td>
+						<td>{{ parameters_society.incCodeDossier }}</td>
+						<td>{{ parameters_society.codeFacture }}</td>
+						<td>{{ parameters_society.incCodeFacture }}</td>
+						<td>{{ parameters_society.codeConvention }}</td>
+						<td>{{ parameters_society.incCodeConvention }}</td>
+						<td>{{ parameters_society.codeDevis }}</td>
+						<td>{{ parameters_society.incCodeDevis }}</td>
+						<td>{{ parameters_society.codeConvocation }}</td>
+						<td>{{ parameters_society.incCodeConvocation }}</td>
+						<td>
+							<a href="{{ path('app_parameters_society_show', {'id': parameters_society.id}) }}">show</a>
+							<a href="{{ path('app_parameters_society_edit', {'id': parameters_society.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="12">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_parameters_society_new') }}">Create new</a>
+	</section>
+{% endblock %}

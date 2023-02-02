@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de dossier
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Modifier un dossier</h1>
+
+		{{ include('dossier/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+		<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
+
+		{{ include('dossier/_delete_form.html.twig') }}
+	</section>
+{% endblock %}

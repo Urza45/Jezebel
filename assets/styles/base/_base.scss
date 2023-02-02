@@ -1,0 +1,44 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  // background: url("/public/medias/snow.jpg");
+  // background-position: bottom;
+  // background-repeat: repeat-y;
+  // background-size: cover;
+  // color: $colour-lightgray;
+
+  background: #CCC;
+  /* background: #000; */
+  /* font: 70%/1.5em "Open Sans", Verdana, Tahoma, arial, sans-serif; */
+  font: 100%/2em "Open Sans", Verdana, Tahoma, arial, sans-serif;
+  color: #555;
+  text-align: center;
+  /* background-color:black; */
+  background-image: url("/public/images/logo_white_jezebel.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: right bottom;
+}
+
+.master_content {
+  padding: $height-header 0 $height-footer 0;
+
+  @media all and (max-width: 767px) {
+    padding: 0 0 $height-footer 0;
+  }
+}
+
+section {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  color: $colour-white;
+  border-radius: 1.5em;
+  padding: 5px;
+}

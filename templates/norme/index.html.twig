@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norme index
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Norme index</h1>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Label</th>
+					<th>Comments</th>
+					<th>Picture</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for norme in normes %}
+					<tr>
+						<td>{{ norme.id }}</td>
+						<td>{{ norme.label }}</td>
+						<td>{{ norme.comments }}</td>
+						<td>{{ norme.picture }}</td>
+						<td>
+							<a href="{{ path('app_norme_show', {'id': norme.id}) }}">show</a>
+							<a href="{{ path('app_norme_edit', {'id': norme.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_norme_new') }}">Create new</a>
+	</section>
+{% endblock %}

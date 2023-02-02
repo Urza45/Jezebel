@@ -1,0 +1,121 @@
+<!-- Navigation-->
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example">
+	<div class="container-fluid">
+		{# <a class="navbar-brand" href="#">Expand at xl</a> #}
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarsExample06">
+			<ul class="navbar-nav me-auto mb-2 mb-xl-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">
+						<i class="fa-solid fa-house-chimney"></i>
+						Accueil</a>
+				</li>
+				{% if app.user %}
+					{% if is_granted('ROLE_SUPERADMIN') %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown06">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_admin_index') }}">
+									<i class="fa-solid fa-user"></i>
+									Utilisateurs</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_news_index') }}">
+									<i class="fa-solid fa-newspaper"></i>
+									News</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_parameters_society_index') }}">
+									<i class="fa-solid fa-screwdriver-wrench"></i>
+									Paramètres</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown06">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_client_index') }}">
+									<i class="fa-solid fa-industry"></i>
+									Clients</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_dossier_index') }}">
+									<i class="fa-solid fa-file"></i>
+									Dossiers</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_candidat_index') }}">
+									<i class="fa-solid fa-user"></i>
+									Candidats</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Tests</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown06">
+							<li>
+								<a class="dropdown-item" href="/admin/client.html">
+									<i class="fa-solid fa-chalkboard-user"></i>
+									Tests théoriques</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="/test/pratique/">
+									<i class="fa-solid fa-tractor"></i>
+									Tests pratiques</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Documentation</a>
+					</li>
+					{% if is_granted('ROLE_ULTRAADMIN') %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa-solid fa-gear"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown06">
+								<li>
+									<a class="dropdown-item" href="/society/">Sociétés</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/contact/">Contacts</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/normes/autorisees">Normes autorisées</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/admin/news.html">Abonnements</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_norme_index') }}">Normes</a>
+								</li>
+							</ul>
+						</li>
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_logout') }}">
+							Se déconnecter
+							<i class="fa-solid fa-right-from-bracket"></i>
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_login') }}">
+							<i class="fa-solid fa-right-to-bracket"></i>
+							Se connecter</a>
+					</li>
+				{% endif %}
+			</ul>
+			<form>
+				{# <input class="form-control" type="text" placeholder="Search" aria-label="Search"> #}
+			</form>
+		</div>
+	</div>
+</nav>

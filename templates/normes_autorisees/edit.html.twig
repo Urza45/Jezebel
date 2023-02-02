@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit NormesAutorisees{% endblock %}
+
+{% block body %}
+    <h1>Edit NormesAutorisees</h1>
+
+    {{ include('normes_autorisees/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_normes_autorisees_index') }}">back to list</a>
+
+    {{ include('normes_autorisees/_delete_form.html.twig') }}
+{% endblock %}

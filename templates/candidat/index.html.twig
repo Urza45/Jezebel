@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des candidats
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des candidats</h1>
+		<center>
+			Il y a actuellement
+			{{ candidats|length }}
+			candidats.<br/>
+			<a href="{{ path('app_candidat_new') }}">Ajouter un candidat</a>
+		</center>
+		{# <table class="table"> #}
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Naissance</th>
+					<th>Dossier</th>
+					<th>Client</th>
+					<th>DateTheorique</th>
+					<th>DatePratique</th>
+					<th>NoteFormation</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set style = 'row-b' %}
+				{% for candidat in candidats %}
+					{% if style == 'row-b' %}
+						{% set style = 'row-a' %}
+					{% else %}
+						{% set style = 'row-b' %}
+					{% endif %}
+					<tr class="{{ style }}">
+						<td>{{ candidat.id }}</td>
+						<td>{{ candidat.nomCandidat }}</td>
+						<td>{{ candidat.prenomCandidat }}</td>
+						<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('Y-m-d') : '' }}</td>
+						<td>{{ candidat.idDossier }}</td>
+						<td>{{ candidat.idClient }}</td>
+						<td>{{ candidat.dateTheorique ? candidat.dateTheorique|date('Y-m-d') : '' }}</td>
+						<td>{{ candidat.datePratique ? candidat.datePratique|date('Y-m-d') : '' }}</td>
+						<td>{{ candidat.noteFormation }}</td>
+
+						<td>
+							<a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" alt="Editer">
+								<i class="fa-solid fa-user-pen"></i>
+							</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10">Pas d'enregistrement trouvé</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

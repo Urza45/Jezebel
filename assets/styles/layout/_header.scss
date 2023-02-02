@@ -1,0 +1,88 @@
+header {
+  position: fixed;
+  height: $height-header;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  @media all and (max-width: 767px) {
+    display: none;
+  }
+}
+
+header {
+  // width: 1200px;
+  position: relative;
+  height: 103px;
+  background-color: $colour-background;
+  // background: #CCC url("/public/images/header.png") no-repeat center top;
+  /* background: #000 url(../images/1headerblack.png) no-repeat center top; */
+  padding: 0;
+  color: #FFF;
+}
+
+header {
+  position: fixed;
+  height: $height-header;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  @media all and (max-width: 767px) {
+    display: none;
+  }
+}
+
+
+header h1 a {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  font: bolder 44px 'Trebuchet MS', Arial, Sans-serif;
+  letter-spacing: -2px;
+  color: #FFF !important;
+  text-transform: none;
+  text-decoration: none;
+  background: transparent;
+
+  /* change the values of top and left to adjust the position of the logo*/
+  top: 25px;
+  left: 47px;
+}
+
+header h1 a:hover {
+  text-decoration: none;
+}
+
+header p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  font: normal 12px 'Trebuchet MS', Arial, Sans-serif;
+  text-transform: none;
+  color: #FFF;
+
+  /* change the values of top and left to adjust the position of the slogan*/
+  top: 70px;
+  left: 55px;
+}
+
+/* header links */
+header #header-links {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #C6DDEE;
+  font-size: 10px;
+}
+
+header #header-links a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+header #header-links a:hover {
+  color: #D4E59F;
+}

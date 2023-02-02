@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des dossiers
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des dossiers</h1>
+		<center>
+			<a href="{{ path('app_dossier_new') }}">Ajouter un dossier</a>
+		</center>
+		<table>
+			<thead>
+				<tr>
+					<th>Dossier</th>
+					<th>Facture</th>
+					<th>Début</th>
+					<th>Fin</th>
+					<th>Type</th>
+					<th>Adresse Intervention</th>
+					<th>Norme</th>
+					<th>Client</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set style = 'row-b' %}
+				{% for dossier in dossiers %}
+					{% if style == 'row-b' %}
+						{% set style = 'row-a' %}
+					{% else %}
+						{% set style = 'row-b' %}
+					{% endif %}
+					<tr class="{{ style }}">
+						<td>{{ dossier.numDossier }}</td>
+						<td>{{ dossier.numFacture }}</td>
+						<td>{{ dossier.dateDebut ? dossier.dateDebut|date('Y-m-d') : '' }}</td>
+						<td>{{ dossier.dateFin ? dossier.dateFin|date('Y-m-d') : '' }}</td>
+						<td>{{ dossier.type }}</td>
+						<td>{{ dossier.adresseIntervention }}
+							{{ dossier.cpIntervention }}
+							{{ dossier.villeIntervention }}</td>
+						<td>{{ dossier.idNorme }}</td>
+
+						<td>{{ dossier.idClient }}</td>
+						<td>
+							<a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{ path('app_dossier_edit', {'id': dossier.id}) }}">
+								<i class="fa-solid fa-file-pen"></i>
+							</a>
+							<a href="{{ path('app_dossier_add_candidat', {'id': dossier.id}) }}">
+								<i class="fa-solid fa-user-plus"></i>
+							</a>
+							{# <a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
+														<i class="fa-solid fa-file-pdf"></i>
+													</a> #}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="12">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

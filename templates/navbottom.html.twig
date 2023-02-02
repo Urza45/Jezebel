@@ -1,0 +1,102 @@
+<!-- Navigation-->
+<nav>
+	<ul class="nav justify-content-end">
+		<li>
+			<a href="{{ path('app_home') }}">
+				<i class="fa-solid fa-house-chimney"></i>
+			</a>
+		</li>
+		{% if app.user %}
+			{% if 'ROLE_ULTRAADMIN' in app.user.roles %}
+				<li class="nav-item">
+					<a class="dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Abonnements
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="dropdown-item" href="/admin/utilisateurs.html">Sociétés</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/normes.html">Contacts</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/news.html">Normes autorisées</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/news.html">Abonnements</a>
+						</li>
+					</ul>
+				</li>
+			{% endif %}
+			{% if 'ROLE_SUPERADMIN' in app.user.roles %}
+				<li class="nav-item">
+					<a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Administration
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="dropdown-item" href="/admin/utilisateurs.html">Utilisateurs</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/normes.html">Normes</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/news.html">News</a>
+						</li>
+					</ul>
+				</li>
+			{% endif %}
+			{% if 'ROLE_ADMIN' in app.user.roles %}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Dropdown
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="#">Action</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Another action</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="#">Something else here</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Gestion
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a class="dropdown-item" href="/admin/client.html">Clients</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/dossier.html">Dossiers</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="/admin/dossier.html">Candidats</a>
+						</li>
+					</ul>
+				</li>
+			{% endif %}
+
+			<li>
+				<a href="/saisie.html">Tests pratiques</a>
+			</li>
+			<li>
+				<a href="/print/index.html">Documentation</a>
+			</li>
+			<li class="last">
+				<a href="/logout">Déconnexion</a>
+			</li>
+
+		{% else %}
+			<li class="last">
+				<a href="/login">Espace réservé</a>
+			</li>
+		{% endif %}
+	</ul>
+
+</nav>

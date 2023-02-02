@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestPratiqueController!
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des dossiers / candidats</h1>
+
+		<div class="accordion accordion-flush" id="accordionFlushExample">
+			{% for dossier in dossiers %}
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-{{ dossier.id }}">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ dossier.id }}" aria-expanded="false" aria-controls="flush-collapse{{ dossier.id }}">
+							{{ dossier.numDossier }}
+							-
+							{{ dossier.idClient }}
+							- Du
+							{{ dossier.dateDebut|date("m/d/Y") }}
+							au
+							{{ dossier.dateFin|date("m/d/Y") }}
+							-
+							{{ dossier.idNorme }}
+							-
+							{{ dossier.type }}
+						</button>
+					</h2>
+					<div id="flush-collapse{{ dossier.id }}" class="accordion-collapse collapse" aria-labelledby="flush-{{ dossier.id }}" data-bs-parent="#accordionFlushExample">
+						<div class="accordion-body">
+							<table>
+								<tr>
+									<th>Candidats</th>
+									<th>Actions</th>
+								</tr>
+								{% for candidat in candidats %}
+									{% if dossier.id == candidat.idDossier.id %}
+										<tr>
+											<td>
+												{{ candidat.nomCandidat }}
+												-
+												{{ candidat.prenomCandidat }}
+											</td>
+											<td>
+                                                <a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id }) }}">
+								                    <i class="fa-regular fa-eye"></i>
+							                    </a>    
+
+												{# <form action="" method="post"
+													<input type="hidden" name="cars" value="{{ dossier.id }}"/>
+                                                    <input type="hidden" name="cars" value="{{ candidat.id }}"/>
+													<input type="submit" value="Etape suivante" name="choixdossier" class="btn btn-info"/>
+												</form> #}
+											</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</table>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		{{ test|raw }}
+	</div>
+</section>{% endblock %}

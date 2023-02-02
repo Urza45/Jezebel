@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New NormesAutorisees{% endblock %}
+
+{% block body %}
+    <h1>Create new NormesAutorisees</h1>
+
+    {{ include('normes_autorisees/_form.html.twig') }}
+
+    <a href="{{ path('app_normes_autorisees_index') }}">back to list</a>
+{% endblock %}

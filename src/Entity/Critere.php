@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Consigne;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

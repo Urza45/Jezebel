@@ -139,7 +139,7 @@ class DossierType extends AbstractType
                         ->from('App\Entity\Users', 'u')
                         // ->from('App\Entity\NormesAutorisees', 'v')
                         // ->where('u.id = v.normes')
-                        ->Where('u.society = :idSociety')
+                        ->where('u.society = :idSociety')
                         ->setParameter('idSociety', $this->security->getUser()->getSociety())
                         ->orderBy('u.name', 'ASC');
                 },

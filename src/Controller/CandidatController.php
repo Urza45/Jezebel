@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Candidat;
 use App\Form\CandidatType;
+use App\Form\ChoiceCategoriesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +55,10 @@ class CandidatController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $candidat = new Candidat();
+        $form2 = $this->createForm(ChoiceCategoriesType::class, ['test'=>'test2']);
+        dump($form2);
+
+
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
 
@@ -67,6 +72,7 @@ class CandidatController extends AbstractController
         return $this->renderForm('candidat/new.html.twig', [
             'candidat' => $candidat,
             'form' => $form,
+            // 'form2' => $form2,
         ]);
     }
 

@@ -30,7 +30,7 @@
 							<table>
 								<tr>
 									<th>Candidats</th>
-									<th>Actions</th>
+									<th>Catégories</th>
 								</tr>
 								{% for candidat in candidats %}
 									{% if dossier.id == candidat.idDossier.id %}
@@ -41,15 +41,27 @@
 												{{ candidat.prenomCandidat }}
 											</td>
 											<td>
-                                                <a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id }) }}">
-								                    <i class="fa-regular fa-eye"></i>
-							                    </a>    
+												{# <a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id }) }}">
+													<i class="fa-regular fa-eye"></i>
+												</a> #}
+												{% for categorieChoisie in categorieChoisies  %}
+													{% if categorieChoisie.idCandidat == candidat %}
+														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id,
+																											 'idCandidat': candidat.id,
+																											 'idCategorie': categorieChoisie.idcategory.id }) }}">
+															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}<br/>
+															{# -
+															{{ categorieChoisie.idcategory.id }} #}
+														</a>
+													{% endif %}
 
+
+												{% endfor %}
 												{# <form action="" method="post"
-													<input type="hidden" name="cars" value="{{ dossier.id }}"/>
-                                                    <input type="hidden" name="cars" value="{{ candidat.id }}"/>
-													<input type="submit" value="Etape suivante" name="choixdossier" class="btn btn-info"/>
-												</form> #}
+			<input type="hidden" name="cars" value="{{ dossier.id }}"/>
+			 <input type="hidden" name="cars" value="{{ candidat.id }}"/>
+				<input type="submit" value="Etape suivante" name="choixdossier" class="btn btn-info"/>
+				</form> #}
 											</td>
 										</tr>
 									{% endif %}
@@ -61,6 +73,6 @@
 			{% endfor %}
 		</div>
 
-		{{ test|raw }}
+		{# {{ test|raw }} #}
 	</div>
 </section>{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Services\PDF;
+// use FPDF;
 use App\Entity\News;
 use App\Services\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,5 +44,20 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
             'news' => $news,
         ]);
+    }
+
+    /**
+     * @Route("/testPDF", name="app_test_PDF")
+     */
+    public function showPDF()
+    {
+        $fpdf = new PDF();
+        
+        $fpdf->AddPage();
+        $fpdf->SetFont('Arial', 'B', 16);
+        $fpdf->Cell(40, 10, 'Hello World !');
+
+        return new Response($fpdf->Output(), 200, array(
+            'Content-Type' => 'application/pdf'));
     }
 }

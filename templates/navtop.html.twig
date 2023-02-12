@@ -15,8 +15,8 @@
 				{% if app.user %}
 					{% if is_granted('ROLE_SUPERADMIN') %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
-						<ul class="dropdown-menu" aria-labelledby="dropdown06">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown01">
 							<li>
 								<a class="dropdown-item" href="{{ path('app_admin_index') }}">
 									<i class="fa-solid fa-user"></i>
@@ -37,8 +37,8 @@
 					{% endif %}
 					{% if is_granted('ROLE_ADMIN') %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
-						<ul class="dropdown-menu" aria-labelledby="dropdown06">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown02">
 							<li>
 								<a class="dropdown-item" href="{{ path('app_client_index') }}">
 									<i class="fa-solid fa-industry"></i>
@@ -58,13 +58,13 @@
 					</li>
 					{% endif %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Tests</a>
-						<ul class="dropdown-menu" aria-labelledby="dropdown06">
-							<li>
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Tests</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown03">
+							{# <li>
 								<a class="dropdown-item" href="/admin/client.html">
 									<i class="fa-solid fa-chalkboard-user"></i>
 									Tests théoriques</a>
-							</li>
+							</li> #}
 							<li>
 								<a class="dropdown-item" href="/test/pratique/">
 									<i class="fa-solid fa-tractor"></i>
@@ -73,14 +73,14 @@
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Documentation</a>
+						<a class="nav-link" href="/documentation">Documentation</a>
 					</li>
 					{% if is_granted('ROLE_ULTRAADMIN') %}
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">
 								<i class="fa-solid fa-gear"></i>
 							</a>
-							<ul class="dropdown-menu" aria-labelledby="dropdown06">
+							<ul class="dropdown-menu" aria-labelledby="dropdown04">
 								<li>
 									<a class="dropdown-item" href="/society/">Sociétés</a>
 								</li>

@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Dossier;
 use App\Entity\Society;
 use App\Entity\Candidat;
+use App\Entity\Categorie;
+use App\Entity\Categoriechoisie;
 use App\Form\DossierType;
 use App\Form\CandidatType;
+use App\Form\ChoiceCategoriesType;
 use App\Repository\NormeRepository;
 use App\Repository\SocietyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\NormesAutoriseesRepository;
+use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -138,16 +142,58 @@ class DossierController extends AbstractController
     /**
      * @Route("/{id}/add_candidat", name="app_dossier_add_candidat", methods={"GET", "POST"})
      */
-    public function addCandidat(Dossier $dossier, Request $request)
-    {
+    public function addCandidat(
+        Dossier $dossier,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ) {
         $candidat = new Candidat();
         $candidat->setIdDossier($dossier);
-        $form = $this->createForm(CandidatType::class, $candidat);
-        $form->handleRequest($request);
+        $norme = $dossier->getIdNorme();
+        $categories = $entityManager
+            ->getRepository(Categorie::class)
+            ->findByIdNorme($norme);
+        foreach ($categories as $key => $value) {
+            $listCategories[$value->getLabelCourt()] = $value->getId();
+        }
+
+        $form2 = $this->createForm(ChoiceCategoriesType::class, $listCategories);
+        $form2->handleRequest($request);
+
+        if ($form2->isSubmitted() && $form2->isValid()) {
+            $data = $form2->getData();
+
+            $candidat->setDateNaissance($data['dateNaissance']);
+            $candidat->setNomCandidat($data['nomCandidat']);
+            $candidat->setPrenomCandidat($data['prenomCandidat']);
+            $candidat->setIdClient($dossier->getIdClient());
+            $candidat->setSociety($dossier->getSociety());
+
+            dump($data['type']);
+            if ($data['type'] == null) {
+                $this->addFlash('notice', 'Vous devez choisir au moins une catégorie');
+            } else {
+                $entityManager->persist($candidat);
+                $entityManager->flush();
+                foreach ($data['type'] as $key => $value) {
+                    $categorie = $entityManager
+                        ->getRepository(Categorie::class)
+                        ->findOneById($value);
+                    $categoriesChoisies = new Categoriechoisie();
+                    $categoriesChoisies
+                        ->setIdCandidat($candidat)
+                        ->setIdCategory($categorie);
+                    $entityManager->persist($categoriesChoisies);
+                    $entityManager->flush();
+                }
+                $this->addFlash('success', 'Candidat créé avec success');
+            }
+        }
 
         return $this->renderForm('candidat/new.html.twig', [
             'candidat' => $candidat,
-            'form' => $form,
+            // 'form' => $form,
+            'form2' => $form2,
             'retour' => 'Dossier',
         ]);
     }

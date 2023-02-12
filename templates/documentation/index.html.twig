@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DocumentationController!
+{% endblock %}
+
+{% block body %}
+	<section class="bg-secondary p-2 bg-opacity-25">
+		<h1>Liste des recommandations (Source INRS)</h1>
+		<p>
+			<a href="/files/R482.pdf" target="_blank" title="Recommandation R482"><img src="/files/R482.JPG" height="200px"/></a>
+			<a href="/files/R485.pdf" target="_blank" title="Recommandation R485"><img src="/files/R485.JPG" height="200px"/></a>
+			<a href="/files/R489.pdf" target="_blank" title="Recommandation R489"><img src="/files/R489.JPG" height="200px"/></a>
+			<a href="/files/LivreBlanc.pdf" target="_blank" title="Livre blanc"><img src="/files/LivreBlanc.JPG" height="200px"/></a>
+			{# <a href="/files/CFP_01_03_21_reglement_interieur_stagiaires.pdf" target="_blank" title="Règlement intérieur"><img src="/files/reglement_interieur.JPG" height="200px"/></a> #}
+			{# <a href="/files/CFP_01_03_21_check_list_formation_formateur_intervenant.pdf" target="_blank" title="Check-liste"><img src="/files/Check_liste.JPG" height="200px"/></a> #}
+		</p>
+	</section>
+{% endblock %}

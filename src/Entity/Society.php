@@ -92,6 +92,7 @@ class Society
         $this->dossiers = new ArrayCollection();
         $this->normesAutorisees = new ArrayCollection();
         $this->candidats = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -384,6 +385,28 @@ class Society
         }
 
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function addUser(Users $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setSociety($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getSociety() === $this) {
+                $user->setSociety(null);
+            }
+        }
 
         return $this;
     }

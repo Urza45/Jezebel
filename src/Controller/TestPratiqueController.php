@@ -7,6 +7,7 @@ use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Entity\Categoriechoisie;
 use App\Entity\Norme;
+use App\Repository\CandidatRepository;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -80,14 +81,28 @@ class TestPratiqueController extends AbstractController
     public function examenPratique(
         Request $request,
         NormeRepository $normeRepository,
+        CandidatRepository $candidatRepository,
         EntityManagerInterface $entityManager
     ) {
 
         if (($request->get('note_1') !== null) || ($request->get('note_2') !== null)) {
             // Sauvegarde des notes
-            dd($request);
+            $idCandidat = $request->get('id_candidat');
+            $idCategorie = $request->get('id_categorie');
+            $candidat = $candidatRepository->findOneById($idCandidat);
+            $candidat->setDatePratique(new \DateTime());
+
+            $candidatRepository->saveNotes(
+                $idCandidat,
+                $idCategorie,
+                $request->get('increment'),
+                $request->get('critere_id'),
+                $request->get('note_1'),
+                $request->get('note_2')
+            );
             // Sauvegarde de la date du test
-            
+            $entityManager->persist($candidat);
+            $entityManager->flush();
             // Ajout du message et redirection
             $this->addFlash('success', 'Test enregistré.');
             return $this->redirectToRoute('app_test_pratique');

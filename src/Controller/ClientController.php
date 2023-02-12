@@ -30,19 +30,19 @@ class ClientController extends AbstractController
     {
         $user = $this->security;
 
-        // if ($user->isGranted('ROLE_ULTRAADMIN')) {
-        //     $clients = $entityManager
-        //         ->getRepository(Client::class)
-        //         ->findAll();
-        // } else {
-        //     $clients = $entityManager
-        //         ->getRepository(Client::class)
-        //         ->findBySociety($user->getUser()->getSociety()->getId());
-        // }
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            $clients = $entityManager
+                ->getRepository(Client::class)
+                ->findAll();
+        } else {
+            $clients = $entityManager
+                ->getRepository(Client::class)
+                ->findBySociety($user->getUser()->getSociety()->getId());
+        }
 
-        $clients = $entityManager
-            ->getRepository(Client::class)
-            ->findAll();
+        // $clients = $entityManager
+        //     ->getRepository(Client::class)
+        //     ->findAll();
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,

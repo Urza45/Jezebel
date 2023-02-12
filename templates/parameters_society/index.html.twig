@@ -5,7 +5,7 @@
 
 {% block body %}
 	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Liste des</h1>
+		<h1>Liste des paramètres</h1>
 
 		<table>
 			<thead>
@@ -50,7 +50,8 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
-		<a href="{{ path('app_parameters_society_new') }}">Create new</a>
+		{% if is_granted('ROLE_ULTRAADMIN') %}
+			<a href="{{ path('app_parameters_society_new') }}">Create new</a>
+		{% endif %}
 	</section>
 {% endblock %}

@@ -4,24 +4,41 @@ namespace App\Controller;
 
 use App\Entity\ParametersSociety;
 use App\Form\ParametersSocietyType;
-use App\Repository\ParametersSocietyRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\ParametersSocietyRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/parameters/society")
  */
 class ParametersSocietyController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+    
     /**
      * @Route("/", name="app_parameters_society_index", methods={"GET"})
      */
     public function index(ParametersSocietyRepository $parametersSocietyRepository): Response
     {
+        $user = $this->security;
+
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            $params = $parametersSocietyRepository->findAll();
+        } else {
+            $params = $parametersSocietyRepository->findByIdSociety($user->getUser()->getSociety()->getId());
+        }
+        
+        
         return $this->render('parameters_society/index.html.twig', [
-            'parameters_societies' => $parametersSocietyRepository->findAll(),
+            'parameters_societies' => $params,
         ]);
     }
 

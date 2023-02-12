@@ -85,9 +85,9 @@ class TestPratiqueController extends AbstractController
 
         if (($request->get('note_1') !== null) || ($request->get('note_2') !== null)) {
             // Sauvegarde des notes
-
+            dd($request);
             // Sauvegarde de la date du test
-
+            
             // Ajout du message et redirection
             $this->addFlash('success', 'Test enregistré.');
             return $this->redirectToRoute('app_test_pratique');

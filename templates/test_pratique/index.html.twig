@@ -30,7 +30,7 @@
 							<table>
 								<tr>
 									<th>Candidats</th>
-									<th>Actions</th>
+									<th>Catégories</th>
 								</tr>
 								{% for candidat in candidats %}
 									{% if dossier.id == candidat.idDossier.id %}
@@ -49,9 +49,9 @@
 														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id,
 																											 'idCandidat': candidat.id,
 																											 'idCategorie': categorieChoisie.idcategory.id }) }}">
-															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}
-															-
-															{{ categorieChoisie.idcategory.id }}
+															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}<br/>
+															{# -
+															{{ categorieChoisie.idcategory.id }} #}
 														</a>
 													{% endif %}
 

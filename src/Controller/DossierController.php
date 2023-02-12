@@ -167,6 +167,7 @@ class DossierController extends AbstractController
             $candidat->setNomCandidat($data['nomCandidat']);
             $candidat->setPrenomCandidat($data['prenomCandidat']);
             $candidat->setIdClient($dossier->getIdClient());
+            $candidat->setSociety($dossier->getSociety());
 
             dump($data['type']);
             if ($data['type'] == null) {

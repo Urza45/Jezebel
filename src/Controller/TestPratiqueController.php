@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Dossier;
 use App\Entity\Candidat;
+use App\Entity\Categorie;
 use App\Entity\Categoriechoisie;
+use App\Entity\Norme;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -57,6 +59,10 @@ class TestPratiqueController extends AbstractController
                 ->findBySociety($user->getUser()->getSociety()->getId());
         }
 
+        $categorieChoisies = $entityManager
+            ->getRepository(Categoriechoisie::class)
+            ->findAll();
+
         $test = $normeRepository->getQuestionnaire(1, 1, 1);
 
         return $this->render('test_pratique/index.html.twig', [
@@ -64,34 +70,57 @@ class TestPratiqueController extends AbstractController
             'dossiers' => $dossiers,
             'candidats' => $candidats,
             'test' => utf8_decode($test),
+            'categorieChoisies' => $categorieChoisies,
         ]);
     }
 
     /**
-     * @Route("/{idDossier}/{idCandidat}", name="app_candidat_test_pratique", methods={"GET"})
+     * @Route("/{idDossier}/{idCandidat}/{idCategorie}", name="app_candidat_test_pratique", methods={"GET"})
      */
     public function examenPratique(
         Request $request,
         NormeRepository $normeRepository,
         EntityManagerInterface $entityManager
     ) {
-        $candidat = $entityManager
-        ->getRepository(Candidat::class)
-        ->findById($request->get('idCandidat'));
-    
-        $dossier = new Dossier($request->get('idDossier'));
 
-        $categorieChoisies = $entityManager
-            ->getRepository(Categoriechoisie::class)
-            ->findByIdCandidat($candidat);
+        if (($request->get('note_1') !== null) || ($request->get('note_2') !== null)) {
+            // Sauvegarde des notes
 
-        $test = $normeRepository->getQuestionnaire($dossier->getIdNorme(), 1, $candidat[0]->getId());
+            // Sauvegarde de la date du test
 
-        return $this->render('test_pratique/test_pratique.html.twig', [
-            'controller_name' => 'TestPratiqueController',
-            'categorieChoisies' => $categorieChoisies,
-            'candidat' => $candidat,
-            'test' => utf8_decode($test),
-        ]);
+            // Ajout du message et redirection
+            $this->addFlash('success', 'Test enregistré.');
+            return $this->redirectToRoute('app_test_pratique');
+        } else {
+            $idDossier = $request->get('idDossier');
+            $idCandidat = $request->get('idCandidat');
+            $idCategorie = $request->get('idCategorie');
+
+            // Récupération du candidat
+            $candidat = $entityManager
+                ->getRepository(Candidat::class)
+                ->findById($idCandidat)[0];
+
+            $dossier = $entityManager
+                ->getRepository(Dossier::class)
+                ->findById($idDossier)[0];
+
+            $categorie = $entityManager
+                ->getRepository(Categorie::class)
+                ->find($idCategorie);
+
+            // $categorieChoisies = $entityManager
+            // ->getRepository(Categoriechoisie::class)
+            // ->findByIdCandidat($candidat);
+
+            $test = $normeRepository->getQuestionnaire($idDossier, $idCategorie, $idCandidat);
+
+            return $this->render('test_pratique/test_pratique.html.twig', [
+                'categorieChoisie' => $categorie,
+                'dossier' => $dossier,
+                'candidat' => $candidat,
+                'test' => utf8_decode($test),
+            ]);
+        }
     }
 }

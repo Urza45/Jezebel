@@ -63,6 +63,9 @@ class NormeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    
+    
     public function getQuestionnaire($id_norme, $id_categorie, $id_candidat, array $tabNote1 = null, array $tabNote2 = null)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -77,6 +80,7 @@ class NormeRepository extends ServiceEntityRepository
         $increment = 0; // Nombre de questions
         //$increNote1 = 0;
         //$increNote2 = 0;
+        $content .= '<table>';
         foreach ($listeTheme as $theme) {
             // Thème
             $content .= '<tr class="' . $style . '">' . "\n";
@@ -118,18 +122,20 @@ class NormeRepository extends ServiceEntityRepository
                             $content .= $tabNote1[$increment];
                         }
                         $content .= '" size="3" min="0" max="' . $critere['ptse1'] . '" required /> / ' . $critere['ptse1'] . "\n";
+                        $content .= ' - ';
                     } else {
-                        $content .= '<input type="number" name="note_1[' . $increment . ']" value="" size="1" disabled />/';
+                        $content .= '<input type="number" name="note_1[' . $increment . ']" value="" size="1" hidden />/';
                     }
-                    $content .= ' - ';
+                    // $content .= ' - ';
                     if ($critere['ptse2'] > 0) {
                         $content .= '<input type="number" name="note_2[' . $increment . ']" value="';
                         if ($tabNote2 !== null) {
                             $content .= $tabNote2[$increment];
                         }
                         $content .= '" size="3" min="0" max="' . $critere['ptse2'] . '" required />' . $critere['ptse2'] . "\n";
+                        $content .= ' - ';
                     } else {
-                        $content .= '<input type="number" name="note_2[' . $increment . ']" value="" size="1" disabled />';
+                        $content .= '<input type="number" name="note_2[' . $increment . ']" value="" size="1" hidden />';
                     }
                     $content .= ' ' . str_replace("'", "&acute;", $critere['label']) . "\n";
                     $content .= '<input type="hidden" name="critere_id[' . $increment . ']" value="' . $critere['id'] . '"/>' . "\n";
@@ -152,6 +158,7 @@ class NormeRepository extends ServiceEntityRepository
                 . '<input type="hidden" name="increment" value="' . $increment . '"/>'
                 . '</td></tr>' . "\n";
         }
+        $content .= '</table>';
         return utf8_encode($content);
     }
 }

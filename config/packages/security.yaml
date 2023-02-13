@@ -48,6 +48,11 @@ security:
         - { path: ^/dossier, roles: ROLE_ADMIN }
         - { path: ^/news, roles: ROLE_SUPERADMIN }
         - { path: ^/society, roles: ROLE_ULTRAADMIN }
+        - { path: ^/norme, roles: ROLE_ULTRAADMIN }
+        - { path: ^/category, roles: ROLE_ULTRAADMIN }
+        - { path: ^/theme, roles: ROLE_ULTRAADMIN }
+        - { path: ^/consigne, roles: ROLE_ULTRAADMIN }
+        - { path: ^/critere, roles: ROLE_ULTRAADMIN }
         #- { path: ^/profile, roles: ROLE_USER }
         
 when@test:

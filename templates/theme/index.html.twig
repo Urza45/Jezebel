@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theme index{% endblock %}
+
+{% block body %}
+    <h1>{{ norme.label }} - {{ categorie.label }}</h1>
+    <h1>Liste des thèmes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ordre</th>
+                <th>Label</th>
+                <th>Pts1</th>
+                <th>Pts2</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for theme in themes %}
+            <tr>
+                <td>{{ theme.id }}</td>
+                <td>{{ theme.ordre }}</td>
+                <td>{{ theme.label }}</td>
+                <td>{{ theme.pts1 }}</td>
+                <td>{{ theme.pts2 }}</td>
+                <td>
+                    <a href="{{ path('app_theme_show', {'id': theme.id}) }}">show</a>
+                    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_theme_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consigne{% endblock %}
+
+{% block body %}
+    <h1>Consigne</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ consigne.id }}</td>
+            </tr>
+            <tr>
+                <th>Point</th>
+                <td>{{ consigne.point }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ consigne.label }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_consigne_index') }}">back to list</a>
+
+    <a href="{{ path('app_consigne_edit', {'id': consigne.id}) }}">edit</a>
+
+    {{ include('consigne/_delete_form.html.twig') }}
+{% endblock %}

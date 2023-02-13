@@ -169,7 +169,6 @@ class DossierController extends AbstractController
             $candidat->setIdClient($dossier->getIdClient());
             $candidat->setSociety($dossier->getSociety());
 
-            dump($data['type']);
             if ($data['type'] == null) {
                 $this->addFlash('notice', 'Vous devez choisir au moins une catégorie');
             } else {

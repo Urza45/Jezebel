@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Norme;
+use App\Form\CategorieType;
 use App\Form\NormeType;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,12 +86,42 @@ class NormeController extends AbstractController
      */
     public function delete(Request $request, Norme $norme, NormeRepository $normeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$norme->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $norme->getId(), $request->request->get('_token'))) {
             $normeRepository->remove($norme, true);
         }
 
         return $this->redirectToRoute('app_norme_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /** 
+     * @Route("/{id}/list_categories", name="app_norme_list_categories", methods={"GET", "POST"})
+     */
+    public function listCategorie(Norme $norme, EntityManagerInterface $entityManager)
+    {
+        $categories = $entityManager
+            ->getRepository(Categorie::class)
+            ->findByIdNorme($norme);
+
+        return $this->render('categorie/index.html.twig', [
+            'categories' => $categories,
+            'norme' => $norme,
+        ]);
+    }
+
+    /**
+     *  @Route("/{id}/add_categorie", name="app_norme_add_categorie", methods={"GET", "POST"})
+     */
+    public function addCategorie(Norme $norme, Request $request)
+    {
+        $categorie = new Categorie();
+        $categorie->setIdNorme($norme);
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->handleRequest($request);
+
+        return $this->renderForm('categorie/new.html.twig', [
+            'categorie' => $categorie,
+            'form' => $form,
+            'norme' => $norme,
+        ]);
+    }
 }
-
-

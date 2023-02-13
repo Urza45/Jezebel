@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Critere{% endblock %}
+
+{% block body %}
+    <h1>Critere</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ critere.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ critere.label }}</td>
+            </tr>
+            <tr>
+                <th>Ptse1</th>
+                <td>{{ critere.ptse1 }}</td>
+            </tr>
+            <tr>
+                <th>Ptse2</th>
+                <td>{{ critere.ptse2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_critere_index') }}">back to list</a>
+
+    <a href="{{ path('app_critere_edit', {'id': critere.id}) }}">edit</a>
+
+    {{ include('critere/_delete_form.html.twig') }}
+{% endblock %}

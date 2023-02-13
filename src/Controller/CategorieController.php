@@ -117,4 +117,21 @@ class CategorieController extends AbstractController
             'themes' => $themes,
         ]);
     }
+
+    /**
+     *  @Route("/{id}/add_theme", name="app_norme_add_categorie", methods={"GET", "POST"})
+     */
+    public function addTheme(Norme $norme, Categorie $categorie, Request $request)
+    {
+        $theme = new Theme();
+        $theme->setIdCategorie($categorie);
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->handleRequest($request);
+
+        return $this->renderForm('categorie/new.html.twig', [
+            'categorie' => $categorie,
+            'form' => $form,
+            'norme' => $norme,
+        ]);
+    }
 }

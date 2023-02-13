@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Theme{% endblock %}
+
+{% block body %}
+    <h1>Theme</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ theme.id }}</td>
+            </tr>
+            <tr>
+                <th>Ordre</th>
+                <td>{{ theme.ordre }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ theme.label }}</td>
+            </tr>
+            <tr>
+                <th>Pts1</th>
+                <td>{{ theme.pts1 }}</td>
+            </tr>
+            <tr>
+                <th>Pts2</th>
+                <td>{{ theme.pts2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_theme_index') }}">back to list</a>
+
+    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">edit</a>
+
+    {{ include('theme/_delete_form.html.twig') }}
+{% endblock %}

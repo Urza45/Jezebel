@@ -16,13 +16,13 @@
 			</h1>
 		</center>
 		{# <div>
-									A faire avant le test :
-									<fieldset>
-										<button id="theElement1" name="theElement1" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Vérification sur site" class='btn btn-info userinfo'>Vérification sur site</button>
-										<button id="theElement2" name="theElement2" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Fiche de Présence" class='btn btn-info userinfo'>Fiche de Présence</button>
-										<button id="theElement3" name="theElement3" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Fiche d'anomalie" class='btn btn-info userinfo'>Fiche d'anomalie</button>
-									</fieldset>
-								</div> #}
+			A faire avant le test :
+			<fieldset>
+				<button id="theElement1" name="theElement1" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Vérification sur site" class='btn btn-info userinfo'>Vérification sur site</button>
+				<button id="theElement2" name="theElement2" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Fiche de Présence" class='btn btn-info userinfo'>Fiche de Présence</button>
+				<button id="theElement3" name="theElement3" data-id="{{ candidat.id }}" data-route="{{ path('app_modal_verif') }}" data-title="Fiche d'anomalie" class='btn btn-info userinfo'>Fiche d'anomalie</button>
+			</fieldset>
+		</div> #}
 		<div>
 			<form name="test_pratique" action="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.id }) }}" method="get">
 				{{ test|raw }}

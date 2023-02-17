@@ -57,7 +57,6 @@ class MailerService extends AbstractController
         if ($array['from']) {
             $from = $array['from'];
         }
-        // dump($from);
         $email = (new Email())
             ->from($from)
             ->to($array['to'])
@@ -67,7 +66,6 @@ class MailerService extends AbstractController
                 $this->twig->render($array['template'], $array['parameters']),
 
             );
-        // dump($email->from($from));
         $this->mailer->send($email);
     }
 }

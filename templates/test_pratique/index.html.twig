@@ -6,7 +6,6 @@
 {% block body %}
 	<section class="bg-secondary p-2 bg-opacity-25">
 		<h1>Liste des dossiers / candidats</h1>
-
 		<div class="accordion accordion-flush" id="accordionFlushExample" width="80%">
 			{% for dossier in dossiers %}
 				<div class="accordion-item">
@@ -31,39 +30,43 @@
 								<tr>
 									<th>Candidats</th>
 									<th>Catégories</th>
+									<th>Date examen</th>
+									<th>Résultat</th>
 								</tr>
 								{% for candidat in candidats %}
 									{% if dossier.id == candidat.idDossier.id %}
-										<tr>
-											<td>
-												{{ candidat.nomCandidat }}
-												-
-												{{ candidat.prenomCandidat }}
-											</td>
-											<td>
-												{# <a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id }) }}">
-													<i class="fa-regular fa-eye"></i>
-												</a> #}
-												{% for categorieChoisie in categorieChoisies  %}
-													{% if categorieChoisie.idCandidat == candidat %}
-														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id,
-																											 'idCandidat': candidat.id,
-																											 'idCategorie': categorieChoisie.idcategory.id }) }}">
-															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}<br/>
-															{# -
-															{{ categorieChoisie.idcategory.id }} #}
+										{% for categorieChoisie in categorieChoisies  %}
+											{% if categorieChoisie.idCandidat == candidat %}
+												<tr>
+													<td>
+														{{ candidat.nomCandidat }}
+														-
+														{{ candidat.prenomCandidat }}
+													</td>
+													<td>
+														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
+															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}
 														</a>
+													</td>
+													{% if categorieChoisie.datePratique is not same as (null) %}
+														<td>
+															{{ categorieChoisie.datePratique|date('d-m-Y') }}
+														</td>
+														<td>
+															{% if categorieChoisie.result is same as ('ECHEC') %}
+																<i class="fa-solid fa-square-xmark text-danger"></i>
+															{% else %}
+																<i class="fa-solid fa-square-check text-success"></i>
+															{% endif %}
+															{{ categorieChoisie.result }}
+															<a href="{{ path('app_candidat_test_pratique_result', {'id': candidat.id, 'id_categorie': categorieChoisie.idcategory.id}) }}" target="_blank">
+																<i class="fa-solid fa-file-pdf"></i>
+															</a>
+														</td>
 													{% endif %}
-
-
-												{% endfor %}
-												{# <form action="" method="post"
-			<input type="hidden" name="cars" value="{{ dossier.id }}"/>
-			 <input type="hidden" name="cars" value="{{ candidat.id }}"/>
-				<input type="submit" value="Etape suivante" name="choixdossier" class="btn btn-info"/>
-				</form> #}
-											</td>
-										</tr>
+												</tr>
+											{% endif %}
+										{% endfor %}
 									{% endif %}
 								{% endfor %}
 							</table>
@@ -72,7 +75,6 @@
 				</div>
 			{% endfor %}
 		</div>
-
-		{# {{ test|raw }} #}
-	</div>
-</section>{% endblock %}
+		{{ test2[0]|raw }}{{ test2[1] }}
+	</section>
+{% endblock %}

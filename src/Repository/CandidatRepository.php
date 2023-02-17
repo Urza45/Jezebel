@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Candidat;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -89,18 +90,30 @@ class CandidatRepository extends ServiceEntityRepository
             $requete->bindValue(':id_candidat', (int) $id_candidat, \PDO::PARAM_INT);
             $requete->bindValue(':id_categorie', (int) $id_categorie, \PDO::PARAM_INT);
             $requete->bindValue(':id_critere', (int) $tabCriteres[$i], \PDO::PARAM_INT);
-            if (isset($tabNotes1[$i])) {
+            if ($tabNotes1[$i] != null) {
                 $requete->bindValue(':note1', $tabNotes1[$i], \PDO::PARAM_INT);
             } else {
                 $requete->bindValue(':note1', null);
             }
-            if (isset($tabNotes2[$i])) {
+            if ($tabNotes2[$i] != null) {
                 $requete->bindValue(':note2', $tabNotes2[$i], \PDO::PARAM_INT);
             } else {
                 $requete->bindValue(':note2', null);
             }
             $requete->execute();
         }
+        // Sauvegarde de la date
+        $date = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
+        $sql = 'UPDATE categoriechoisie SET '
+            . 'date_pratique = :date, '
+            . 'result = :result '
+            . 'WHERE id_candidat = :id_candidat AND id_category = :id_categorie';
+        $requete2 = $conn->prepare($sql);
+        $requete2->bindValue(':id_candidat', (int) $id_candidat, \PDO::PARAM_INT);
+        $requete2->bindValue(':id_categorie', (int) $id_categorie, \PDO::PARAM_INT);
+        $requete2->bindValue(':date', $date, \PDO::PARAM_STR);
+        $requete2->bindValue(':result', $this->resultatCategory($id_candidat, $id_categorie));
+        $requete2->execute();
     }
 
     public function loadNotes1($id_candidat, $id_categorie)
@@ -139,20 +152,20 @@ class CandidatRepository extends ServiceEntityRepository
         $content = '<table><tr><th>Note Véhicule 1</th><th>Note Véhicule 2</th></tr>';
         $content .= '<tr>';
         foreach ($return_value as $value) {
-            if ($value[0] >= 70) {
-                $style = 'colorGreen';
+            if (($value['SUM(note1)'] < 70) && ($value['SUM(note1)'] != null)) {
+                $style = 'text-danger';
+                $condition = 'ECHEC';
             } else {
-                $style = 'colorRed';
-                $condition = 'AJOURNE';
+                $style = 'text-success';
             }
-            $content .= '<td><p class="' . $style . '">' . $value[0] . '</p></td>';
-            if ($value[1] >= 70) {
-                $style = 'colorGreen';
+            $content .= '<td><p class="' . $style . '">' . $value['SUM(note1)'] . '</p></td>';
+            if (($value['SUM(note2)'] < 70) && ($value['SUM(note2)'] != null)) {
+                $style = 'text-danger';
+                $condition = 'ECHEC';
             } else {
-                $style = 'colorRed';
-                $condition = 'AJOURNE';
+                $style = 'text-success';
             }
-            $content .= '<td><p class="' . $style . '">' . $value[1] . '</p></td>';
+            $content .= '<td><p class="' . $style . '">' . $value['SUM(note2)'] . '</p></td>';
         }
         $content .= '</tr></table>';
         /* Note par theme */
@@ -161,26 +174,26 @@ class CandidatRepository extends ServiceEntityRepository
         $content .= '<table><tr><th>Thème</th><th>Véhicule 1</th><th>Véhicule 2</th></tr>';
         foreach ($return_value as $key => $value) {
             $content .= '<tr>';
-            $content .= '<td><P>' . utf8_encode($value[0]) . '</p></td>';
-            if (($value[1] != null) && ($value[2] != null)) {
-                if ($value[1] >= ($value[2] / 2)) {
-                    $style = 'colorGreen';
+            $content .= '<td><P>' . utf8_encode($value['label']) . '</p></td>';
+            if (($value['note1'] != null) && ($value['pts1'] != null)) {
+                if ($value['note1'] >= ($value['pts1'] / 2)) {
+                    $style = 'text-success';
                 } else {
-                    $style = 'colorRed';
-                    $condition = 'AJOURNE';
+                    $style = 'text-danger';
+                    $condition = 'AJOURNE3';
                 }
-                $content .= '<td><p class="' . $style . '">' . $value[1] . '/' . $value[2] . '</p></td>';
+                $content .= '<td><p class="' . $style . '">' . $value['note1'] . '/' . $value['pts1'] . '</p></td>';
             } else {
                 $content .= '<td></td>';
             }
-            if (($value[3] != null) && ($value[4] != null)) {
-                if ($value[3] >= ($value[4] / 2)) {
-                    $style = 'colorGreen';
+            if (($value['note2'] != null) && ($value['pts2'] != null)) {
+                if ($value['note2'] >= ($value['pts2'] / 2)) {
+                    $style = 'text-success';
                 } else {
-                    $style = 'colorRed';
-                    $condition = 'AJOURNE';
+                    $style = 'text-danger';
+                    $condition = 'AJOURNE4';
                 }
-                $content .= '<td><p class="' . $style . '">' . $value[3] . '/' . $value[4] . '</p></td>';
+                $content .= '<td><p class="' . $style . '">' . $value['note2'] . '/' . $value['pts2'] . '</p></td>';
             } else {
                 $content .= '<td></td>';
             }
@@ -190,31 +203,30 @@ class CandidatRepository extends ServiceEntityRepository
         $content .= '</table>';
         /* Note par point */
         $stmt = $conn->prepare('CALL notepoint(' . $id_candidat . ',' . $id_categorie . ')');
-        $stmt->execute();
-        $return_value = $stmt->fetchAll();
+        $return_value = $stmt->execute()->fetchAll();
         $content .= '<table><tr><th>Thème</th><th>Véhicule 1</th><th>Véhicule 2</th></tr>';
         foreach ($return_value as $key => $value) {
             $content .= '<tr>';
-            $content .= '<td><P>' . $value[0] . '</p></td>';
-            if ($value[1] != null) {
-                if ($value[1] > 0) {
-                    $style = 'colorGreen';
+            $content .= '<td><P>' . $value['point'] . '</p></td>';
+            if ($value['note1'] != null) {
+                if ($value['note1'] > 0) {
+                    $style = 'text-success';
                 } else {
-                    $style = 'colorRed';
-                    $condition = 'AJOURNE';
+                    $style = 'text-danger';
+                    $condition = 'AJOURNE5';
                 }
-                $content .= '<td><p class="' . $style . '">' . $value[1] . '/' . $value[2] . '</p></td>';
+                $content .= '<td><p class="' . $style . '">' . $value['note1'] . '/' . $value['pts1'] . '</p></td>';
             } else {
                 $content .= '<td></td>';
             }
-            if ($value[3] != null) {
-                if ($value[3] > 0) {
-                    $style = 'colorGreen';
+            if ($value['note2'] != null) {
+                if ($value['note2'] > 0) {
+                    $style = 'text-success';
                 } else {
-                    $style = 'colorRed';
-                    $condition = 'AJOURNE';
+                    $style = 'text-danger';
+                    $condition = 'AJOURNE6';
                 }
-                $content .= '<td><p class="' . $style . '">' . $value[3] . '/' . $value[4] . '</p></td>';
+                $content .= '<td><p class="' . $style . '">' . $value['note2'] . '/' . $value['pts2'] . '</p></td>';
             } else {
                 $content .= '<td></td>';
             }
@@ -228,55 +240,106 @@ class CandidatRepository extends ServiceEntityRepository
         return $tab;
     }
 
+    public function resultatCategory($id_candidat, $id_categorie)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $condition = 'RECU';
+        /* Note globale */
+        $stmt = $conn->prepare('CALL noteglobal(' . $id_candidat . ',' . $id_categorie . ')');
+        $return_value = $stmt->execute()->fetchall();
+        
+        foreach ($return_value as $value) {
+            if (($value['SUM(note1)'] < 70) && ($value['SUM(note1)'] != null)) {
+                $condition = 'ECHEC';
+            }
+            if (($value['SUM(note2)'] < 70) && ($value['SUM(note2)'] != null)) {
+                $condition = 'ECHEC';
+            }
+        }
+        /* Note par theme */
+        $stmt = $conn->prepare('CALL notetheme(' . $id_candidat . ',' . $id_categorie . ')');
+        $return_value = $stmt->execute()->fetchAll();
+        foreach ($return_value as $key => $value) {
+
+            if (($value['note1'] != null) && ($value['pts1'] != null)) {
+                if ($value['note1'] >= ($value['pts1'] / 2)) {
+                } else {
+                    $condition = 'ECHEC';
+                }
+            }
+            if (($value['note2'] != null) && ($value['pts2'] != null)) {
+                if ($value['note2'] >= ($value['pts2'] / 2)) {
+                } else {
+                    $condition = 'ECHEC';
+                }
+            }
+        }
+        /* Note par point */
+        $stmt = $conn->prepare('CALL notepoint(' . $id_candidat . ',' . $id_categorie . ')');
+        $return_value = $stmt->execute()->fetchAll();
+        foreach ($return_value as $key => $value) {
+            if ($value['note1'] != null) {
+                if ($value['note1'] > 0) {
+                } else {
+                    $condition = 'ECHEC';
+                }
+            }
+            if ($value['note2'] != null) {
+                if ($value['note2'] > 0) {
+                } else {
+                    $condition = 'ECHEC';
+                }
+            }
+        }
+        return $condition;
+    }
+
     public function resultats_categoriePDF($pdf, $id_candidat, $id_categorie)
     {
         $conn = $this->getEntityManager()->getConnection();
         $condition = 'RECU';
         /* Note globale */
         $stmt = $conn->prepare('CALL noteglobal(' . $id_candidat . ',' . $id_categorie . ')');
-        $stmt->execute();
-        $return_value = $stmt->fetchAll();
+        $return_value = $stmt->execute()->fetchAll();
         $chaine = '';
         foreach ($return_value as $key => $value) {
-            if ($value[0] < 70) {
+            if ($value['SUM(note1)'] < 70) {
                 $condition = 'AJOURNE';
             }
-            $chaine .= 'Véh1 : ' . $value[0] . ' / 100  ';
-            if ($value[1] != null) {
-                if ($value[1] < 70) {
+            $chaine .= 'Véh1 : ' . $value['SUM(note1)'] . ' / 100  ';
+            if ($value['SUM(note2)'] != null) {
+                if ($value['SUM(note2)'] < 70) {
                     $condition = 'AJOURNE';
                 }
-                $chaine .= '- Véh2 : ' . $value[1] . ' / 100  ';
+                $chaine .= '- Véh2 : ' . $value['SUM(note2)'] . ' / 100  ';
             }
         }
         /* Note par theme */
         $stmt = $conn->prepare('CALL notetheme(' . $id_candidat . ',' . $id_categorie . ')');
-        $stmt->execute();
-        $return_value = $stmt->fetchAll();
+        $return_value = $stmt->execute()->fetchAll();
         foreach ($return_value as $key => $value) {
-            if ($value[1] != null) {
-                if ($value[1] < ($value[2] / 2)) {
+            if ($value['note1'] != null) {
+                if ($value['note1'] < ($value['pts1'] / 2)) {
                     $condition = 'AJOURNE (Echec dans un thème)';
                 }
             }
-            if ($value[3] != null) {
-                if ($value[3] < ($value[4] / 2)) {
+            if ($value['note2'] != null) {
+                if ($value['note2'] < ($value['pts2'] / 2)) {
                     $condition = 'AJOURNE (Echec dans un thème)';
                 }
             }
         }
         /* Note par point */
         $stmt = $conn->prepare('CALL notepoint(' . $id_candidat . ',' . $id_categorie . ')');
-        $stmt->execute();
-        $return_value = $stmt->fetchAll();
+        $return_value = $stmt->execute()->fetchAll();
         foreach ($return_value as $key => $value) {
-            if ($value[1] != null) {
-                if ($value[1] == 0) {
+            if ($value['note1'] != null) {
+                if ($value['note1'] == 0) {
                     $condition = 'AJOURNE (Point = 0 Eliminatoire)';
                 }
             }
-            if ($value[3] != null) {
-                if ($value[3] == 0) {
+            if ($value['note2'] != null) {
+                if ($value['note2'] == 0) {
                     $condition = 'AJOURNE (Point = 0 Eliminatoire)';
                 }
             }

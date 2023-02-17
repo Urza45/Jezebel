@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Categoriechoisie
  *
  * @ORM\Table(name="categoriechoisie", indexes={@ORM\Index(name="id_candidat", columns={"id_candidat"}), @ORM\Index(name="id_category", columns={"id_category"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CategoriechoisieRepository")
  */
 class Categoriechoisie
 {
@@ -41,6 +41,16 @@ class Categoriechoisie
      */
     private $idCandidat;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datePratique;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $result;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +76,30 @@ class Categoriechoisie
     public function setIdCandidat(?Candidat $idCandidat): self
     {
         $this->idCandidat = $idCandidat;
+
+        return $this;
+    }
+
+    public function getDatePratique(): ?\DateTimeInterface
+    {
+        return $this->datePratique;
+    }
+
+    public function setDatePratique(?\DateTimeInterface $datePratique): self
+    {
+        $this->datePratique = $datePratique;
+
+        return $this;
+    }
+
+    public function getResult(): ?string
+    {
+        return $this->result;
+    }
+
+    public function setResult(?string $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }

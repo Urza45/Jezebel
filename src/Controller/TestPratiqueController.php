@@ -34,6 +34,7 @@ class TestPratiqueController extends AbstractController
      */
     public function index(
         NormeRepository $normeRepository,
+        CandidatRepository $candidatRepository,
         EntityManagerInterface $entityManager
     ): Response {
         $user = $this->security;
@@ -66,12 +67,15 @@ class TestPratiqueController extends AbstractController
 
         $test = $normeRepository->getQuestionnaire(1, 1, 1);
 
+        $test2 = $candidatRepository->resultats_categorie(5, 6);
+
         return $this->render('test_pratique/index.html.twig', [
             'controller_name' => 'TestPratiqueController',
             'dossiers' => $dossiers,
             'candidats' => $candidats,
             'test' => utf8_decode($test),
             'categorieChoisies' => $categorieChoisies,
+            'test2' => $test2
         ]);
     }
 

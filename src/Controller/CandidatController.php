@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Services\PDF;
 use App\Entity\Candidat;
+use App\Entity\Categorie;
 use App\Form\CandidatType;
 use App\Form\ChoiceCategoriesType;
+use App\Repository\CandidatRepository;
+use App\Repository\CategoriechoisieRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/candidat")
@@ -40,6 +46,7 @@ class CandidatController extends AbstractController
                 ->getRepository(Candidat::class)
                 ->findBySociety($user->getUser()->getSociety()->getId());
         }
+
         // $candidats = $entityManager
         //     ->getRepository(Candidat::class)
         //     ->findAll();
@@ -55,9 +62,7 @@ class CandidatController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $candidat = new Candidat();
-        $form2 = $this->createForm(ChoiceCategoriesType::class, ['test'=>'test2']);
-        dump($form2);
-
+        $form2 = $this->createForm(ChoiceCategoriesType::class, ['test' => 'test2']);
 
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
@@ -117,5 +122,75 @@ class CandidatController extends AbstractController
         }
 
         return $this->redirectToRoute('app_candidat_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{id}/{id_categorie}", name="app_candidat_test_pratique_result")
+     * @ParamConverter("categorie", options={"id" = "id_categorie"})
+     */
+    public function resultsCandidatPDF(
+        Candidat $candidat,
+        Categorie $categorie,
+        CandidatRepository $candidatRepository,
+        CategorieRepository $categorieRepository,
+        CategoriechoisieRepository $categoriechoisieRepository        
+    ) {
+        $user = $this->security;
+
+        $fpdf = new PDF();
+        // Paramètre du PDF
+        $fpdf->SetFont('Arial');
+        $fpdf->setReference('Serge Pillay');
+        $fpdf->setLogo('./images/logo/' . $user->getUser()->getSociety()->getId() . '.jpg');
+        $fpdf->setTitre($user->getUser()->getSociety()->getName());
+        $adresse = $user->getUser()->getSociety()->getAddress()
+            . ' - ' . $user->getUser()->getSociety()->getCp()
+            . ' - ' . $user->getUser()->getSociety()->getTown();
+        $fpdf->setAdresse($adresse);
+        $fpdf->AliasNbPages();
+
+        // Première page
+        $fpdf->AddPage();
+        $fpdf->firstPage('', '');
+
+        // Pages suivantes
+        $fpdf->AddPage();
+        $fpdf->processDossier(
+            $candidat->getIdDossier(),
+            $candidat->getIdClient(),
+            $candidatRepository
+        );
+
+        $fpdf->processCandidat(
+            $candidat,
+            $candidat->getIdDossier()->getIdNorme(),
+            $categorieRepository,
+            $categoriechoisieRepository
+        );
+
+        $fpdf->Ln(5);
+        $fpdf->SetFont('Arial', 'B', 15);
+        $fpdf->Cell(0, 10, utf8_decode('Intervenants'), 1, 0, 'C');
+        $fpdf->Ln(15);
+        /* Ligne 1 */
+        $fpdf->SetFont('Arial', '', 12);
+        $fpdf->SetTextColor(0, 0, 255);
+        $fpdf->Cell(50, 10, utf8_decode('Formateur :'), 0, 0, 'R');
+        $fpdf->SetTextColor(0, 0, 0);
+        $fpdf->Cell(30, 10, utf8_decode($candidat->getIdDossier()->getIdFormateur()->getName() . ' ' . $candidat->getIdDossier()->getIdFormateur()->getSurname()), 0, 1, 'L');
+        /* Ligne 2 */
+        $fpdf->SetTextColor(0, 0, 255);
+        $fpdf->Cell(50, 10, utf8_decode('Testeur :'), 0, 0, 'R');
+        $fpdf->SetTextColor(0, 0, 0);
+        $fpdf->Cell(30, 10, utf8_decode($candidat->getIdDossier()->getIdTesteur()->getName() . ' ' . $candidat->getIdDossier()->getIdTesteur()->getSurname()), 0, 1, 'L');
+
+
+        
+        $fpdf = $candidatRepository->resultats_categoriePDF($fpdf, $candidat->getId(), $categorie->getId());
+
+
+        return new Response($fpdf->Output(), 200, array(
+            'Content-Type' => 'application/pdf'
+        ));
     }
 }

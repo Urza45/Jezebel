@@ -29,6 +29,37 @@ class PDF extends FPDF
     protected $reference = '';
     protected $logo = '';
     protected $adresse = '';
+    protected $addFooter = 0;
+    protected $addHeader = 0;
+
+    const WITHOUT_HEADER = 0;
+    const WITHOUT_FOOTER = 0;
+    const WITH_HEADER = 1;
+    const WITH_FOOTER = 1;
+
+    /**
+     * Set the value of addHeader
+     *
+     * @return  self
+     */
+    public function setAddHeader($addHeader)
+    {
+        $this->addHeader = $addHeader;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of addFooter
+     *
+     * @return  self
+     */
+    public function setAddFooter($addFooter)
+    {
+        $this->addFooter = $addFooter;
+
+        return $this;
+    }
 
     public function setTitre($titre)
     {
@@ -57,7 +88,7 @@ class PDF extends FPDF
     // En-tête
     function Header()
     {
-        if ($this->PageNo() == 1) {
+        if ($this->addHeader == PDF::WITHOUT_HEADER) {
             //Première page
         } else {
             // Logo
@@ -83,7 +114,7 @@ class PDF extends FPDF
     // Pied de page
     function Footer()
     {
-        if ($this->PageNo() == 1) {
+        if ($this->addFooter == PDF::WITHOUT_FOOTER) {
             //Première page
         } else {
             // Positionnement à 1,5 cm du bas
@@ -214,8 +245,6 @@ class PDF extends FPDF
         // return $pdf;
     }
 
-
-
     public function executeDossier(Dossier $dossier, Client $client, CandidatRepository $candidatRepository)
     {
         $id_dossier = $dossier->getId();
@@ -264,5 +293,152 @@ class PDF extends FPDF
             }
         }
         $pdf->Output('I', 'DoC.pdf', true);
+    }
+
+    public function processResultat(
+        Candidat $candidat,
+        Dossier $dossier,
+        CandidatRepository $candidatRepository,
+        CategorieRepository $categorieRepository,
+        CategoriechoisieRepository $categoriechoisieRepository
+    ) {
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, utf8_decode('SYNTHESE DE RESULTATS INDIVIDUELS'), 'LTR', 1, 'C');
+        $this->SetFont('Arial', '', 12);
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(0, 10, utf8_decode($candidat->getNomCandidat() . ' ' . $candidat->getPrenomCandidat()), 'LBR', 0, 'C');
+        $this->Ln();
+        $this->Cell(50, 10, utf8_decode('Date du test théorique :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        if (!is_null($candidat->getDateTheorique())) {
+            $chaine = date('d/m/Y', $candidat->getDateTheorique()->getTimestamp());
+        } else {
+            $chaine = '';
+        }
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Date du test pratique :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        if (!is_null($candidat->getDatePratique())) {
+            $chaine = date('d/m/Y', $candidat->getDatePratique()->getTimestamp());
+        } else {
+            $chaine = '';
+        }
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Lieu du test :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        $chaine = $dossier->getAdresseIntervention() . ' -' . $dossier->getCpIntervention() . ' - ' . $dossier->getVilleIntervention();
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Statut :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        if (!is_null($candidat->getIdStatus())) {
+            $this->Cell(50, 10, utf8_decode($candidat->getIdStatus()->getLabel()), 0, 1, 'L');
+        } else {
+            $this->Cell(50, 10, '', 0, 1, 'L');
+        }
+        $this->Ln();
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, utf8_decode('Expérience à la conduite des catégories concernées'), 1, 0, 'C');
+        $this->Ln();
+        $this->SetFont('Arial', '', 12);
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Niveau de compétence :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        if (!is_null($candidat->getIdNiveauCompetence())) {
+            $this->Cell(50, 10, utf8_decode($candidat->getIdNiveauCompetence()->getLabel()), 0, 1, 'L');
+        } else {
+            $this->Cell(50, 10, '', 0, 1, 'L');
+        }
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Expérience en production :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        $chaine = '';
+        if ($candidat->getExperienceProduction() == 'Y') {
+            $chaine = 'Oui, ' . $candidat->getDureeExperience() . ' an';
+            if ($candidat['duree_experience'] > 1) {
+                $chaine .= 's';
+            }
+        }
+        if ($candidat->getExperienceProduction() == 'N') {
+            $chaine = 'Non';
+        }
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Formation reçue :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        $chaine = '';
+        if ($candidat->getFormationRecue() == 'Y') {
+            $chaine = 'Oui, ' . $candidat->getHeureFormation() . ' heure';
+            if ($candidat->getHeureFormation() > 1) {
+                $chaine .= 's';
+            }
+        }
+        if ($candidat->getFormationRecue() == 'N') {
+            $chaine = 'Non';
+        }
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->Ln();
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, utf8_decode('Résultats du test théorique'), 1, 0, 'C');
+        $this->Ln();
+        $this->SetFont('Arial', '', 12);
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Note obtenue :'), 0, 0, 'R');
+        $this->SetTextColor(0, 0, 0);
+        $chaine = $candidat->getNoteFormation();
+        if (isset($candidat) && ($candidat->getNoteFormation() != null)) {
+            if (intval($candidat->getNoteFormation()) >= 70) {
+                $chaine .= ' / 100 - Reçu';
+            } else {
+                $chaine .= ' / 100 - Ajourné';
+            }
+        } else {
+            $chaine .= '?';
+        }
+        $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
+        $this->Ln();
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(0, 10, utf8_decode('Résultats du test pratique'), 1, 1, 'C');
+        $this->Ln(1);
+        $this->SetFont('Arial', 'B', 12);
+        $this->SetTextColor(0, 0, 255);
+        $this->Cell(50, 10, utf8_decode('Catégories'), 1, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('Résultat'), 1, 1, 'C');
+        $this->SetFont('Arial', '', 12);
+        $this->SetTextColor(0, 0, 0);
+        // $manager4 = $this->managers->getManagerOf('Candidat');
+        // $listChosenCategory = $manager4->getCategoriesChoisies($candidat['id']);
+        // $listChosenCategory = $categoriechoisieRepository->findByIdCandidat($candidat->getId());
+        // foreach ($listChosenCategory as $categorieChoisie) {
+        //     // $this->cell(12, 10, $categorie->getLabelCourt(), 1, 0, 'C');
+        //     $listIdCategorieChoisie[] = $categorieChoisie->getIdCategory()->getId();
+        // }
+        // // $manager3 = $this->managers->getManagerOf('Norme');
+        // // $listCategory = $manager3->getCategory($dossier['id_norme']);
+        // $listCategory = $categorieRepository->findByIdNorme($candidat->getIdDossier()->getIdNorme()->getId());
+        // foreach ($listCategory as $categorie) {
+        //     $this->cell(12, 10, $categorie->getLabelCourt(), 1, 0, 'C');
+        //     $listIdCategorie[] = $categorie->getId();
+        // }
+        // /* RESULTATS */
+        // foreach ($listIdCategorie as $value) {
+        //     if (in_array($value, $listIdCategorieChoisie)) {
+        //         $this->Cell(50, 10, utf8_decode($categorieRepository->findById($value)->getLabel()), 1, 0, 'C');
+        //         $this->resultats_categoriePDF($this, $candidat->getId(), $categorie->getId());
+        //     }
+        // }
+
+
+
+
+        // foreach ($listCategory as $category) {
+        //     if (in_array($category->getId(), $listChosenCategory)) {
+        //         $this->Cell(50, 10, utf8_decode($category['label']), 1, 0, 'C');
+        //         $this = $this->managers->getManagerOf('Candidat')->resultats_categoriePDF($pdf, $candidat['id'], $category['id']);
+        //     }
+        // }
+        // return $pdf;
     }
 }

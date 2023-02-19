@@ -39,20 +39,19 @@ class NormeRepository extends ServiceEntityRepository
         }
     }
 
-       /**
-        * @return Norme[] Returns an array of Norme objects
-        */
-       public function findById($value): array
-       {
-           return $this->createQueryBuilder('t')
-               ->andWhere('t.id = :val')
-               ->setParameter('val', $value)
-               ->orderBy('t.id', 'ASC')
-               ->setMaxResults(10)
-               ->getQuery()
-               ->getResult()
-           ;
-       }
+    /**
+     * @return Norme[] Returns an array of Norme objects
+     */
+    public function findById($value): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Test
     //    {
@@ -64,8 +63,8 @@ class NormeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    
-    
+
+
     public function getQuestionnaire($id_norme, $id_categorie, $id_candidat, array $tabNote1 = null, array $tabNote2 = null)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -160,5 +159,102 @@ class NormeRepository extends ServiceEntityRepository
         }
         $content .= '</table>';
         return utf8_encode($content);
+    }
+
+    public function getQuestionnairePDF($pdf, $id_norme, $id_categorie, array $tabNote1 = null, array $tabNote2 = null)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $requete = $conn->prepare('SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie');
+        $requete->bindValue(':id_categorie', (int) $id_categorie);
+        $listeTheme = $requete->execute()->fetchAll();
+        $style = 'row-a';
+        $increment = 0; // Nombre de questions
+        $pdf->Rect(10, 60, 190, 220);
+        $pdf->Rect(10, 60, 50, 220); //$pdf->GetX().' '.$pdf->GetY().' '.$pdf->GetPageWidth().' '.$pdf->GetPageHeight()
+        $pdf->Cell(50, 10, utf8_decode('Thèmes'), '1', 0, 'C');
+        $pdf->Cell(0, 10, utf8_decode('Questions'), '1', 0, 'C');
+        $pdf->Ln(11);
+        $Y = $pdf->GetY();
+
+        foreach ($listeTheme as $theme) {
+            // Thème
+            $pdf->SetX(10);
+            $pdf->SetY($Y);
+
+            $pdf->Line(10, $Y - 1, 200, $Y - 1);
+
+            $chaine = utf8_encode($theme['label']) . "\n" . '(' . $theme['pts1'] . ' pts';
+            if ($theme['pts2'] > 0) {
+                $chaine .= ' / ' . $theme['pts2'] . ' pts';
+            }
+            $chaine .= ')';
+            $pdf->Multicell(50, 5, $chaine, 0, 'L');
+            // Récupération des points d'évaluation
+            $requete2 = $conn->prepare('SELECT id, id_theme, point, label FROM consigne WHERE id_theme= :id_theme');
+            $requete2->bindValue(':id_theme', (int) $theme['id']);
+            $pdf->SetY($Y);
+            $listeConsigne = $requete2->execute()->fetchAll();
+            foreach ($listeConsigne as $consigne) {
+                $pdf->SetX(61);
+                $pdf->SetFont('Arial', 'B', 12);
+                $chaine = 'Point ' . $consigne['point'];
+                if ($consigne['label'] != '') {
+                    $chaine .= ' - ';
+                }
+                $chaine .= $consigne['label'];
+                $pdf->Multicell(0, 5, utf8_decode($chaine), 0, 'L');
+                $pdf->Ln(1);
+                $Y = $pdf->GetY();
+                // Récupération des critères
+                $requete3 = $conn->prepare('SELECT id, id_consigne, label, ptse1, ptse2 FROM critere WHERE id_consigne= :id_consigne');
+                $requete3->bindValue(':id_consigne', (int) $consigne['id']);
+
+                $listeCritere = $requete3->execute()->fetchAll();
+
+                foreach ($listeCritere as $critere) {
+                    if ($Y > 263) {
+                        $pdf->AddPage();
+                        $pdf->Rect(10, 40, 190, 240);
+                        $pdf->Rect(10, 40, 50, 240); //$pdf->GetX().' '.$pdf->GetY().' '.$pdf->GetPageWidth().' '.$pdf->GetPageHeight()
+                        $pdf->Cell(50, 10, utf8_decode('Thèmes'), '1', 0, 'C');
+                        $pdf->Cell(0, 10, utf8_decode('Questions'), '1', 0, 'C');
+                        $pdf->Ln(11);
+                        $Y = $pdf->GetY();
+                    }
+
+                    $pdf->SetX(61);
+                    $pdf->SetFont('Arial', '', 12);
+                    $chaine = chr(149);
+                    if ($critere['ptse1'] > 0) {
+                        if ($tabNote1 !== null) {
+                            $chaine .= $tabNote1[$increment];
+                        } else {
+                            $chaine .= '___';
+                        }
+                        $chaine .= ' / ' . $critere['ptse1'];
+                    } else {
+                        $chaine .= 'XXX';
+                    }
+                    $chaine .= ' - ';
+                    if ($critere['ptse2'] > 0) {
+                        if ($tabNote2 !== null) {
+                            $chaine .= $tabNote2[$increment];
+                        } else {
+                            $chaine .= '___';
+                        }
+                        $chaine .= ' / ' . $critere['ptse2'];
+                    } else {
+                        $chaine .= 'XXX';
+                    }
+                    $chaine .= ' ' . $critere['label'];
+                    $pdf->Multicell(0, 5, $chaine, 0, 'L');
+                    $pdf->Ln(1);
+                    $Y = $pdf->GetY();
+
+                    $increment++;
+                }
+            }
+        }
+        return $pdf;
     }
 }

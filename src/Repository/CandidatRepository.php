@@ -124,7 +124,7 @@ class CandidatRepository extends ServiceEntityRepository
         $Note1 = $requete->fetchall();
         $listNote1 = null;
         foreach ($Note1 as $key => $value) {
-            $listNote1[] = $value[0];
+            $listNote1[] = $value['note1'];
         }
         return $listNote1;
     }
@@ -137,7 +137,7 @@ class CandidatRepository extends ServiceEntityRepository
         $Note2 = $requete->fetchall();
         $listNote2 = null;
         foreach ($Note2 as $key => $value) {
-            $listNote2[] = $value[0];
+            $listNote2[] = $value['note2'];
         }
         return $listNote2;
     }

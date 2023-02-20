@@ -4,40 +4,40 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Contact</h1>
 
-		<table>
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>{{ contact.id }}</td>
-				</tr>
-				<tr>
-					<th>FirstName</th>
-					<td>{{ contact.firstName }}</td>
-				</tr>
-				<tr>
-					<th>LastName</th>
-					<td>{{ contact.lastName }}</td>
-				</tr>
-				<tr>
-					<th>Phone</th>
-					<td>+{{ contact.incaticatif }}
-						-
-						{{ contact.phone }}</td>
-				</tr>
-				<tr>
-					<th>Email</th>
-					<td>{{ contact.email }}</td>
-				</tr>
-			</tbody>
-		</table>
+	<h1>Contact</h1>
 
-		<a href="{{ path('app_contact_index') }}">back to list</a>
+	<table>
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ contact.id }}</td>
+			</tr>
+			<tr>
+				<th>FirstName</th>
+				<td>{{ contact.firstName }}</td>
+			</tr>
+			<tr>
+				<th>LastName</th>
+				<td>{{ contact.lastName }}</td>
+			</tr>
+			<tr>
+				<th>Phone</th>
+				<td>+{{ contact.incaticatif }}
+					-
+					{{ contact.phone }}</td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td>{{ contact.email }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
+	<a href="{{ path('app_contact_index') }}">back to list</a>
 
-		{{ include('contact/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
+
+	{{ include('contact/_delete_form.html.twig') }}
+
 {% endblock %}

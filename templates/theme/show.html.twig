@@ -1,40 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Theme{% endblock %}
+{% block title %}Theme
+{% endblock %}
 
 {% block body %}
-<section class="bg-secondary p-2 bg-opacity-25">
-    <h1>Theme</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ theme.id }}</td>
-            </tr>
-            <tr>
-                <th>Ordre</th>
-                <td>{{ theme.ordre }}</td>
-            </tr>
-            <tr>
-                <th>Label</th>
-                <td>{{ theme.label }}</td>
-            </tr>
-            <tr>
-                <th>Pts1</th>
-                <td>{{ theme.pts1 }}</td>
-            </tr>
-            <tr>
-                <th>Pts2</th>
-                <td>{{ theme.pts2 }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<h1>Theme</h1>
 
-    <a href="{{ path('app_categorie_list_themes' , {'idnorme': norme.id, 'id': categorie.id}) }}">Retour à la liste thèmes</a>
+	<table>
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ theme.id }}</td>
+			</tr>
+			<tr>
+				<th>Ordre</th>
+				<td>{{ theme.ordre }}</td>
+			</tr>
+			<tr>
+				<th>Label</th>
+				<td>{{ theme.label }}</td>
+			</tr>
+			<tr>
+				<th>Pts1</th>
+				<td>{{ theme.pts1 }}</td>
+			</tr>
+			<tr>
+				<th>Pts2</th>
+				<td>{{ theme.pts2 }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">Modifier</a>
+	<a href="{{ path('app_categorie_list_themes' , {'idnorme': norme.id, 'id': categorie.id}) }}">Retour à la liste thèmes</a>
 
-    {{ include('theme/_delete_form.html.twig') }}
-    </section>
+	<a href="{{ path('app_theme_edit', {'id': theme.id}) }}">Modifier</a>
+
+	{{ include('theme/_delete_form.html.twig') }}
+
 {% endblock %}

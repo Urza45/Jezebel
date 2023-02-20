@@ -4,45 +4,45 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Contact index</h1>
 
-		<table>
-			<thead>
+	<h1>Contact index</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>Indicatif</th>
+				<th>Phone</th>
+				<th>Email</th>
+				<th>Société</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for contact in contacts %}
 				<tr>
-					<th>Id</th>
-					<th>FirstName</th>
-					<th>LastName</th>
-					<th>Indicatif</th>
-					<th>Phone</th>
-					<th>Email</th>
-					<th>Société</th>
-					<th>actions</th>
+					<td>{{ contact.id }}</td>
+					<td>{{ contact.firstName }}</td>
+					<td>{{ contact.lastName }}</td>
+					<td>{{ contact.incaticatif }}</td>
+					<td>{{ contact.phone }}</td>
+					<td>{{ contact.email }}</td>
+					<td>{{ contact.society }}</td>
+					<td>
+						<a href="{{ path('app_contact_show', {'id': contact.id}) }}">show</a>
+						<a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				{% for contact in contacts %}
-					<tr>
-						<td>{{ contact.id }}</td>
-						<td>{{ contact.firstName }}</td>
-						<td>{{ contact.lastName }}</td>
-						<td>{{ contact.incaticatif }}</td>
-						<td>{{ contact.phone }}</td>
-						<td>{{ contact.email }}</td>
-						<td>{{ contact.society }}</td>
-						<td>
-							<a href="{{ path('app_contact_show', {'id': contact.id}) }}">show</a>
-							<a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="8">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_contact_new') }}">Create new</a>
-	</section>
+	<a href="{{ path('app_contact_new') }}">Create new</a>
+
 {% endblock %}

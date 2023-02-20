@@ -4,42 +4,42 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>News</h1>
 
-		<table class="table">
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>{{ news.id }}</td>
-				</tr>
-				<tr>
-					<th>Auteur</th>
-					<td>{{ news.auteur }}</td>
-				</tr>
-				<tr>
-					<th>Titre</th>
-					<td>{{ news.titre }}</td>
-				</tr>
-				<tr>
-					<th>Contenu</th>
-					<td>{{ news.contenu }}</td>
-				</tr>
-				<tr>
-					<th>Dateajout</th>
-					<td>{{ news.dateajout ? news.dateajout|date('Y-m-d H:i:s') : '' }}</td>
-				</tr>
-				<tr>
-					<th>Datemodif</th>
-					<td>{{ news.datemodif ? news.datemodif|date('Y-m-d H:i:s') : '' }}</td>
-				</tr>
-			</tbody>
-		</table>
+	<h1>News</h1>
 
-		<a href="{{ path('app_news_index') }}">back to list</a>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ news.id }}</td>
+			</tr>
+			<tr>
+				<th>Auteur</th>
+				<td>{{ news.auteur }}</td>
+			</tr>
+			<tr>
+				<th>Titre</th>
+				<td>{{ news.titre }}</td>
+			</tr>
+			<tr>
+				<th>Contenu</th>
+				<td>{{ news.contenu }}</td>
+			</tr>
+			<tr>
+				<th>Dateajout</th>
+				<td>{{ news.dateajout ? news.dateajout|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Datemodif</th>
+				<td>{{ news.datemodif ? news.datemodif|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_news_edit', {'id': news.id}) }}">edit</a>
+	<a href="{{ path('app_news_index') }}">back to list</a>
 
-		{{ include('news/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_news_edit', {'id': news.id}) }}">edit</a>
+
+	{{ include('news/_delete_form.html.twig') }}
+
 {% endblock %}

@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Ajouter un dossier</h1>
 
-		{{ include('dossier/_form.html.twig') }}
+	<h1>Ajouter un dossier</h1>
 
-		<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
-	</section>
+	{{ include('dossier/_form.html.twig') }}
+
+	<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
+
 {% endblock %}

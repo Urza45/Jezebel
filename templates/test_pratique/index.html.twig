@@ -4,78 +4,79 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Liste des dossiers / candidats</h1>
-		<div class="accordion accordion-flush" id="accordionFlushExample" width="80%">
-			{% for dossier in dossiers %}
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="flush-{{ dossier.id }}">
-						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ dossier.id }}" aria-expanded="false" aria-controls="flush-collapse{{ dossier.id }}">
-							{{ dossier.numDossier }}
-							-
-							{{ dossier.idClient }}
-							- Du
-							{{ dossier.dateDebut|date("m/d/Y") }}
-							au
-							{{ dossier.dateFin|date("m/d/Y") }}
-							-
-							{{ dossier.idNorme }}
-							-
-							{{ dossier.type }}
-						</button>
-					</h2>
-					<div id="flush-collapse{{ dossier.id }}" class="accordion-collapse collapse" aria-labelledby="flush-{{ dossier.id }}" data-bs-parent="#accordionFlushExample">
-						<div class="accordion-body">
-							<table>
-								<tr>
-									<th>Candidats</th>
-									<th>Catégories</th>
-									<th>Date examen</th>
-									<th>Résultat</th>
-								</tr>
-								{% for candidat in candidats %}
-									{% if dossier.id == candidat.idDossier.id %}
-										{% for categorieChoisie in categorieChoisies  %}
-											{% if categorieChoisie.idCandidat == candidat %}
-												<tr>
+
+	<h1>Liste des dossiers / candidats</h1>
+	<div class="accordion accordion-flush" id="accordionFlushExample" width="80%">
+		{% for dossier in dossiers %}
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="flush-{{ dossier.id }}">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ dossier.id }}" aria-expanded="false" aria-controls="flush-collapse{{ dossier.id }}">
+						{{ dossier.numDossier }}
+						-
+						{{ dossier.idClient }}
+						- Du
+						{{ dossier.dateDebut|date("m/d/Y") }}
+						au
+						{{ dossier.dateFin|date("m/d/Y") }}
+						-
+						{{ dossier.idNorme }}
+						-
+						{{ dossier.type }}
+					</button>
+				</h2>
+				<div id="flush-collapse{{ dossier.id }}" class="accordion-collapse collapse" aria-labelledby="flush-{{ dossier.id }}" data-bs-parent="#accordionFlushExample">
+					<div class="accordion-body">
+						<table>
+							<tr>
+								<th>Candidats</th>
+								<th>Catégories</th>
+								<th>Date examen</th>
+								<th>Résultat</th>
+							</tr>
+							{% for candidat in candidats %}
+								{% if dossier.id == candidat.idDossier.id %}
+									{% for categorieChoisie in categorieChoisies  %}
+										{% if categorieChoisie.idCandidat == candidat %}
+											<tr>
+												<td>
+													{{ candidat.nomCandidat }}
+													-
+													{{ candidat.prenomCandidat }}
+												</td>
+												<td>
+													<a
+														href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
+														{# {{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }} #}
+														{{ categorieChoisie.idcategory.label }}
+													</a>
+												</td>
+												{% if categorieChoisie.datePratique is not same as (null) %}
 													<td>
-														{{ candidat.nomCandidat }}
-														-
-														{{ candidat.prenomCandidat }}
+														{{ categorieChoisie.datePratique|date('d-m-Y') }}
 													</td>
 													<td>
-														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
-															{# {{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }} #}
-															{{ categorieChoisie.idcategory.label }}
+														{% if categorieChoisie.result is same as ('ECHEC') %}
+															<i class="fa-solid fa-square-xmark text-danger"></i>
+														{% else %}
+															<i class="fa-solid fa-square-check text-success"></i>
+														{% endif %}
+														{{ categorieChoisie.result }}
+														<a href="{{ path('app_candidat_test_pratique_result', {'id': candidat.id, 'id_categorie': categorieChoisie.idcategory.id}) }}" target="_blank">
+															<i class="fa-solid fa-file-pdf"></i>
 														</a>
 													</td>
-													{% if categorieChoisie.datePratique is not same as (null) %}
-														<td>
-															{{ categorieChoisie.datePratique|date('d-m-Y') }}
-														</td>
-														<td>
-															{% if categorieChoisie.result is same as ('ECHEC') %}
-																<i class="fa-solid fa-square-xmark text-danger"></i>
-															{% else %}
-																<i class="fa-solid fa-square-check text-success"></i>
-															{% endif %}
-															{{ categorieChoisie.result }}
-															<a href="{{ path('app_candidat_test_pratique_result', {'id': candidat.id, 'id_categorie': categorieChoisie.idcategory.id}) }}" target="_blank">
-																<i class="fa-solid fa-file-pdf"></i>
-															</a>
-														</td>
-													{% endif %}
-												</tr>
-											{% endif %}
-										{% endfor %}
-									{% endif %}
-								{% endfor %}
-							</table>
-						</div>
+												{% endif %}
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							{% endfor %}
+						</table>
 					</div>
 				</div>
-			{% endfor %}
-		</div>
-		{# {{ test2[0]|raw }}{{ test2[1] }} #}
-	</section>
+			</div>
+		{% endfor %}
+	</div>
+	{# {{ test2[0]|raw }}{{ test2[1] }} #}
+
 {% endblock %}

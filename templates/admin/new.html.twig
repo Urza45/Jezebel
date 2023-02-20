@@ -4,11 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Create new Admin</h1>
+	<h1>Create new Admin</h1>
 
-		{{ include('admin/_form.html.twig') }}
+	{{ include('admin/_form.html.twig') }}
 
-		<a href="{{ path('app_admin_index') }}">back to list</a>
-	</section>
+	<a href="{{ path('app_admin_index') }}">back to list</a>
+
 {% endblock %}

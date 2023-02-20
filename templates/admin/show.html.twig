@@ -4,31 +4,30 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Admin</h1>
+	<h1>Admin</h1>
 
-		<table>
-			<tbody>
-				<tr>
-					<th>Login</th>
-					<td>{{ admin.username }}</td>
-				</tr>
-				<tr>
-					<th>Roles</th>
-					<td>{{ admin.roles ? admin.roles|json_encode : '' }}</td>
-				</tr>
-				
-				<tr>
-					<th>Société</th>
-					<td>{{ admin.society }}</td>
-				</tr>
-			</tbody>
-		</table>
+	<table>
+		<tbody>
+			<tr>
+				<th>Login</th>
+				<td>{{ admin.username }}</td>
+			</tr>
+			<tr>
+				<th>Roles</th>
+				<td>{{ admin.roles ? admin.roles|json_encode : '' }}</td>
+			</tr>
 
-		<a href="{{ path('app_admin_index') }}">Retour à la liste des utilisateurs</a>
+			<tr>
+				<th>Société</th>
+				<td>{{ admin.society }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_admin_edit', {'id': admin.id}) }}">Modifier</a>
+	<a href="{{ path('app_admin_index') }}">Retour à la liste des utilisateurs</a>
 
-		{{ include('admin/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_admin_edit', {'id': admin.id}) }}">Modifier</a>
+
+	{{ include('admin/_delete_form.html.twig') }}
+
 {% endblock %}

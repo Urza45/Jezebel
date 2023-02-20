@@ -4,13 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Modifier un candidat</h1>
 
-		{{ include('candidat/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+	<h1>Modifier un candidat</h1>
 
-		<a href="{{ path('app_candidat_index') }}">Retour à la liste des candidats</a>
+	{{ include('candidat/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-		{{ include('candidat/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_candidat_index') }}">Retour à la liste des candidats</a>
+
+	{{ include('candidat/_delete_form.html.twig') }}
+
 {% endblock %}

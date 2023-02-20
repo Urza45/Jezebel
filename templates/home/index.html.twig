@@ -4,25 +4,25 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Bienvenu(e)
-			{% if app.user %}
-				{{ app.user.username }}
-			{% endif %}
-		</h1>
-		<div>
-			<table>
-				{% for listeNews in news %}
-					<tr>
-						<td class="align-left">
-							<h2>
-								<a href="#">{{ listeNews.titre }}</a>
-							</h2>
-							<p>{{ listeNews.contenu|raw }}</p>
-						</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</div>
-	</section>
+
+	<h1>Bienvenu(e)
+		{% if app.user %}
+			{{ app.user.username }}
+		{% endif %}
+	</h1>
+	<div>
+		<table>
+			{% for listeNews in news %}
+				<tr>
+					<td class="align-left">
+						<h2>
+							<a href="#">{{ listeNews.titre }}</a>
+						</h2>
+						<p>{{ listeNews.contenu|raw }}</p>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+
 {% endblock %}

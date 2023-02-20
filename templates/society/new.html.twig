@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Create new Society</h1>
 
-		{{ include('society/_form.html.twig') }}
+	<h1>Create new Society</h1>
 
-		<a href="{{ path('app_society_index') }}">back to list</a>
-	</section>
+	{{ include('society/_form.html.twig') }}
+
+	<a href="{{ path('app_society_index') }}">back to list</a>
+
 {% endblock %}

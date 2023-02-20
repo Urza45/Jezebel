@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Ajouter un client</h1>
 
-		{{ include('client/_form.html.twig') }}
+	<h1>Ajouter un client</h1>
 
-		<a href="{{ path('app_client_index') }}">Retour à la liste des clients</a>
-	</section>
+	{{ include('client/_form.html.twig') }}
+
+	<a href="{{ path('app_client_index') }}">Retour à la liste des clients</a>
+
 {% endblock %}

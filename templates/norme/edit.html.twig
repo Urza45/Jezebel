@@ -4,13 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Modifier une norme</h1>
 
-		{{ include('norme/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+	<h1>Modifier une norme</h1>
 
-		<a href="{{ path('app_norme_index') }}">Retour à la liste des normes</a>
+	{{ include('norme/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-		{{ include('norme/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_norme_index') }}">Retour à la liste des normes</a>
+
+	{{ include('norme/_delete_form.html.twig') }}
+
 {% endblock %}

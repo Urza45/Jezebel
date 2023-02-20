@@ -4,38 +4,38 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Categorie</h1>
 
-		<table>
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>{{ categorie.id }}</td>
-				</tr>
-				<tr>
-					<th>Label</th>
-					<td>{{ categorie.label }}</td>
-				</tr>
-				<tr>
-					<th>Comments</th>
-					<td>{{ categorie.comments }}</td>
-				</tr>
-				<tr>
-					<th>Picture</th>
-					<td>{{ categorie.picture }}</td>
-				</tr>
-				<tr>
-					<th>LabelCourt</th>
-					<td>{{ categorie.labelCourt }}</td>
-				</tr>
-			</tbody>
-		</table>
+	<h1>Categorie</h1>
 
-		<a href="{{ path('app_norme_list_categories', {'id': norme.id}) }}">Retour à la liste des catégories</a>
+	<table>
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ categorie.id }}</td>
+			</tr>
+			<tr>
+				<th>Label</th>
+				<td>{{ categorie.label }}</td>
+			</tr>
+			<tr>
+				<th>Comments</th>
+				<td>{{ categorie.comments }}</td>
+			</tr>
+			<tr>
+				<th>Picture</th>
+				<td>{{ categorie.picture }}</td>
+			</tr>
+			<tr>
+				<th>LabelCourt</th>
+				<td>{{ categorie.labelCourt }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_categorie_edit', {'id': categorie.id, 'idnorme': norme.id}) }}">Modifier</a>
+	<a href="{{ path('app_norme_list_categories', {'id': norme.id}) }}">Retour à la liste des catégories</a>
 
-		{{ include('categorie/_delete_form.html.twig') }}
-	</section>
+	<a href="{{ path('app_categorie_edit', {'id': categorie.id, 'idnorme': norme.id}) }}">Modifier</a>
+
+	{{ include('categorie/_delete_form.html.twig') }}
+
 {% endblock %}

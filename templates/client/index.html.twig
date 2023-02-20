@@ -4,54 +4,54 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Liste des sociétés clientes</h1>
 
-		<center>
-			Il y a actuellement
-			{{ clients|length }}
-			sociétés.<br/>
-			<a href="{{ path('app_client_new') }}">Créer une nouvelle société cliente</a>
-		</center>
+	<h1>Liste des sociétés clientes</h1>
 
-		<table>
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Nom</th>
-					<th>Adresse</th>
-					<th>CP</th>
-					<th>Ville</th>
-					<th>Codeagence</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% if clients %}
-					{% for client in clients %}
-						<tr>
-							<td>{{ client.id }}</td>
-							<td>{{ client.nomClient }}</td>
-							<td>{{ client.adresseClient }}</td>
-							<td>{{ client.cpClient }}</td>
-							<td>{{ client.villeClient }}</td>
-							<td>{{ client.codeagence }}</td>
-							<td>
-								<a href="{{ path('app_client_show', {'id': client.id}) }}" alt="Consulter">
-									<i class="fa-regular fa-eye"></i>
-								</a>
-								<a href="{{ path('app_client_edit', {'id': client.id}) }}" alt="Modifier">
-									<i class="fa-solid fa-pen-to-square"></i>
-								</a>
-							</td>
-						</tr>
-					{% endfor %}
-				{% else %}
+	<center>
+		Il y a actuellement
+		{{ clients|length }}
+		sociétés.<br/>
+		<a href="{{ path('app_client_new') }}">Créer une nouvelle société cliente</a>
+	</center>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>Adresse</th>
+				<th>CP</th>
+				<th>Ville</th>
+				<th>Codeagence</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if clients %}
+				{% for client in clients %}
 					<tr>
-						<td colspan="7">no records found</td>
+						<td>{{ client.id }}</td>
+						<td>{{ client.nomClient }}</td>
+						<td>{{ client.adresseClient }}</td>
+						<td>{{ client.cpClient }}</td>
+						<td>{{ client.villeClient }}</td>
+						<td>{{ client.codeagence }}</td>
+						<td>
+							<a href="{{ path('app_client_show', {'id': client.id}) }}" alt="Consulter">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{ path('app_client_edit', {'id': client.id}) }}" alt="Modifier">
+								<i class="fa-solid fa-pen-to-square"></i>
+							</a>
+						</td>
 					</tr>
-				{% endif %}
-			</tbody>
-		</table>
-	</section>
+				{% endfor %}
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>
+
 {% endblock %}

@@ -4,43 +4,43 @@
 {% endblock %}
 
 {% block body %}
-	<section class="bg-secondary p-2 bg-opacity-25">
-		<h1>Society index</h1>
 
-		<table>
-			<thead>
+	<h1>Society index</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Cp</th>
+				<th>Town</th>
+				<th>Logo</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for society in societies %}
 				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Address</th>
-					<th>Cp</th>
-					<th>Town</th>
-					<th>Logo</th>
-					<th>actions</th>
+					<td>{{ society.id }}</td>
+					<td>{{ society.name }}</td>
+					<td>{{ society.address }}</td>
+					<td>{{ society.cp }}</td>
+					<td>{{ society.town }}</td>
+					<td>{{ society.logo }}</td>
+					<td>
+						<a href="{{ path('app_society_show', {'id': society.id}) }}">show</a>
+						<a href="{{ path('app_society_edit', {'id': society.id}) }}">edit</a>
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				{% for society in societies %}
-					<tr>
-						<td>{{ society.id }}</td>
-						<td>{{ society.name }}</td>
-						<td>{{ society.address }}</td>
-						<td>{{ society.cp }}</td>
-						<td>{{ society.town }}</td>
-						<td>{{ society.logo }}</td>
-						<td>
-							<a href="{{ path('app_society_show', {'id': society.id}) }}">show</a>
-							<a href="{{ path('app_society_edit', {'id': society.id}) }}">edit</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="7">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_society_new') }}">Create new</a>
-	</section>
+	<a href="{{ path('app_society_new') }}">Create new</a>
+
 {% endblock %}

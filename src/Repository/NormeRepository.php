@@ -183,7 +183,7 @@ class NormeRepository extends ServiceEntityRepository
 
             $pdf->Line(10, $Y - 1, 200, $Y - 1);
 
-            $chaine = utf8_encode($theme['label']) . "\n" . '(' . $theme['pts1'] . ' pts';
+            $chaine = utf8_decode($theme['label']) . "\n" . '(' . $theme['pts1'] . ' pts';
             if ($theme['pts2'] > 0) {
                 $chaine .= ' / ' . $theme['pts2'] . ' pts';
             }
@@ -246,7 +246,7 @@ class NormeRepository extends ServiceEntityRepository
                     } else {
                         $chaine .= 'XXX';
                     }
-                    $chaine .= ' ' . $critere['label'];
+                    $chaine .= ' ' . utf8_decode($critere['label']);
                     $pdf->Multicell(0, 5, $chaine, 0, 'L');
                     $pdf->Ln(1);
                     $Y = $pdf->GetY();

@@ -37,8 +37,10 @@
 			{% endfor %}
 
 			{# {% include "modal.html.twig" %} #}
-
-			{% block body %}{% endblock %}
+			<section class="bg-secondary p-2 bg-opacity-25">
+				{% block body %}-
+				{% endblock %}
+			</section>
 		</div>
 
 		<footer class="footer1">
@@ -59,7 +61,7 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
-			{# {{ encore_entry_script_tags('function') }} #}
+		{# {{ encore_entry_script_tags('function') }} #}
 			{# {{ encore_entry_script_tags('modal') }} #}
 		{% endblock %}
 

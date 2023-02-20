@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Consigne{% endblock %}
+{% block title %}Modifier une consigne
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Consigne</h1>
+	<h1>Modifier une consigne</h1>
 
-    {{ include('consigne/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('consigne/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_consigne_index') }}">back to list</a>
+	<a href="{{ path('app_theme_list_consigne', {'id': consigne.idTheme.id }) }}">Retour à la liste des consignes</a>
 
-    {{ include('consigne/_delete_form.html.twig') }}
+	{{ include('consigne/_delete_form.html.twig') }}
 {% endblock %}

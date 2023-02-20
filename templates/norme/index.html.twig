@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Norme index
+{% block title %}Liste des normes
 {% endblock %}
 
 {% block body %}
@@ -11,10 +11,10 @@
 			<thead>
 				<tr>
 					<th>Id</th>
-					<th>Label</th>
-					<th>Comments</th>
-					<th>Picture</th>
-					<th>actions</th>
+					<th>Nom</th>
+					<th>Commentaire</th>
+					<th>Photo</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -38,7 +38,7 @@
 					</tr>
 				{% else %}
 					<tr>
-						<td colspan="5">no records found</td>
+						<td colspan="5">Pas d'enregistrement trouvé</td>
 					</tr>
 				{% endfor %}
 			</tbody>

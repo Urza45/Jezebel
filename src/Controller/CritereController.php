@@ -58,6 +58,7 @@ class CritereController extends AbstractController
     {
         return $this->render('critere/show.html.twig', [
             'critere' => $critere,
+            'consigne' => $critere->getIdConsigne()
         ]);
     }
 
@@ -72,12 +73,16 @@ class CritereController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_critere_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('app_critere_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_consigne_list_critere', [
+                'id' => $critere->getIdConsigne()->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('critere/edit.html.twig', [
             'critere' => $critere,
             'form' => $form,
+            'consigne' => $critere->getIdConsigne()
         ]);
     }
 
@@ -86,7 +91,7 @@ class CritereController extends AbstractController
      */
     public function delete(Request $request, Critere $critere, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$critere->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $critere->getId(), $request->request->get('_token'))) {
             $entityManager->remove($critere);
             $entityManager->flush();
         }

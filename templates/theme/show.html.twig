@@ -3,9 +3,10 @@
 {% block title %}Theme{% endblock %}
 
 {% block body %}
+<section class="bg-secondary p-2 bg-opacity-25">
     <h1>Theme</h1>
 
-    <table class="table">
+    <table>
         <tbody>
             <tr>
                 <th>Id</th>
@@ -30,9 +31,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_theme_index') }}">back to list</a>
+    <a href="{{ path('app_categorie_list_themes' , {'idnorme': norme.id, 'id': categorie.id}) }}">Retour à la liste thèmes</a>
 
-    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">edit</a>
+    <a href="{{ path('app_theme_edit', {'id': theme.id}) }}">Modifier</a>
 
     {{ include('theme/_delete_form.html.twig') }}
+    </section>
 {% endblock %}

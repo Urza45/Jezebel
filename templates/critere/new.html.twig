@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Critere{% endblock %}
+{% block title %}Nouveau critère
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Critere</h1>
+	<h1>Créer un nouveau critère</h1>
 
-    {{ include('critere/_form.html.twig') }}
+	{{ include('critere/_form.html.twig') }}
 
-    <a href="{{ path('app_critere_index') }}">back to list</a>
+	<a href="{{ path('app_consigne_list_critere', {'id': consigne.id}) }}">Retour à la liste des critères</a>
 {% endblock %}

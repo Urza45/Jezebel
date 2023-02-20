@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Theme{% endblock %}
+{% block title %}Modifier un thème{% endblock %}
 
 {% block body %}
-    <h1>Edit Theme</h1>
+<section class="bg-secondary p-2 bg-opacity-25">
+    <h1>Modifier un thème</h1>
 
-    {{ include('theme/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('theme/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_theme_index') }}">back to list</a>
+    <a href="{{ path('app_categorie_list_themes' , {'idnorme': norme.id, 'id': categorie.id}) }}">Retour à la liste thèmes</a>
 
     {{ include('theme/_delete_form.html.twig') }}
+    </section>
 {% endblock %}

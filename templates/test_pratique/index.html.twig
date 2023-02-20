@@ -45,7 +45,8 @@
 													</td>
 													<td>
 														<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
-															{{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }}
+															{# {{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }} #}
+															{{ categorieChoisie.idcategory.label }}
 														</a>
 													</td>
 													{% if categorieChoisie.datePratique is not same as (null) %}

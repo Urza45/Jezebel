@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Critere
  *
  * @ORM\Table(name="critere", indexes={@ORM\Index(name="id_consigne", columns={"id_consigne"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CritereRepository")
  */
 class Critere
 {
@@ -105,6 +105,4 @@ class Critere
 
         return $this;
     }
-
-
 }

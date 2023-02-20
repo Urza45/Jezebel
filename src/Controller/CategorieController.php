@@ -6,6 +6,8 @@ use App\Entity\Norme;
 use App\Entity\Theme;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
+use App\Form\ThemeType;
+use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,18 +57,6 @@ class CategorieController extends AbstractController
     }
 
     /**
-     * @Route("/{idnorme}/{id}", name="app_categorie_show", methods={"GET"})
-     * @ParamConverter("norme", options={"id" = "idnorme"})
-     */
-    public function show(Norme $norme, Categorie $categorie): Response
-    {
-        return $this->render('categorie/show.html.twig', [
-            'categorie' => $categorie,
-            'norme' => $norme
-        ]);
-    }
-
-    /**
      * @Route("/edit/{idnorme}/{id}", name="app_categorie_edit", methods={"GET", "POST"})
      * @ParamConverter("norme", options={"id" = "idnorme"})
      */
@@ -78,7 +68,7 @@ class CategorieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('categorie/edit.html.twig', [
@@ -93,7 +83,7 @@ class CategorieController extends AbstractController
      */
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $categorie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categorie);
             $entityManager->flush();
         }
@@ -119,19 +109,44 @@ class CategorieController extends AbstractController
     }
 
     /**
-     *  @Route("/{id}/add_theme", name="app_norme_add_categorie", methods={"GET", "POST"})
+     * @Route("/add_theme/{id}", name="app_categorie_add_theme", methods={"GET", "POST"})
+     * @ParamConverter("norme", options={"id" = "idnorme"})
      */
-    public function addTheme(Norme $norme, Categorie $categorie, Request $request)
+    public function addTheme(Categorie $categorie, Request $request, ThemeRepository $themeRepository)
     {
         $theme = new Theme();
+        $norme = $categorie->getIdNorme();
         $theme->setIdCategorie($categorie);
-        $form = $this->createForm(CategorieType::class, $categorie);
+        $form = $this->createForm(ThemeType::class, $theme);
         $form->handleRequest($request);
 
-        return $this->renderForm('categorie/new.html.twig', [
-            'categorie' => $categorie,
+        if ($form->isSubmitted() && $form->isValid()) {
+            $themeRepository->add($theme, true);
+
+            $this->addFlash('success', 'Thème ajouté');
+            return $this->redirectToRoute('app_categorie_list_themes', [
+                'idnorme' => $categorie->getIdNorme()->getId(),
+                'id' => $categorie->getId()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('theme/new.html.twig', [
+            'theme' => $theme,
             'form' => $form,
             'norme' => $norme,
+            'categorie' => $theme->getIdCategorie()
+        ]);
+    }
+
+    /**
+     * @Route("/{idnorme}/{id}", name="app_categorie_show", methods={"GET"})
+     * @ParamConverter("norme", options={"id" = "idnorme"})
+     */
+    public function show(Norme $norme, Categorie $categorie): Response
+    {
+        return $this->render('categorie/show.html.twig', [
+            'categorie' => $categorie,
+            'norme' => $norme
         ]);
     }
 }

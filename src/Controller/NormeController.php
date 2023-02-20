@@ -6,6 +6,7 @@ use App\Entity\Categorie;
 use App\Entity\Norme;
 use App\Form\CategorieType;
 use App\Form\NormeType;
+use App\Repository\CategorieRepository;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -111,12 +112,19 @@ class NormeController extends AbstractController
     /**
      *  @Route("/{id}/add_categorie", name="app_norme_add_categorie", methods={"GET", "POST"})
      */
-    public function addCategorie(Norme $norme, Request $request)
+    public function addCategorie(Norme $norme, Request $request, CategorieRepository $categorieRepository)
     {
         $categorie = new Categorie();
         $categorie->setIdNorme($norme);
         $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categorieRepository->add($categorie, true);
+
+            $this->addFlash('success', 'Catégorie ajoutée');
+            return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
+        }
 
         return $this->renderForm('categorie/new.html.twig', [
             'categorie' => $categorie,

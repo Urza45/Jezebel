@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Critere index{% endblock %}
+{% block title %}Liste des critères
+{% endblock %}
 
 {% block body %}
-    <h1>Critere index</h1>
+	<h1>Liste des critères</h1>
+	<a href="{{ path('app_consigne_add_critere', {'id': consigne.id}) }}">Créer un nouveau critère</a>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Label</th>
+				<th>Ptse1</th>
+				<th>Ptse2</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for critere in criteres %}
+				<tr>
+					<td>{{ critere.id }}</td>
+					<td>{{ critere.label }}</td>
+					<td>{{ critere.ptse1 }}</td>
+					<td>{{ critere.ptse2 }}</td>
+					<td>
+						<a href="{{ path('app_critere_show', {'id': critere.id}) }}">
+							<i class="fa-regular fa-eye"></i>
+						</a>
+						<a href="{{ path('app_critere_edit', {'id': critere.id}) }}">
+							<i class="fa-solid fa-file-pen"></i>
+						</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">Pas d'enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<a href="{{ path('app_theme_list_consigne', {'id': consigne.idTheme.id }) }}">Retour à la liste des consignes</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Ptse1</th>
-                <th>Ptse2</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for critere in criteres %}
-            <tr>
-                <td>{{ critere.id }}</td>
-                <td>{{ critere.label }}</td>
-                <td>{{ critere.ptse1 }}</td>
-                <td>{{ critere.ptse2 }}</td>
-                <td>
-                    <a href="{{ path('app_critere_show', {'id': critere.id}) }}">show</a>
-                    <a href="{{ path('app_critere_edit', {'id': critere.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_critere_new') }}">Create new</a>
 {% endblock %}

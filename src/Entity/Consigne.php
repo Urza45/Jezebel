@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Consigne
  *
  * @ORM\Table(name="consigne", indexes={@ORM\Index(name="id_theme", columns={"id_theme"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ConsigneRepository")
  */
 class Consigne
 {
@@ -86,5 +86,8 @@ class Consigne
         return $this;
     }
 
-
+    public function __toString()
+    {
+        return $this->getLabel();
+    }
 }

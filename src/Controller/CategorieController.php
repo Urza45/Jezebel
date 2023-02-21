@@ -29,9 +29,12 @@ class CategorieController extends AbstractController
             ->getRepository(Categorie::class)
             ->findAll();
 
-        return $this->render('categorie/index.html.twig', [
-            'categories' => $categories,
-        ]);
+        return $this->render(
+            'categorie/index.html.twig',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
 
     /**
@@ -50,15 +53,18 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categorie/new.html.twig', [
-            'categorie' => $categorie,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'categorie/new.html.twig',
+            [
+                'categorie' => $categorie,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
      * @Route("/edit/{idnorme}/{id}", name="app_categorie_edit", methods={"GET", "POST"})
-     * @ParamConverter("norme", options={"id" = "idnorme"})
+     * @ParamConverter("norme",       options={"id" = "idnorme"})
      */
     public function edit(Norme $norme, Categorie $categorie, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -71,11 +77,14 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categorie/edit.html.twig', [
-            'categorie' => $categorie,
-            'form' => $form,
-            'norme' => $norme
-        ]);
+        return $this->renderForm(
+            'categorie/edit.html.twig',
+            [
+                'categorie' => $categorie,
+                'form' => $form,
+                'norme' => $norme
+            ]
+        );
     }
 
     /**
@@ -93,7 +102,7 @@ class CategorieController extends AbstractController
 
     /**
      * @Route("/{idnorme}/{id}/list_theme", name="app_categorie_list_themes", methods={"GET", "POST"})
-     * @ParamConverter("norme", options={"id" = "idnorme"})
+     * @ParamConverter("norme",             options={"id" = "idnorme"})
      */
     public function listTheme(Norme $norme, Categorie $categorie, EntityManagerInterface $entityManager)
     {
@@ -101,16 +110,19 @@ class CategorieController extends AbstractController
             ->getRepository(Theme::class)
             ->findByIdCategorie($categorie);
 
-        return $this->render('theme/index.html.twig', [
-            'categorie' => $categorie,
-            'norme' => $norme,
-            'themes' => $themes,
-        ]);
+        return $this->render(
+            'theme/index.html.twig',
+            [
+                'categorie' => $categorie,
+                'norme' => $norme,
+                'themes' => $themes,
+            ]
+        );
     }
 
     /**
      * @Route("/add_theme/{id}", name="app_categorie_add_theme", methods={"GET", "POST"})
-     * @ParamConverter("norme", options={"id" = "idnorme"})
+     * @ParamConverter("norme",  options={"id" = "idnorme"})
      */
     public function addTheme(Categorie $categorie, Request $request, ThemeRepository $themeRepository)
     {
@@ -124,29 +136,39 @@ class CategorieController extends AbstractController
             $themeRepository->add($theme, true);
 
             $this->addFlash('success', 'Thème ajouté');
-            return $this->redirectToRoute('app_categorie_list_themes', [
-                'idnorme' => $categorie->getIdNorme()->getId(),
-                'id' => $categorie->getId()
-            ], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_categorie_list_themes',
+                [
+                    'idnorme' => $categorie->getIdNorme()->getId(),
+                    'id' => $categorie->getId()
+                ],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('theme/new.html.twig', [
-            'theme' => $theme,
-            'form' => $form,
-            'norme' => $norme,
-            'categorie' => $theme->getIdCategorie()
-        ]);
+        return $this->renderForm(
+            'theme/new.html.twig',
+            [
+                'theme' => $theme,
+                'form' => $form,
+                'norme' => $norme,
+                'categorie' => $theme->getIdCategorie()
+            ]
+        );
     }
 
     /**
      * @Route("/{idnorme}/{id}", name="app_categorie_show", methods={"GET"})
-     * @ParamConverter("norme", options={"id" = "idnorme"})
+     * @ParamConverter("norme",  options={"id" = "idnorme"})
      */
     public function show(Norme $norme, Categorie $categorie): Response
     {
-        return $this->render('categorie/show.html.twig', [
-            'categorie' => $categorie,
-            'norme' => $norme
-        ]);
+        return $this->render(
+            'categorie/show.html.twig',
+            [
+                'categorie' => $categorie,
+                'norme' => $norme
+            ]
+        );
     }
 }

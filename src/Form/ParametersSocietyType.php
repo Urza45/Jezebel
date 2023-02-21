@@ -22,14 +22,15 @@ class ParametersSocietyType extends AbstractType
             ->add('incCodeDevis')
             ->add('codeConvocation')
             ->add('incCodeConvocation')
-            ->add('idSociety')
-        ;
+            ->add('idSociety');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => ParametersSociety::class,
-        ]);
+            ]
+        );
     }
 }

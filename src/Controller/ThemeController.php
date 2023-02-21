@@ -27,9 +27,11 @@ class ThemeController extends AbstractController
             ->getRepository(Theme::class)
             ->findAll();
 
-        return $this->render('theme/index.html.twig', [
+        return $this->render(
+            'theme/index.html.twig', [
             'themes' => $themes,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -48,10 +50,12 @@ class ThemeController extends AbstractController
             return $this->redirectToRoute('app_theme_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('theme/new.html.twig', [
+        return $this->renderForm(
+            'theme/new.html.twig', [
             'theme' => $theme,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -59,11 +63,13 @@ class ThemeController extends AbstractController
      */
     public function show(Theme $theme): Response
     {
-        return $this->render('theme/show.html.twig', [
+        return $this->render(
+            'theme/show.html.twig', [
             'theme' => $theme,
             'categorie' => $theme->getIdCategorie(),
             'norme' => $theme->getIdCategorie()->getIdNorme()
-        ]);
+            ]
+        );
     }
 
     /**
@@ -77,18 +83,22 @@ class ThemeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_categorie_list_themes', [
+            return $this->redirectToRoute(
+                'app_categorie_list_themes', [
                 'idnorme' => $theme->getIdCategorie()->getIdNorme()->getId(),
                 'id' => $theme->getIdCategorie()->getId()
-            ], Response::HTTP_SEE_OTHER);
+                ], Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('theme/edit.html.twig', [
+        return $this->renderForm(
+            'theme/edit.html.twig', [
             'theme' => $theme,
             'form' => $form,
             'categorie' => $theme->getIdCategorie(),
             'norme' => $theme->getIdCategorie()->getIdNorme()
-        ]);
+            ]
+        );
     }
 
     /**
@@ -113,12 +123,14 @@ class ThemeController extends AbstractController
             ->getRepository(Consigne::class)
             ->findByIdTheme($theme);
 
-        return $this->render('consigne/index.html.twig', [
+        return $this->render(
+            'consigne/index.html.twig', [
             'categorie' => $theme->getIdCategorie(),
             'norme' => $theme->getIdCategorie()->getIdNorme(),
             'theme' => $theme,
             'consignes' => $consignes
-        ]);
+            ]
+        );
     }
 
     /**
@@ -136,17 +148,21 @@ class ThemeController extends AbstractController
             $consigneRepository->add($consigne, true);
 
             $this->addFlash('success', 'Consigne ajoutée');
-            return $this->redirectToRoute('app_theme_list_consigne', [
+            return $this->redirectToRoute(
+                'app_theme_list_consigne', [
                 'id' => $theme->getId()
-            ], Response::HTTP_SEE_OTHER);
+                ], Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('consigne/new.html.twig', [
+        return $this->renderForm(
+            'consigne/new.html.twig', [
             'theme' => $theme,
             'form' => $form,
             'norme' => $norme,
             'categorie' => $theme->getIdCategorie(),
             'consigne' => $consigne
-        ]);
+            ]
+        );
     }
 }

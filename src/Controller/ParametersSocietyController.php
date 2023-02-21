@@ -37,9 +37,11 @@ class ParametersSocietyController extends AbstractController
         }
         
         
-        return $this->render('parameters_society/index.html.twig', [
+        return $this->render(
+            'parameters_society/index.html.twig', [
             'parameters_societies' => $params,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -57,10 +59,12 @@ class ParametersSocietyController extends AbstractController
             return $this->redirectToRoute('app_parameters_society_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('parameters_society/new.html.twig', [
+        return $this->renderForm(
+            'parameters_society/new.html.twig', [
             'parameters_society' => $parametersSociety,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -68,9 +72,11 @@ class ParametersSocietyController extends AbstractController
      */
     public function show(ParametersSociety $parametersSociety): Response
     {
-        return $this->render('parameters_society/show.html.twig', [
+        return $this->render(
+            'parameters_society/show.html.twig', [
             'parameters_society' => $parametersSociety,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -87,10 +93,12 @@ class ParametersSocietyController extends AbstractController
             return $this->redirectToRoute('app_parameters_society_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('parameters_society/edit.html.twig', [
+        return $this->renderForm(
+            'parameters_society/edit.html.twig', [
             'parameters_society' => $parametersSociety,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

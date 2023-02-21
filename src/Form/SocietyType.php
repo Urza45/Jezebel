@@ -16,14 +16,15 @@ class SocietyType extends AbstractType
             ->add('address')
             ->add('cp')
             ->add('town')
-            ->add('logo')
-        ;
+            ->add('logo');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Society::class,
-        ]);
+            ]
+        );
     }
 }

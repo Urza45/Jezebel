@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Candidat
  *
- * @ORM\Table(name="candidat", indexes={@ORM\Index(name="id_dossier", columns={"id_dossier"}), @ORM\Index(name="candidat_id_niveau_competence_IDX", columns={"id_niveau_competence"}), @ORM\Index(name="candidat_FK_3", columns={"formation_recue"}), @ORM\Index(name="id_client", columns={"id_client"}), @ORM\Index(name="candidat_id_status_IDX", columns={"id_status"}), @ORM\Index(name="candidat_FK_2", columns={"experience_production"})})
+ * @ORM\Table(name="candidat",                                      indexes={@ORM\Index(name="id_dossier", columns={"id_dossier"}), @ORM\Index(name="candidat_id_niveau_competence_IDX", columns={"id_niveau_competence"}), @ORM\Index(name="candidat_FK_3", columns={"formation_recue"}), @ORM\Index(name="id_client", columns={"id_client"}), @ORM\Index(name="candidat_id_status_IDX", columns={"id_status"}), @ORM\Index(name="candidat_FK_2", columns={"experience_production"})})
  * @ORM\Entity(repositoryClass="App\Repository\CandidatRepository")
  */
 class Candidat
@@ -15,7 +15,7 @@ class Candidat
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -82,7 +82,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="OuiNon")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="experience_production", referencedColumnName="id")
+     * @ORM\JoinColumn(name="experience_production", referencedColumnName="id")
      * })
      */
     private $experienceProduction;
@@ -92,7 +92,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="Dossier")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_dossier", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_dossier",     referencedColumnName="id")
      * })
      */
     private $idDossier;
@@ -102,7 +102,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_status", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_status",     referencedColumnName="id")
      * })
      */
     private $idStatus;
@@ -112,7 +112,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="OuiNon")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="formation_recue", referencedColumnName="id")
+     * @ORM\JoinColumn(name="formation_recue", referencedColumnName="id")
      * })
      */
     private $formationRecue;
@@ -122,7 +122,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="NiveauCompetence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_niveau_competence", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_niveau_competence",    referencedColumnName="id")
      * })
      */
     private $idNiveauCompetence;
@@ -132,7 +132,7 @@ class Candidat
      *
      * @ORM\ManyToOne(targetEntity="Client")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_client",     referencedColumnName="id")
      * })
      */
     private $idClient;

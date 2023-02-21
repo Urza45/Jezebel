@@ -70,6 +70,14 @@ class CandidatRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
         for ($i = 0; $i < $increment; $i++) {
             /* Vérification de l'existance d'une note sur le critère en cours */
+
+            $sql = 'INSERT INTO notecritere SET '
+                . 'id_candidat = :id_candidat, '
+                . 'id_categorie = :id_categorie, '
+                . 'id_critere = :id_critere, '
+                . 'note1 = :note1, '
+                . 'note2 = :note2 ';
+
             $nbLigne = $conn->query('SELECT COUNT(*) FROM notecritere WHERE id_candidat=' . $id_candidat . ' AND id_critere=' . $tabCriteres[$i])->fetchFirstColumn();
             $nb = (int) $nbLigne[0];
             if ($nb > 0) {
@@ -78,13 +86,6 @@ class CandidatRepository extends ServiceEntityRepository
                     . 'note1 = :note1, '
                     . 'note2 = :note2 '
                     . 'WHERE id_candidat = :id_candidat AND id_critere = :id_critere';
-            } else {
-                $sql = 'INSERT INTO notecritere SET '
-                    . 'id_candidat = :id_candidat, '
-                    . 'id_categorie = :id_categorie, '
-                    . 'id_critere = :id_critere, '
-                    . 'note1 = :note1, '
-                    . 'note2 = :note2 ';
             }
             $requete = $conn->prepare($sql);
             $requete->bindValue(':id_candidat', (int) $id_candidat, \PDO::PARAM_INT);
@@ -247,7 +248,7 @@ class CandidatRepository extends ServiceEntityRepository
         /* Note globale */
         $stmt = $conn->prepare('CALL noteglobal(' . $id_candidat . ',' . $id_categorie . ')');
         $return_value = $stmt->execute()->fetchall();
-        
+
         foreach ($return_value as $value) {
             if (($value['SUM(note1)'] < 70) && ($value['SUM(note1)'] != null)) {
                 $condition = 'ECHEC';

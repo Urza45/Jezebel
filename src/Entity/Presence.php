@@ -15,7 +15,7 @@ class Presence
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -40,7 +40,7 @@ class Presence
      *
      * @ORM\ManyToOne(targetEntity="Candidat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_candidat", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_candidat",     referencedColumnName="id")
      * })
      */
     private $idCandidat;
@@ -50,7 +50,7 @@ class Presence
      *
      * @ORM\ManyToOne(targetEntity="TypePresence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_type_presence", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_type_presence",    referencedColumnName="id")
      * })
      */
     private $idTypePresence;
@@ -60,7 +60,7 @@ class Presence
      *
      * @ORM\ManyToOne(targetEntity="Dossier")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_dossier", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_dossier",     referencedColumnName="id")
      * })
      */
     private $idDossier;
@@ -70,7 +70,7 @@ class Presence
      *
      * @ORM\ManyToOne(targetEntity="TimePeriode")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_time", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_time",            referencedColumnName="id")
      * })
      */
     private $idTime;

@@ -13,14 +13,15 @@ class NormesAutoriseesType extends AbstractType
     {
         $builder
             ->add('society')
-            ->add('normes')
-        ;
+            ->add('normes');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => NormesAutorisees::class,
-        ]);
+            ]
+        );
     }
 }

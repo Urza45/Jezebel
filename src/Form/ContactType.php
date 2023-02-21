@@ -17,14 +17,15 @@ class ContactType extends AbstractType
             ->add('incaticatif')
             ->add('phone')
             ->add('email')
-            ->add('society')
-        ;
+            ->add('society');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Contact::class,
-        ]);
+            ]
+        );
     }
 }

@@ -24,9 +24,11 @@ class CritereController extends AbstractController
             ->getRepository(Critere::class)
             ->findAll();
 
-        return $this->render('critere/index.html.twig', [
+        return $this->render(
+            'critere/index.html.twig', [
             'criteres' => $criteres,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -45,10 +47,12 @@ class CritereController extends AbstractController
             return $this->redirectToRoute('app_critere_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('critere/new.html.twig', [
+        return $this->renderForm(
+            'critere/new.html.twig', [
             'critere' => $critere,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -56,10 +60,12 @@ class CritereController extends AbstractController
      */
     public function show(Critere $critere): Response
     {
-        return $this->render('critere/show.html.twig', [
+        return $this->render(
+            'critere/show.html.twig', [
             'critere' => $critere,
             'consigne' => $critere->getIdConsigne()
-        ]);
+            ]
+        );
     }
 
     /**
@@ -74,16 +80,20 @@ class CritereController extends AbstractController
             $entityManager->flush();
 
             // return $this->redirectToRoute('app_critere_index', [], Response::HTTP_SEE_OTHER);
-            return $this->redirectToRoute('app_consigne_list_critere', [
+            return $this->redirectToRoute(
+                'app_consigne_list_critere', [
                 'id' => $critere->getIdConsigne()->getId()
-            ], Response::HTTP_SEE_OTHER);
+                ], Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('critere/edit.html.twig', [
+        return $this->renderForm(
+            'critere/edit.html.twig', [
             'critere' => $critere,
             'form' => $form,
             'consigne' => $critere->getIdConsigne()
-        ]);
+            ]
+        );
     }
 
     /**

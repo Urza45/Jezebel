@@ -69,14 +69,17 @@ class TestPratiqueController extends AbstractController
 
         $test2 = $candidatRepository->resultats_categorie(5, 6);
 
-        return $this->render('test_pratique/index.html.twig', [
-            'controller_name' => 'TestPratiqueController',
-            'dossiers' => $dossiers,
-            'candidats' => $candidats,
-            'test' => utf8_decode($test),
-            'categorieChoisies' => $categorieChoisies,
-            'test2' => $test2
-        ]);
+        return $this->render(
+            'test_pratique/index.html.twig',
+            [
+                'controller_name' => 'TestPratiqueController',
+                'dossiers' => $dossiers,
+                'candidats' => $candidats,
+                'test' => utf8_decode($test),
+                'categorieChoisies' => $categorieChoisies,
+                'test2' => $test2
+            ]
+        );
     }
 
     /**
@@ -134,12 +137,15 @@ class TestPratiqueController extends AbstractController
 
             $test = $normeRepository->getQuestionnaire($idDossier, $idCategorie, $idCandidat);
 
-            return $this->render('test_pratique/test_pratique.html.twig', [
-                'categorieChoisie' => $categorie,
-                'dossier' => $dossier,
-                'candidat' => $candidat,
-                'test' => utf8_decode($test),
-            ]);
+            return $this->render(
+                'test_pratique/test_pratique.html.twig',
+                [
+                    'categorieChoisie' => $categorie,
+                    'dossier' => $dossier,
+                    'candidat' => $candidat,
+                    'test' => utf8_decode($test),
+                ]
+            );
         }
     }
 }

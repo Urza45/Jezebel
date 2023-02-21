@@ -27,9 +27,11 @@ class ConsigneController extends AbstractController
             ->getRepository(Consigne::class)
             ->findAll();
 
-        return $this->render('consigne/index.html.twig', [
+        return $this->render(
+            'consigne/index.html.twig', [
             'consignes' => $consignes,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -48,10 +50,12 @@ class ConsigneController extends AbstractController
             return $this->redirectToRoute('app_consigne_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('consigne/new.html.twig', [
+        return $this->renderForm(
+            'consigne/new.html.twig', [
             'consigne' => $consigne,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -59,9 +63,11 @@ class ConsigneController extends AbstractController
      */
     public function show(Consigne $consigne): Response
     {
-        return $this->render('consigne/show.html.twig', [
+        return $this->render(
+            'consigne/show.html.twig', [
             'consigne' => $consigne,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -75,15 +81,19 @@ class ConsigneController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_theme_list_consigne', [
+            return $this->redirectToRoute(
+                'app_theme_list_consigne', [
                 'id' => $consigne->getIdTheme()->getId()
-            ], Response::HTTP_SEE_OTHER);
+                ], Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('consigne/edit.html.twig', [
+        return $this->renderForm(
+            'consigne/edit.html.twig', [
             'consigne' => $consigne,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -108,13 +118,15 @@ class ConsigneController extends AbstractController
             ->getRepository(Critere::class)
             ->findByIdConsigne($consigne);
 
-        return $this->render('critere/index.html.twig', [
+        return $this->render(
+            'critere/index.html.twig', [
             'categorie' => $consigne->getIdTheme()->getIdCategorie(),
             'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
             'theme' => $consigne->getIdTheme(),
             'consigne' => $consigne,
             'criteres' => $criteres
-        ]);
+            ]
+        );
     }
 
     /**
@@ -131,17 +143,21 @@ class ConsigneController extends AbstractController
             $critereRepository->add($critere, true);
 
             $this->addFlash('success', 'Critère ajoutée');
-            return $this->redirectToRoute('app_consigne_list_critere', [
+            return $this->redirectToRoute(
+                'app_consigne_list_critere', [
                 'id' => $consigne->getId()
-            ], Response::HTTP_SEE_OTHER);
+                ], Response::HTTP_SEE_OTHER
+            );
         }
 
-        return $this->renderForm('critere/new.html.twig', [
+        return $this->renderForm(
+            'critere/new.html.twig', [
             'form' => $form,
             'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
             'categorie' => $consigne->getIdTheme()->getIdCategorie(),
             'theme' => $consigne->getIdTheme(),
             'consigne' => $consigne
-        ]);
+            ]
+        );
     }
 }

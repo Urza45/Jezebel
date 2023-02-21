@@ -44,9 +44,11 @@ class ClientController extends AbstractController
         //     ->getRepository(Client::class)
         //     ->findAll();
 
-        return $this->render('client/index.html.twig', [
+        return $this->render(
+            'client/index.html.twig', [
             'clients' => $clients,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -70,10 +72,12 @@ class ClientController extends AbstractController
             return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('client/new.html.twig', [
+        return $this->renderForm(
+            'client/new.html.twig', [
             'client' => $client,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -81,9 +85,11 @@ class ClientController extends AbstractController
      */
     public function show(Client $client): Response
     {
-        return $this->render('client/show.html.twig', [
+        return $this->render(
+            'client/show.html.twig', [
             'client' => $client,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -100,10 +106,12 @@ class ClientController extends AbstractController
             return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('client/edit.html.twig', [
+        return $this->renderForm(
+            'client/edit.html.twig', [
             'client' => $client,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

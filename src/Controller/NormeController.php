@@ -26,9 +26,11 @@ class NormeController extends AbstractController
     {
         $normes = $normeRepository->findAll();
 
-        return $this->render('norme/index.html.twig', [
+        return $this->render(
+            'norme/index.html.twig', [
             'normes' => $normes,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -46,10 +48,12 @@ class NormeController extends AbstractController
             return $this->redirectToRoute('app_norme_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('norme/new.html.twig', [
+        return $this->renderForm(
+            'norme/new.html.twig', [
             'norme' => $norme,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -57,9 +61,11 @@ class NormeController extends AbstractController
      */
     public function show(Norme $norme): Response
     {
-        return $this->render('norme/show.html.twig', [
+        return $this->render(
+            'norme/show.html.twig', [
             'norme' => $norme,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -76,10 +82,12 @@ class NormeController extends AbstractController
             return $this->redirectToRoute('app_norme_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('norme/edit.html.twig', [
+        return $this->renderForm(
+            'norme/edit.html.twig', [
             'norme' => $norme,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -103,14 +111,16 @@ class NormeController extends AbstractController
             ->getRepository(Categorie::class)
             ->findByIdNorme($norme);
 
-        return $this->render('categorie/index.html.twig', [
+        return $this->render(
+            'categorie/index.html.twig', [
             'categories' => $categories,
             'norme' => $norme,
-        ]);
+            ]
+        );
     }
 
     /**
-     *  @Route("/{id}/add_categorie", name="app_norme_add_categorie", methods={"GET", "POST"})
+     * @Route("/{id}/add_categorie", name="app_norme_add_categorie", methods={"GET", "POST"})
      */
     public function addCategorie(Norme $norme, Request $request, CategorieRepository $categorieRepository)
     {
@@ -126,10 +136,12 @@ class NormeController extends AbstractController
             return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categorie/new.html.twig', [
+        return $this->renderForm(
+            'categorie/new.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
             'norme' => $norme,
-        ]);
+            ]
+        );
     }
 }

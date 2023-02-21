@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Serge Pillay<serge.pillay@orange.fr>
  */
 
@@ -40,7 +40,7 @@ class PDF extends FPDF
     /**
      * Set the value of addHeader
      *
-     * @return  self
+     * @return self
      */
     public function setAddHeader($addHeader)
     {
@@ -52,7 +52,7 @@ class PDF extends FPDF
     /**
      * Set the value of addFooter
      *
-     * @return  self
+     * @return self
      */
     public function setAddFooter($addFooter)
     {
@@ -61,11 +61,23 @@ class PDF extends FPDF
         return $this;
     }
 
+    /**
+     * setTitre
+     *
+     * @param  mixed $titre
+     * @return void
+     */
     public function setTitre($titre)
     {
         $this->titre = $titre;
     }
 
+    /**
+     * setReference
+     *
+     * @param  mixed $reference
+     * @return void
+     */
     public function setReference($reference)
     {
         $this->reference = $reference;
@@ -81,11 +93,22 @@ class PDF extends FPDF
         $this->adresse = $adresse;
     }
 
+    /**
+     * setSousTitre
+     *
+     * @param  mixed $sousTitre
+     * @return void
+     */
     public function setSousTitre($sousTitre)
     {
         $this->sousTitre = $sousTitre;
     }
-    // En-tête
+
+    /**
+     * Header
+     *
+     * @return void
+     */
     function Header()
     {
         if ($this->addHeader == PDF::WITHOUT_HEADER) {
@@ -111,7 +134,11 @@ class PDF extends FPDF
         }
     }
 
-    // Pied de page
+    /**
+     * Footer
+     *
+     * @return void
+     */
     function Footer()
     {
         if ($this->addFooter == PDF::WITHOUT_FOOTER) {
@@ -131,6 +158,13 @@ class PDF extends FPDF
         }
     }
 
+    /**
+     * firstPage
+     *
+     * @param  mixed $titre
+     * @param  mixed $adresse
+     * @return void
+     */
     public function firstPage($titre, $adresse)
     {
         // Logo
@@ -150,10 +184,28 @@ class PDF extends FPDF
         // return $pdf;
     }
 
-    public function processDossier(Dossier $dossier, Client $client, CandidatRepository $candidatRepository)
-    {
+    /**
+     * processDossier
+     *
+     * @param  mixed $dossier
+     * @param  mixed $client
+     * @param  mixed $candidatRepository
+     * @return void
+     */
+    public function processDossier(
+        Dossier $dossier,
+        Client $client,
+        CandidatRepository $candidatRepository
+    ) {
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, utf8_decode($dossier->getNumDossier() . ' - ' . $client->getNomClient() . ' - Du ' . date('d/m/Y', $dossier->getDateDebut()->getTimestamp()) . ' au ' . date('d/m/Y', $dossier->getDateFin()->getTimestamp()) . ' - ' . $dossier->getIdNorme()->getLabel()), 1, 0, 'C');
+        $chaine = utf8_decode(
+            $dossier->getNumDossier()
+            . ' - ' . $client->getNomClient()
+            . ' - Du ' . date('d/m/Y', $dossier->getDateDebut()->getTimestamp())
+            . ' au ' . date('d/m/Y', $dossier->getDateFin()->getTimestamp())
+            . ' - ' . $dossier->getIdNorme()->getLabel()
+        );
+        $this->Cell(0, 10, $chaine, 1, 0, 'C');
         $this->Ln(15);
         $this->SetFont('Arial', '', 12);
         /* Ligne 1 */
@@ -202,8 +254,21 @@ class PDF extends FPDF
         // return $pdf;
     }
 
-    public function processCandidat(Candidat $candidat, Norme $norme, CategorieRepository $categorieRepository, CategoriechoisieRepository $categoriechoisieRepository)
-    {
+    /**
+     * processCandidat
+     *
+     * @param  mixed $candidat
+     * @param  mixed $norme
+     * @param  mixed $categorieRepository
+     * @param  mixed $categoriechoisieRepository
+     * @return void
+     */
+    public function processCandidat(
+        Candidat $candidat,
+        Norme $norme,
+        CategorieRepository $categorieRepository,
+        CategoriechoisieRepository $categoriechoisieRepository
+    ) {
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, 'Candidat', 1, 0, 'C');
         $this->Ln(15);
@@ -244,7 +309,15 @@ class PDF extends FPDF
         // }
         // return $pdf;
     }
-
+    
+    /**
+     * executeDossier
+     *
+     * @param  mixed $dossier
+     * @param  mixed $client
+     * @param  mixed $candidatRepository
+     * @return void
+     */
     public function executeDossier(Dossier $dossier, Client $client, CandidatRepository $candidatRepository)
     {
         $id_dossier = $dossier->getId();
@@ -294,7 +367,12 @@ class PDF extends FPDF
         }
         $pdf->Output('I', 'DoC.pdf', true);
     }
-
+    
+    /**
+     * processResultat
+     *
+     * @return void
+     */
     public function processResultat(
         Candidat $candidat,
         Dossier $dossier,

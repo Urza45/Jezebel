@@ -16,14 +16,15 @@ class CategorieType extends AbstractType
             ->add('comments')
             ->add('picture')
             ->add('labelCourt')
-            ->add('idNorme')
-        ;
+            ->add('idNorme');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Categorie::class,
-        ]);
+            ]
+        );
     }
 }

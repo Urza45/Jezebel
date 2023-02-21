@@ -16,14 +16,15 @@ class ClientType extends AbstractType
             ->add('adresseClient')
             ->add('cpClient')
             ->add('villeClient')
-            ->add('codeagence')
-        ;
+            ->add('codeagence');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Client::class,
-        ]);
+            ]
+        );
     }
 }

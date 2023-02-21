@@ -15,7 +15,7 @@ class Notetheme
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -40,7 +40,7 @@ class Notetheme
      *
      * @ORM\ManyToOne(targetEntity="Theme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_theme", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_theme",     referencedColumnName="id")
      * })
      */
     private $idTheme;
@@ -50,7 +50,7 @@ class Notetheme
      *
      * @ORM\ManyToOne(targetEntity="Candidat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_candidat", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_candidat",     referencedColumnName="id")
      * })
      */
     private $idCandidat;

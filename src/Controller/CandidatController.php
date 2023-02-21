@@ -52,9 +52,11 @@ class CandidatController extends AbstractController
         //     ->getRepository(Candidat::class)
         //     ->findAll();
 
-        return $this->render('candidat/index.html.twig', [
+        return $this->render(
+            'candidat/index.html.twig', [
             'candidats' => $candidats,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -75,11 +77,13 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_candidat_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('candidat/new.html.twig', [
+        return $this->renderForm(
+            'candidat/new.html.twig', [
             'candidat' => $candidat,
             'form' => $form,
             // 'form2' => $form2,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -87,9 +91,11 @@ class CandidatController extends AbstractController
      */
     public function show(Candidat $candidat): Response
     {
-        return $this->render('candidat/show.html.twig', [
+        return $this->render(
+            'candidat/show.html.twig', [
             'candidat' => $candidat,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -106,10 +112,12 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_candidat_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('candidat/edit.html.twig', [
+        return $this->renderForm(
+            'candidat/edit.html.twig', [
             'candidat' => $candidat,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -127,7 +135,7 @@ class CandidatController extends AbstractController
 
     /**
      * @Route("/{id}/{id_categorie}", name="app_candidat_test_pratique_result")
-     * @ParamConverter("categorie", options={"id" = "id_categorie"})
+     * @ParamConverter("categorie",   options={"id" = "id_categorie"})
      */
     public function resultsCandidatPDF(
         Candidat $candidat,
@@ -224,10 +232,10 @@ class CandidatController extends AbstractController
         $fpdf->setAddFooter(PDF::WITH_FOOTER);
         $fpdf->AddPage();
             
-        $fpdf->SetFont('Arial','B',15);
-        $fpdf->Cell(0,10, utf8_decode($candidat->getIdDossier()->getIdNorme()->getLabel().' - '.$categorie->getLabel()),'LTR',0,'C'); $fpdf->Ln(5);
-        $fpdf->SetFont('Arial','',12);
-        $fpdf->Cell(0,10,utf8_decode($candidat->getIdDossier()->getIdNorme()->getComments()),'LBR',0,'C'); $fpdf->Ln(15);
+        $fpdf->SetFont('Arial', 'B', 15);
+        $fpdf->Cell(0, 10, utf8_decode($candidat->getIdDossier()->getIdNorme()->getLabel().' - '.$categorie->getLabel()), 'LTR', 0, 'C'); $fpdf->Ln(5);
+        $fpdf->SetFont('Arial', '', 12);
+        $fpdf->Cell(0, 10, utf8_decode($candidat->getIdDossier()->getIdNorme()->getComments()), 'LBR', 0, 'C'); $fpdf->Ln(15);
         $fpdf->setReference('CFP78-TP-'.$categorie->getLabelCourt());
 
 
@@ -237,8 +245,10 @@ class CandidatController extends AbstractController
         
         $fpdf = $normeRepository->getQuestionnairePDF($fpdf, $candidat->getIdDossier()->getIdNorme()->getId(), $categorie->getId(), $note1, $note2);
 
-        return new Response($fpdf->Output(), 200, array(
+        return new Response(
+            $fpdf->Output(), 200, array(
             'Content-Type' => 'application/pdf'
-        ));
+            )
+        );
     }
 }

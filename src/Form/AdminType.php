@@ -28,7 +28,8 @@ class AdminType extends AbstractType
             ->add('username');
             //->add('roles')
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add('roles', ChoiceType::class, [
+            $builder->add(
+                'roles', ChoiceType::class, [
                 'required' => true,
                 'multiple' => false,
                 'expanded' => false,
@@ -37,39 +38,46 @@ class AdminType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Superadministrateur' => 'ROLE_SUPERADMIN',
                 ],
-            ]);
+                ]
+            );
         } else {
-           $builder->add('roles', ChoiceType::class, [
-            'required' => true,
-            'multiple' => false,
-            'expanded' => false,
-            'choices'  => [
+            $builder->add(
+                'roles', ChoiceType::class, [
+                'required' => true,
+                'multiple' => false,
+                'expanded' => false,
+                'choices'  => [
                 'Moniteur' => 'ROLE_MOD',
                 'Administrateur' => 'ROLE_ADMIN',
-            ],
-        ]);
+                ],
+                ]
+            );
         }
         $builder
             ->add('password', PasswordType::class)
             ->add('society');
         // Data transformer
         $builder->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function ($rolesArray) {
-                    // transform the array to a string
-                    return count($rolesArray) ? $rolesArray[0] : null;
-                },
-                function ($rolesString) {
-                    // transform the string back to an array
-                    return [$rolesString];
-                }
-            ));
+            ->addModelTransformer(
+                new CallbackTransformer(
+                    function ($rolesArray) {
+                        // transform the array to a string
+                        return count($rolesArray) ? $rolesArray[0] : null;
+                    },
+                    function ($rolesString) {
+                        // transform the string back to an array
+                        return [$rolesString];
+                    }
+                )
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Admin::class,
-        ]);
+            ]
+        );
     }
 }

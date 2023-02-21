@@ -37,9 +37,11 @@ class AdminController extends AbstractController
             $admins = $adminRepository->findBySociety($user->getUser()->getSociety()->getId());
         }
         
-        return $this->render('admin/index.html.twig', [
+        return $this->render(
+            'admin/index.html.twig', [
             'admins' => $admins,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -64,10 +66,12 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/new.html.twig', [
+        return $this->renderForm(
+            'admin/new.html.twig', [
             'admin' => $admin,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -75,9 +79,11 @@ class AdminController extends AbstractController
      */
     public function show(Admin $admin): Response
     {
-        return $this->render('admin/show.html.twig', [
+        return $this->render(
+            'admin/show.html.twig', [
             'admin' => $admin,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -101,10 +107,12 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/edit.html.twig', [
+        return $this->renderForm(
+            'admin/edit.html.twig', [
             'admin' => $admin,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

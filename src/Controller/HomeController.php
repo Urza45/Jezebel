@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomeController extends AbstractController
 {
@@ -18,7 +19,8 @@ class HomeController extends AbstractController
      */
     public function index(
         EntityManagerInterface $entityManager,
-        MailerService $sendEmail
+        MailerService $sendEmail,
+        Session $session
     ): Response {
         $news = $entityManager
             ->getRepository(News::class)
@@ -40,10 +42,12 @@ class HomeController extends AbstractController
         // $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
         // $this->redirectToRoute('app_login');
 
-        return $this->render('home/index.html.twig', [
+        return $this->render(
+            'home/index.html.twig', [
             'controller_name' => 'HomeController',
             'news' => $news,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -57,7 +61,9 @@ class HomeController extends AbstractController
         $fpdf->SetFont('Arial', 'B', 16);
         $fpdf->Cell(40, 10, 'Hello World !');
 
-        return new Response($fpdf->Output(), 200, array(
-            'Content-Type' => 'application/pdf'));
+        return new Response(
+            $fpdf->Output(), 200, array(
+            'Content-Type' => 'application/pdf')
+        );
     }
 }

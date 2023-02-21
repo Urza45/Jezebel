@@ -15,14 +15,15 @@ class CritereType extends AbstractType
             ->add('label')
             ->add('ptse1')
             ->add('ptse2')
-            ->add('idConsigne')
-        ;
+            ->add('idConsigne');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Critere::class,
-        ]);
+            ]
+        );
     }
 }

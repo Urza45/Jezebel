@@ -15,7 +15,7 @@ class SurfacesMat
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -68,7 +68,7 @@ class SurfacesMat
      *
      * @ORM\ManyToOne(targetEntity="Norme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_norme", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_norme",     referencedColumnName="id")
      * })
      */
     private $idNorme;
@@ -78,7 +78,7 @@ class SurfacesMat
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_categorie",     referencedColumnName="id")
      * })
      */
     private $idCategorie;

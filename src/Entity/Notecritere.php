@@ -15,7 +15,7 @@ class Notecritere
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -47,7 +47,7 @@ class Notecritere
      *
      * @ORM\ManyToOne(targetEntity="Candidat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_candidat", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_candidat",     referencedColumnName="id")
      * })
      */
     private $idCandidat;
@@ -57,7 +57,7 @@ class Notecritere
      *
      * @ORM\ManyToOne(targetEntity="Critere")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_critere", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_critere",     referencedColumnName="id")
      * })
      */
     private $idCritere;

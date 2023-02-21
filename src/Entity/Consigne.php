@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Consigne
  *
- * @ORM\Table(name="consigne", indexes={@ORM\Index(name="id_theme", columns={"id_theme"})})
+ * @ORM\Table(name="consigne",                                      indexes={@ORM\Index(name="id_theme", columns={"id_theme"})})
  * @ORM\Entity(repositoryClass="App\Repository\ConsigneRepository")
  */
 class Consigne
@@ -15,7 +15,7 @@ class Consigne
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -40,7 +40,7 @@ class Consigne
      *
      * @ORM\ManyToOne(targetEntity="Theme")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="id_theme", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_theme",     referencedColumnName="id")
      * })
      */
     private $idTheme;

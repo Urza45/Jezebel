@@ -24,9 +24,11 @@ class NewsController extends AbstractController
             ->getRepository(News::class)
             ->findAll();
 
-        return $this->render('news/index.html.twig', [
+        return $this->render(
+            'news/index.html.twig', [
             'news' => $news,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -45,10 +47,12 @@ class NewsController extends AbstractController
             return $this->redirectToRoute('app_news_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('news/new.html.twig', [
+        return $this->renderForm(
+            'news/new.html.twig', [
             'news' => $news,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -56,9 +60,11 @@ class NewsController extends AbstractController
      */
     public function show(News $news): Response
     {
-        return $this->render('news/show.html.twig', [
+        return $this->render(
+            'news/show.html.twig', [
             'news' => $news,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -75,10 +81,12 @@ class NewsController extends AbstractController
             return $this->redirectToRoute('app_news_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('news/edit.html.twig', [
+        return $this->renderForm(
+            'news/edit.html.twig', [
             'news' => $news,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

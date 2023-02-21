@@ -394,9 +394,11 @@ class Society
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
             $user->setSociety($this);
+        
         }
 
         return $this;
+    
     }
 
     public function removeUser(Users $user): self
@@ -405,9 +407,12 @@ class Society
             // set the owning side to null (unless already changed)
             if ($user->getSociety() === $this) {
                 $user->setSociety(null);
+            
             }
+        
         }
 
         return $this;
+    
     }
 }

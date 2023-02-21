@@ -54,9 +54,11 @@ class DossierController extends AbstractController
         //     ->getRepository(Dossier::class)
         //     ->findAll();
 
-        return $this->render('dossier/index.html.twig', [
+        return $this->render(
+            'dossier/index.html.twig', [
             'dossiers' => $dossiers,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -89,11 +91,13 @@ class DossierController extends AbstractController
             return $this->redirectToRoute('app_dossier_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('dossier/new.html.twig', [
+        return $this->renderForm(
+            'dossier/new.html.twig', [
             'dossier' => $dossier,
             'form' => $form,
             // 'liste' => $listAutorisees,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -101,9 +105,11 @@ class DossierController extends AbstractController
      */
     public function show(Dossier $dossier): Response
     {
-        return $this->render('dossier/show.html.twig', [
+        return $this->render(
+            'dossier/show.html.twig', [
             'dossier' => $dossier,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -120,10 +126,12 @@ class DossierController extends AbstractController
             return $this->redirectToRoute('app_dossier_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('dossier/edit.html.twig', [
+        return $this->renderForm(
+            'dossier/edit.html.twig', [
             'dossier' => $dossier,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -189,11 +197,13 @@ class DossierController extends AbstractController
             }
         }
 
-        return $this->renderForm('candidat/new.html.twig', [
+        return $this->renderForm(
+            'candidat/new.html.twig', [
             'candidat' => $candidat,
             // 'form' => $form,
             'form2' => $form2,
             'retour' => 'Dossier',
-        ]);
+            ]
+        );
     }
 }

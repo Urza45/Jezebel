@@ -14,14 +14,15 @@ class NormeType extends AbstractType
         $builder
             ->add('label')
             ->add('comments')
-            ->add('picture')
-        ;
+            ->add('picture');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Norme::class,
-        ]);
+            ]
+        );
     }
 }

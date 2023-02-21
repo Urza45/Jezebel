@@ -15,7 +15,7 @@ class Dossier
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -96,7 +96,7 @@ class Dossier
      *
      * @ORM\ManyToOne(targetEntity="Client")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_client",     referencedColumnName="id")
      * })
      */
     private $idClient;
@@ -106,7 +106,7 @@ class Dossier
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_testeur", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_testeur",   referencedColumnName="id")
      * })
      */
     private $idTesteur;
@@ -116,7 +116,7 @@ class Dossier
      *
      * @ORM\ManyToOne(targetEntity="Norme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_norme", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_norme",     referencedColumnName="id")
      * })
      */
     private $idNorme;
@@ -126,7 +126,7 @@ class Dossier
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_formateur", referencedColumnName="id"),
+     * @ORM\JoinColumn(name="id_formateur", referencedColumnName="id"),
      * })
      */
     private $idFormateur;

@@ -15,20 +15,26 @@ class CandidatType extends AbstractType
         $builder
             ->add('nomCandidat')
             ->add('prenomCandidat')
-            ->add('dateNaissance', DateType::class, [
+            ->add(
+                'dateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-            ])
+                ]
+            )
             ->add('dureeExperience')
             ->add('heureFormation')
-            ->add('dateTheorique', DateType::class, [
+            ->add(
+                'dateTheorique', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-            ])
-            ->add('datePratique', DateType::class, [
+                ]
+            )
+            ->add(
+                'datePratique', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-            ])
+                ]
+            )
             ->add('noteFormation')
             ->add('experienceProduction')
             ->add('idDossier')
@@ -40,8 +46,10 @@ class CandidatType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Candidat::class,
-        ]);
+            ]
+        );
     }
 }

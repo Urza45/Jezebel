@@ -20,9 +20,11 @@ class NormesAutoriseesController extends AbstractController
      */
     public function index(NormesAutoriseesRepository $normesAutoriseesRepository): Response
     {
-        return $this->render('normes_autorisees/index.html.twig', [
+        return $this->render(
+            'normes_autorisees/index.html.twig', [
             'normes_autorisees' => $normesAutoriseesRepository->findAll(),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -40,10 +42,12 @@ class NormesAutoriseesController extends AbstractController
             return $this->redirectToRoute('app_normes_autorisees_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('normes_autorisees/new.html.twig', [
+        return $this->renderForm(
+            'normes_autorisees/new.html.twig', [
             'normes_autorisee' => $normesAutorisee,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -51,9 +55,11 @@ class NormesAutoriseesController extends AbstractController
      */
     public function show(NormesAutorisees $normesAutorisee): Response
     {
-        return $this->render('normes_autorisees/show.html.twig', [
+        return $this->render(
+            'normes_autorisees/show.html.twig', [
             'normes_autorisee' => $normesAutorisee,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -70,10 +76,12 @@ class NormesAutoriseesController extends AbstractController
             return $this->redirectToRoute('app_normes_autorisees_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('normes_autorisees/edit.html.twig', [
+        return $this->renderForm(
+            'normes_autorisees/edit.html.twig', [
             'normes_autorisee' => $normesAutorisee,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

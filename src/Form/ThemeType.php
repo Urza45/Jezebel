@@ -16,14 +16,15 @@ class ThemeType extends AbstractType
             ->add('label')
             ->add('pts1')
             ->add('pts2')
-            ->add('idCategorie')
-        ;
+            ->add('idCategorie');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Theme::class,
-        ]);
+            ]
+        );
     }
 }

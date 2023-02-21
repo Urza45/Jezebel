@@ -49,14 +49,18 @@ class DossierType extends AbstractType
 
         $builder
             ->add('numFacture')
-            ->add('dateDebut', DateType::class, [
+            ->add(
+                'dateDebut', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-            ])
-            ->add('dateFin', DateType::class, [
+                ]
+            )
+            ->add(
+                'dateFin', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-            ])
+                ]
+            )
             ->add(
                 'type',
                 ChoiceType::class,
@@ -77,7 +81,8 @@ class DossierType extends AbstractType
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add('idClient');
         } else {
-            $builder->add('idClient', EntityType::class, [
+            $builder->add(
+                'idClient', EntityType::class, [
                 'class' => Client::class,
                 'query_builder' => function (EntityRepository  $er) {
                     return $er->createQueryBuilder('qq')
@@ -90,12 +95,14 @@ class DossierType extends AbstractType
                         ->orderBy('u.nomClient', 'ASC');
                 },
                 'choice_label' => 'nomClient',
-            ]);
+                ]
+            );
         }
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add('idTesteur');
         } else {
-            $builder->add('idTesteur', EntityType::class, [
+            $builder->add(
+                'idTesteur', EntityType::class, [
                 'class' => Users::class,
                 'query_builder' => function (EntityRepository  $er) {
                     return $er->createQueryBuilder('qq')
@@ -108,12 +115,14 @@ class DossierType extends AbstractType
                         ->orderBy('u.name', 'ASC');
                 },
                 'choice_label' => 'login',
-            ]);
+                ]
+            );
         }
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add('idNorme');
         } else {
-            $builder->add('idNorme', EntityType::class, [
+            $builder->add(
+                'idNorme', EntityType::class, [
                 'class' => Norme::class,
                 'query_builder' => function (EntityRepository  $er) {
                     return $er->createQueryBuilder('qq')
@@ -126,12 +135,14 @@ class DossierType extends AbstractType
                         ->orderBy('u.label', 'ASC');
                 },
                 'choice_label' => 'label',
-            ]);
+                ]
+            );
         }
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add('idFormateur');
         } else {
-            $builder->add('idFormateur', EntityType::class, [
+            $builder->add(
+                'idFormateur', EntityType::class, [
                 'class' => Users::class,
                 'query_builder' => function (EntityRepository  $er) {
                     return $er->createQueryBuilder('qq')
@@ -144,14 +155,17 @@ class DossierType extends AbstractType
                         ->orderBy('u.name', 'ASC');
                 },
                 'choice_label' => 'login',
-            ]);
+                ]
+            );
         }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => Dossier::class,
-        ]);
+            ]
+        );
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Categorie
  *
- * @ORM\Table(name="categorie", indexes={@ORM\Index(name="id_norme", columns={"id_norme"})})
+ * @ORM\Table(name="categorie",                                      indexes={@ORM\Index(name="id_norme", columns={"id_norme"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
  */
 class Categorie
@@ -15,7 +15,7 @@ class Categorie
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -54,7 +54,7 @@ class Categorie
      *
      * @ORM\ManyToOne(targetEntity="Norme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_norme", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_norme",     referencedColumnName="id")
      * })
      */
     private $idNorme;

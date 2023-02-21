@@ -16,14 +16,15 @@ class NewsType extends AbstractType
             ->add('titre')
             ->add('contenu')
             ->add('dateajout')
-            ->add('datemodif')
-        ;
+            ->add('datemodif');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => News::class,
-        ]);
+            ]
+        );
     }
 }

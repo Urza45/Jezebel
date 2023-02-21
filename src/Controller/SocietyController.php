@@ -20,9 +20,11 @@ class SocietyController extends AbstractController
      */
     public function index(SocietyRepository $societyRepository): Response
     {
-        return $this->render('society/index.html.twig', [
+        return $this->render(
+            'society/index.html.twig', [
             'societies' => $societyRepository->findAll(),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -40,10 +42,12 @@ class SocietyController extends AbstractController
             return $this->redirectToRoute('app_society_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('society/new.html.twig', [
+        return $this->renderForm(
+            'society/new.html.twig', [
             'society' => $society,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -51,9 +55,11 @@ class SocietyController extends AbstractController
      */
     public function show(Society $society): Response
     {
-        return $this->render('society/show.html.twig', [
+        return $this->render(
+            'society/show.html.twig', [
             'society' => $society,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -70,10 +76,12 @@ class SocietyController extends AbstractController
             return $this->redirectToRoute('app_society_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('society/edit.html.twig', [
+        return $this->renderForm(
+            'society/edit.html.twig', [
             'society' => $society,
             'form' => $form,
-        ]);
+            ]
+        );
     }
 
     /**

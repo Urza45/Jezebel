@@ -1,9 +1,5 @@
 <?php
 
-/**
- * 
- */
-
 namespace App\Services;
 
 use Twig\Environment;
@@ -11,70 +7,66 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * MailerService
- */
 class MailerService extends AbstractController
 {
     /**
-     * Mailer(* @var MailerInterface
+     * mailer
+     *
+     * @var MailerInterface
      */
-    private $_mailer;
+    private $mailer;
 
     /**
-     * Twig
+     * twig
      *
      * @var Environnement
      */
-    private $_twig;
+    private $twig;
 
     /**
-     * MailFrom
+     * mailFrom
      *
      * @var string
      */
-    private $_mailFrom;
+    private $mailFrom;
 
     /**
      * __construct
      *
-     * @param string          $mailFrom
-     * @param MailerInterface $mailer
-     * @param Environment     $twig
-     * 
+     * @param  string          $mailFrom
+     * @param  MailerInterface $mailer
+     * @param  Environment     $twig
      * @return void
      */
-    public function __construct(
-        $mailFrom,
-        MailerInterface $mailer,
-        Environment $twig
-    ) {
-        $this->_mailer = $mailer;
-        $this->_twig = $twig;
-        $this->_mailFrom = $mailFrom;
+    public function __construct($mailFrom, MailerInterface $mailer, Environment $twig)
+    {
+        $this->mailer = $mailer;
+        $this->twig = $twig;
+        $this->mailFrom = $mailFrom;
     }
 
     /**
-     * Send
+     * send
      *
-     * @param array $array
-     * 
+     * @param  array $array
      * @return void
      */
     public function send(array $array): void
     {
-        $from = $this->_mailFrom;
+        $from = $this->mailFrom;
         if ($array['from']) {
             $from = $array['from'];
         }
+
         $email = (new Email())
             ->from($from)
             ->to($array['to'])
             ->subject($array['subject'])
-            // ->attachFromPath()
             ->html(
-                $this->_twig->render($array['template'], $array['parameters']),
+                $this->twig->render($array['template'], $array['parameters']),
+                'text/html'
             );
-        $this->_mailer->send($email);
+
+        $this->mailer->send($email);
     }
 }

@@ -66,4 +66,26 @@ class HomeController extends AbstractController
             'Content-Type' => 'application/pdf')
         );
     }
+
+    /**
+     * @Route("/testMail", name="app_test_mail")
+     */
+    public function sendMailTestPDF(MailerService $sendEmail)
+    {
+        $emailParameters = [
+            'subject' => 'Réinitialisation de votre mot de passe',
+            'from' => '',
+            'to' => 'serge.pillay@orange.fr',
+            'template' => 'mail/send_email.html.twig',
+            'parameters' => [
+                'user' => 'Serge'
+            ]
+        ];
+
+        // Send Mail here
+        $sendEmail->send($emailParameters);
+
+        $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
+        $this->redirectToRoute('app_login');
+    }
 }

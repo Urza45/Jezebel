@@ -30,6 +30,7 @@
 							<tr>
 								<th>Candidats</th>
 								<th>Tests disponibles</th>
+								<th>Test réalisé</th>
 								<th>Date examen</th>
 								<th>Résultat</th>
 							</tr>
@@ -48,6 +49,14 @@
 												</a>
 											{% endfor %}
 										</td>
+										<td>
+											{% for resultat in candidat.userQuizResults %}
+												{{ resultat.quiz.intitule }}<br>
+												{% endfor %}
+											</td>
+										</td>
+										<td></td>
+										<td></td>
 									</tr>
 								{% endif %}
 							{% endfor %}

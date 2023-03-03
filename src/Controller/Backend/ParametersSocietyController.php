@@ -16,24 +16,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ParametersSocietyController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-    
     /**
      * @Route("/", name="app_parameters_society_index", methods={"GET"})
      */
     public function index(ParametersSocietyRepository $parametersSocietyRepository): Response
     {
-        $user = $this->security;
-
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $params = $parametersSocietyRepository->findAll();
         } else {
-            $params = $parametersSocietyRepository->findByIdSociety($user->getUser()->getSociety()->getId());
+            $params = $parametersSocietyRepository->findByIdSociety($this->getUser()->getSociety()->getId());
         }
         
         

@@ -39,6 +39,16 @@ class UserQuizResult
      */
     private $quiz;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateTest;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $result;
+
     public function __construct()
     {
         $this->userQuizAnswers = new ArrayCollection();
@@ -111,6 +121,30 @@ class UserQuizResult
     public function setQuiz(?Quiz $quiz): self
     {
         $this->quiz = $quiz;
+
+        return $this;
+    }
+
+    public function getDateTest(): ?\DateTimeInterface
+    {
+        return $this->dateTest;
+    }
+
+    public function setDateTest(?\DateTimeInterface $dateTest): self
+    {
+        $this->dateTest = $dateTest;
+
+        return $this;
+    }
+
+    public function getResult(): ?string
+    {
+        return $this->result;
+    }
+
+    public function setResult(?string $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }

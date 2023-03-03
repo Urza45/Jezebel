@@ -19,37 +19,41 @@ class AdminType extends AbstractType
     {
         $this->security = $security;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {        
+    {
         $user = $this->security;
-        
+
         $builder
             ->add('username');
-            //->add('roles')
+        //->add('roles')
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add(
-                'roles', ChoiceType::class, [
-                'required' => true,
-                'multiple' => false,
-                'expanded' => false,
-                'choices'  => [
-                    'Moniteur' => 'ROLE_MOD',
-                    'Administrateur' => 'ROLE_ADMIN',
-                    'Superadministrateur' => 'ROLE_SUPERADMIN',
-                ],
+                'roles',
+                ChoiceType::class,
+                [
+                    'required' => true,
+                    'multiple' => false,
+                    'expanded' => false,
+                    'choices'  => [
+                        'Moniteur' => 'ROLE_MOD',
+                        'Administrateur' => 'ROLE_ADMIN',
+                        'Superadministrateur' => 'ROLE_SUPERADMIN',
+                    ],
                 ]
             );
         } else {
             $builder->add(
-                'roles', ChoiceType::class, [
-                'required' => true,
-                'multiple' => false,
-                'expanded' => false,
-                'choices'  => [
-                'Moniteur' => 'ROLE_MOD',
-                'Administrateur' => 'ROLE_ADMIN',
-                ],
+                'roles',
+                ChoiceType::class,
+                [
+                    'required' => true,
+                    'multiple' => false,
+                    'expanded' => false,
+                    'choices'  => [
+                        'Moniteur' => 'ROLE_MOD',
+                        'Administrateur' => 'ROLE_ADMIN',
+                    ],
                 ]
             );
         }
@@ -76,7 +80,7 @@ class AdminType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Admin::class,
+                'data_class' => Admin::class,
             ]
         );
     }

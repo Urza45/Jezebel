@@ -22,43 +22,37 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TestPratiqueController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
+     * index
+     *
+     * @param  NormeRepository        $normeRepository
+     * @param  CandidatRepository     $candidatRepository
+     * @param  EntityManagerInterface $entityManager
+     * 
      * @Route("/", name="app_test_pratique")
+     * 
+     * @return void
      */
     public function index(
         NormeRepository $normeRepository,
         CandidatRepository $candidatRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $user = $this->security;
-
-        // Liste des dossiers
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        // Liste des dossiers et des candidats
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $dossiers = $entityManager
                 ->getRepository(Dossier::class)
-                ->findBy([],['id' => 'desc']);
-        } else {
-            $dossiers = $entityManager
-                ->getRepository(Dossier::class)
-                ->findBy(['society' => $this->getUser()->getSociety()], ['id' => 'desc']);
-        }
-
-        // Liste des candidats
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+                ->findBy([], ['id' => 'desc']);
             $candidats = $entityManager
                 ->getRepository(Candidat::class)
                 ->findAll();
         } else {
+            $dossiers = $entityManager
+                ->getRepository(Dossier::class)
+                ->findBy(['society' => $this->getUser()->getSociety()], ['id' => 'desc']);
             $candidats = $entityManager
                 ->getRepository(Candidat::class)
-                ->findBySociety($user->getUser()->getSociety()->getId());
+                ->findBySociety($this->getUser()->getSociety()->getId());
         }
 
         $categorieChoisies = $entityManager

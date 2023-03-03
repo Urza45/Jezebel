@@ -17,9 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MailerService extends AbstractController
 {
     /**
-     * Mailer
-     *
-     * @var MailerInterface
+     * Mailer(* @var MailerInterface
      */
     private $_mailer;
 

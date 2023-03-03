@@ -4,7 +4,7 @@
 
 $(document).ready(function () {
 	$("#note_formation").change(function () {
-		var note = $("#note_formation").val();
+		let note = $("#note_formation").val();
 		if (note >= 70) {
 			$("#resultat_formation").text("Reçu");
 		} else {
@@ -21,9 +21,9 @@ $(document).ready(function () {
 	$('.carousel').carousel();
 
 	$('.userinfo').click(function () {
-		var userid = $(this).data('id');
-		var url_dest = $(this).data('route');
-		var new_title = $(this).data('title');
+		let userid = $(this).data('id');
+		let url_dest = $(this).data('route');
+		let new_title = $(this).data('title');
 		// AJAX request
 		$.ajax({
 			url: url_dest,
@@ -74,8 +74,8 @@ function submitForm(){
 	var _data = 'TEST=test&' + $('#FormModal').serialize();
 	console.log(_data);
 	alert(_data);
-	var email = $("#email").val();
-	var message = $("#message").val();
+	let email = $("#email").val();
+	let message = $("#message").val();
 	
 	$.ajax({
 		type: "POST",
@@ -102,9 +102,9 @@ $(function () {
 	'use strict';
 	window.addEventListener('load', function () {
 	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-	  var forms = document.getElementsByClassName('needs-validation');
+	  let forms = document.getElementsByClassName('needs-validation');
 	  // Loop over them and prevent submission
-	  var validation = Array.prototype.filter.call(forms, function (form) {
+	  let validation = Array.prototype.filter.call(forms, function (form) {
 		form.addEventListener('submit', function (event) {
 		  if (form.checkValidity() === false) {
 			event.preventDefault();
@@ -117,15 +117,15 @@ $(function () {
 }());
 */
 function getthedate(dest) {
-	var mydate = new Date();
-	var hours = mydate.getHours();
-	var minutes = mydate.getMinutes();
-	var seconds = mydate.getSeconds();
+	let mydate = new Date();
+	let hours = mydate.getHours();
+	let minutes = mydate.getMinutes();
+	let seconds = mydate.getSeconds();
 	if (minutes <= 9)
 		minutes = "0" + minutes;
 	if (seconds <= 9)
 		seconds = "0" + seconds;
-	var cdate = hours + ":" + minutes + ":" + seconds;
+	let cdate = hours + ":" + minutes + ":" + seconds;
 	document.getElementById(dest).value = cdate;
 }
 
@@ -136,10 +136,10 @@ function chrono() {
 	end = new Date()
 	diff = end - start
 	diff = new Date(diff)
-	var msec = diff.getMilliseconds()
-	var sec = diff.getSeconds()
-	var min = diff.getMinutes()
-	var hr = diff.getHours() - 1
+	let msec = diff.getMilliseconds()
+	let sec = diff.getSeconds()
+	let min = diff.getMinutes()
+	let hr = diff.getHours() - 1
 	if (min < 10) {
 		min = "0" + min
 	}

@@ -8,15 +8,10 @@ use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Entity\Categoriechoisie;
 use App\Form\DossierType;
-use App\Form\CandidatType;
 use App\Form\ChoiceCategoriesType;
-use App\Repository\NormeRepository;
 use App\Repository\SocietyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
-use App\Repository\NormesAutoriseesRepository;
-use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,66 +21,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class DossierController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
+     * index
+     *
+     * @param EntityManagerInterface $entityManager
+     * 
      * @Route("/", name="app_dossier_index", methods={"GET"})
+     * 
+     * @return Response
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $user = $this->security;
-
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $dossiers = $entityManager
                 ->getRepository(Dossier::class)
                 ->findAll();
         } else {
             $dossiers = $entityManager
                 ->getRepository(Dossier::class)
-                // ->findBySociety($user->getUser()->getSociety()->getId());
                 ->findBySociety($this->getUser()->getSociety()->getId());
         }
 
-        // $dossiers = $entityManager
-        //     ->getRepository(Dossier::class)
-        //     ->findAll();
-
         return $this->render(
             'dossier/index.html.twig',
-            [
-                'dossiers' => $dossiers,
-            ]
+            ['dossiers' => $dossiers]
         );
     }
 
     /**
+     * new
+     *
+     * @param Request                $request
+     * @param EntityManagerInterface $entityManager
+     * @param SocietyRepository      $societyRepository
+     * 
      * @Route("/new", name="app_dossier_new", methods={"GET", "POST"})
+     * 
+     * @return void
      */
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
-        NormesAutoriseesRepository $normesAutoriseesRepository,
-        NormeRepository $normeRepository,
         SocietyRepository $societyRepository
     ): Response {
-        $user = $this->security;
-
         $dossier = new Dossier();
 
         $societeEnCours = new Society();
-        $societeEnCours = $societyRepository->findOneById($user->getUser()->getSociety()->getId());
+        $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
 
         $form = $this->createForm(DossierType::class, $dossier);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $societeEnCours = $societyRepository->findOneById($user->getUser()->getSociety()->getId());
+            $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
             $dossier->setSociety($societeEnCours);
             $entityManager->persist($dossier);
             $entityManager->flush();
@@ -98,13 +87,18 @@ class DossierController extends AbstractController
             [
                 'dossier' => $dossier,
                 'form' => $form,
-                // 'liste' => $listAutorisees,
             ]
         );
     }
 
     /**
+     * show
+     *
+     * @param Dossier $dossier
+     * 
      * @Route("/{id}", name="app_dossier_show", methods={"GET"})
+     * 
+     * @return Response
      */
     public function show(Dossier $dossier): Response
     {
@@ -117,7 +111,15 @@ class DossierController extends AbstractController
     }
 
     /**
+     * edit
+     *
+     * @param Request                $request
+     * @param Dossier                $dossier
+     * @param EntityManagerInterface $entityManager
+     * 
      * @Route("/{id}/edit", name="app_dossier_edit", methods={"GET", "POST"})
+     * 
+     * @return Response
      */
     public function edit(Request $request, Dossier $dossier, EntityManagerInterface $entityManager): Response
     {
@@ -143,7 +145,15 @@ class DossierController extends AbstractController
     }
 
     /**
+     * delete
+     *
+     * @param Request                $request
+     * @param Dossier                $dossier
+     * @param EntityManagerInterface $entityManager
+     * 
      * @Route("/{id}", name="app_dossier_delete", methods={"POST"})
+     * 
+     * @return Response
      */
     public function delete(Request $request, Dossier $dossier, EntityManagerInterface $entityManager): Response
     {
@@ -156,7 +166,15 @@ class DossierController extends AbstractController
     }
 
     /**
+     * addCandidat
+     *
+     * @param  mixed $dossier
+     * @param  mixed $request
+     * @param  mixed $entityManager
+     * 
      * @Route("/{id}/add_candidat", name="app_dossier_add_candidat", methods={"GET", "POST"})
+     * 
+     * @return void
      */
     public function addCandidat(
         Dossier $dossier,

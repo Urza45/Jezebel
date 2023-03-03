@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Test théorique
+{% endblock %}
+
+{% block body %}
+    <br>
+	<a class="link-dark btn btn-success btn-lg" href="{{ path('app_frontend_test_theorique_test', {'id': quiz.id, 'id_candidat': candidat.id}) }}">
+		Commencer
+	</a>
+
+{% endblock %}
+{% block javascripts %}{% endblock %}

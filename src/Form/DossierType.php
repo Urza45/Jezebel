@@ -22,6 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class DossierType extends AbstractType
 {
@@ -48,17 +49,20 @@ class DossierType extends AbstractType
         $user = $this->security;
 
         $builder
-            ->add('numFacture')
             ->add(
-                'dateDebut', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
+                'dateDebut',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'attr' => ['class' => 'js-datepicker'],
                 ]
             )
             ->add(
-                'dateFin', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
+                'dateFin',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'attr' => ['class' => 'js-datepicker'],
                 ]
             )
             ->add(
@@ -82,19 +86,21 @@ class DossierType extends AbstractType
             $builder->add('idClient');
         } else {
             $builder->add(
-                'idClient', EntityType::class, [
-                'class' => Client::class,
-                'query_builder' => function (EntityRepository  $er) {
-                    return $er->createQueryBuilder('qq')
-                        ->select('u') // string 'u' is converted to array internally
-                        ->from('App\Entity\Client', 'u')
-                        // ->from('App\Entity\NormesAutorisees', 'v')
-                        // ->where('u.id = v.normes')
-                        ->Where('u.society = :idSociety')
-                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                        ->orderBy('u.nomClient', 'ASC');
-                },
-                'choice_label' => 'nomClient',
+                'idClient',
+                EntityType::class,
+                [
+                    'class' => Client::class,
+                    'query_builder' => function (EntityRepository  $er) {
+                        return $er->createQueryBuilder('qq')
+                            ->select('u') // string 'u' is converted to array internally
+                            ->from('App\Entity\Client', 'u')
+                            // ->from('App\Entity\NormesAutorisees', 'v')
+                            // ->where('u.id = v.normes')
+                            ->Where('u.society = :idSociety')
+                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                            ->orderBy('u.nomClient', 'ASC');
+                    },
+                    'choice_label' => 'nomClient',
                 ]
             );
         }
@@ -102,19 +108,21 @@ class DossierType extends AbstractType
             $builder->add('idTesteur');
         } else {
             $builder->add(
-                'idTesteur', EntityType::class, [
-                'class' => Users::class,
-                'query_builder' => function (EntityRepository  $er) {
-                    return $er->createQueryBuilder('qq')
-                        ->select('u') // string 'u' is converted to array internally
-                        ->from('App\Entity\Users', 'u')
-                        // ->from('App\Entity\NormesAutorisees', 'v')
-                        // ->where('u.id = v.normes')
-                        ->Where('u.society = :idSociety')
-                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                        ->orderBy('u.name', 'ASC');
-                },
-                'choice_label' => 'login',
+                'idTesteur',
+                EntityType::class,
+                [
+                    'class' => Users::class,
+                    'query_builder' => function (EntityRepository  $er) {
+                        return $er->createQueryBuilder('qq')
+                            ->select('u') // string 'u' is converted to array internally
+                            ->from('App\Entity\Users', 'u')
+                            // ->from('App\Entity\NormesAutorisees', 'v')
+                            // ->where('u.id = v.normes')
+                            ->Where('u.society = :idSociety')
+                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                            ->orderBy('u.name', 'ASC');
+                    },
+                    'choice_label' => 'login',
                 ]
             );
         }
@@ -122,19 +130,21 @@ class DossierType extends AbstractType
             $builder->add('idNorme');
         } else {
             $builder->add(
-                'idNorme', EntityType::class, [
-                'class' => Norme::class,
-                'query_builder' => function (EntityRepository  $er) {
-                    return $er->createQueryBuilder('qq')
-                        ->select('u') // string 'u' is converted to array internally
-                        ->from('App\Entity\Norme', 'u')
-                        ->from('App\Entity\NormesAutorisees', 'v')
-                        ->where('u.id = v.normes')
-                        ->andWhere('v.society = :idSociety')
-                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                        ->orderBy('u.label', 'ASC');
-                },
-                'choice_label' => 'label',
+                'idNorme',
+                EntityType::class,
+                [
+                    'class' => Norme::class,
+                    'query_builder' => function (EntityRepository  $er) {
+                        return $er->createQueryBuilder('qq')
+                            ->select('u') // string 'u' is converted to array internally
+                            ->from('App\Entity\Norme', 'u')
+                            ->from('App\Entity\NormesAutorisees', 'v')
+                            ->where('u.id = v.normes')
+                            ->andWhere('v.society = :idSociety')
+                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                            ->orderBy('u.label', 'ASC');
+                    },
+                    'choice_label' => 'label',
                 ]
             );
         }
@@ -142,19 +152,21 @@ class DossierType extends AbstractType
             $builder->add('idFormateur');
         } else {
             $builder->add(
-                'idFormateur', EntityType::class, [
-                'class' => Users::class,
-                'query_builder' => function (EntityRepository  $er) {
-                    return $er->createQueryBuilder('qq')
-                        ->select('u') // string 'u' is converted to array internally
-                        ->from('App\Entity\Users', 'u')
-                        // ->from('App\Entity\NormesAutorisees', 'v')
-                        // ->where('u.id = v.normes')
-                        ->where('u.society = :idSociety')
-                        ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                        ->orderBy('u.name', 'ASC');
-                },
-                'choice_label' => 'login',
+                'idFormateur',
+                EntityType::class,
+                [
+                    'class' => Users::class,
+                    'query_builder' => function (EntityRepository  $er) {
+                        return $er->createQueryBuilder('qq')
+                            ->select('u') // string 'u' is converted to array internally
+                            ->from('App\Entity\Users', 'u')
+                            // ->from('App\Entity\NormesAutorisees', 'v')
+                            // ->where('u.id = v.normes')
+                            ->where('u.society = :idSociety')
+                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
+                            ->orderBy('u.name', 'ASC');
+                    },
+                    'choice_label' => 'login',
                 ]
             );
         }
@@ -164,7 +176,7 @@ class DossierType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Dossier::class,
+                'data_class' => Dossier::class,
             ]
         );
     }

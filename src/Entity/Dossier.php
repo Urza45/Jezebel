@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Norme;
+use App\Entity\Users;
+use App\Entity\Client;
+use App\Entity\Society;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,18 +19,11 @@ class Dossier
     /**
      * @var int
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="num_facture", type="string", length=50, nullable=true)
-     */
-    private $numFacture;
 
     /**
      * @var \DateTime|null
@@ -139,18 +136,6 @@ class Dossier
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNumFacture(): ?string
-    {
-        return $this->numFacture;
-    }
-
-    public function setNumFacture(string $numFacture): self
-    {
-        $this->numFacture = $numFacture;
-
-        return $this;
     }
 
     public function getDateDebut(): ?\DateTimeInterface
@@ -309,11 +294,6 @@ class Dossier
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->numDossier;
-    }
-
     public function getSociety(): ?Society
     {
         return $this->society;
@@ -324,5 +304,13 @@ class Dossier
         $this->society = $Society;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        if ($this->getNumDossier() == null) {
+            return '';
+        }
+        return $this->getNumDossier();
     }
 }

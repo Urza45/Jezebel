@@ -84,6 +84,11 @@ class Society
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Quiz::class, mappedBy="society")
+     */
+    private $quizzes;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -93,6 +98,7 @@ class Society
         $this->normesAutorisees = new ArrayCollection();
         $this->candidats = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -414,5 +420,35 @@ class Society
 
         return $this;
     
+    }
+
+    /**
+     * @return Collection<int, Quiz>
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->setSociety($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->removeElement($quiz)) {
+            // set the owning side to null (unless already changed)
+            if ($quiz->getSociety() === $this) {
+                $quiz->setSociety(null);
+            }
+        }
+
+        return $this;
     }
 }

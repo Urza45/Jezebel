@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-
-	<h1>Liste des dossiers / candidats</h1>
+	<h1>Tests pratiques</h1>
+	<h2>Liste des dossiers / candidats</h2>
 	<div class="accordion accordion-flush" id="accordionFlushExample" width="80%">
 		{% for dossier in dossiers %}
 			<div class="accordion-item">
@@ -44,9 +44,7 @@
 													{{ candidat.prenomCandidat }}
 												</td>
 												<td>
-													<a
-														href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
-														{# {{ categorieChoisie.idcategory.label|convert_encoding('iso-8859-1', 'UTF-8') }} #}
+													<a href="{{ path('app_candidat_test_pratique', {'idDossier': dossier.id, 'idCandidat': candidat.id, 'idCategorie': categorieChoisie.idcategory.id }) }}">
 														{{ categorieChoisie.idcategory.label }}
 													</a>
 												</td>

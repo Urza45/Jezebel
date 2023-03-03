@@ -6,11 +6,11 @@
 			<div class="form-group">
 				<div class="row justify-content-evenly">
 					<div class="col-lg-4 col-12">
-						{{ form_row(form.numDossier, {'disabled': 'true', 'label': 'Numéro de dossier (*) :', 'attr' : {   'placeholder': 'Généré automatiquement', 'class': 'form-control'} })}}
+						{{ form_row(form.numDossier, {'label': 'Numéro de dossier (*) :', 'attr' : { 'placeholder': 'Généré automatiquement', 'class': 'form-control'} })}}
 					</div>
-					<div class="col-lg-4 col-12">
-						{{ form_row(form.numFacture, {'label': 'Numéro de facture (*) :', 'attr' : {   'placeholder': 'Numéro de facture', 'class': 'form-control'} })}}
-					</div>
+					{# <div class="col-lg-4 col-12">
+						{{ form_row(form.numFacture, {'label': 'Numéro de facture (*) :', 'attr' : { 'placeholder': 'Numéro de facture', 'class': 'form-control'} })}}
+					</div> #}
 					<div class="col-lg-4 col-12">
 						{{ form_row(form.idClient, {'label': 'Client (*) :', 'attr' : {   'placeholder': 'Client', 'class': 'form-select'} })}}
 					</div>

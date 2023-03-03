@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -141,6 +143,22 @@ class Candidat
      * @ORM\ManyToOne(targetEntity=Society::class, inversedBy="candidats")
      */
     private $society;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserQuizResult::class, mappedBy="candidat")
+     */
+    private $userQuizResults;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserQuizAnswer::class, mappedBy="candidat")
+     */
+    private $userQuizAnswers;
+
+    public function __construct()
+    {
+        $this->userQuizResults = new ArrayCollection();
+        $this->userQuizAnswers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -323,6 +341,66 @@ class Candidat
     public function setSociety(?Society $society): self
     {
         $this->society = $society;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserQuizResult>
+     */
+    public function getUserQuizResults(): Collection
+    {
+        return $this->userQuizResults;
+    }
+
+    public function addUserQuizResult(UserQuizResult $userQuizResult): self
+    {
+        if (!$this->userQuizResults->contains($userQuizResult)) {
+            $this->userQuizResults[] = $userQuizResult;
+            $userQuizResult->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuizResult(UserQuizResult $userQuizResult): self
+    {
+        if ($this->userQuizResults->removeElement($userQuizResult)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuizResult->getCandidat() === $this) {
+                $userQuizResult->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserQuizAnswer>
+     */
+    public function getUserQuizAnswers(): Collection
+    {
+        return $this->userQuizAnswers;
+    }
+
+    public function addUserQuizAnswer(UserQuizAnswer $userQuizAnswer): self
+    {
+        if (!$this->userQuizAnswers->contains($userQuizAnswer)) {
+            $this->userQuizAnswers[] = $userQuizAnswer;
+            $userQuizAnswer->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuizAnswer(UserQuizAnswer $userQuizAnswer): self
+    {
+        if ($this->userQuizAnswers->removeElement($userQuizAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuizAnswer->getCandidat() === $this) {
+                $userQuizAnswer->setCandidat(null);
+            }
+        }
 
         return $this;
     }

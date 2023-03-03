@@ -17,7 +17,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AdminController extends AbstractController
 {
     /**
+     * index
+     *
+     * @param AdminRepository $adminRepository
+     * 
      * @Route("/", name="app_admin_index", methods={"GET"})
+     * 
+     * @return Response
      */
     public function index(AdminRepository $adminRepository): Response
     {
@@ -29,14 +35,20 @@ class AdminController extends AbstractController
 
         return $this->render(
             'admin/index.html.twig',
-            [
-                'admins' => $admins,
-            ]
+            ['admins' => $admins]
         );
     }
 
     /**
+     * new
+     *
+     * @param Request                     $request
+     * @param AdminRepository             $adminRepository
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * 
      * @Route("/new", name="app_admin_new", methods={"GET", "POST"})
+     * 
+     * @return Response
      */
     public function new(Request $request, AdminRepository $adminRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -67,20 +79,33 @@ class AdminController extends AbstractController
     }
 
     /**
+     * show
+     *
+     * @param Admin $admin
+     * 
      * @Route("/{id}", name="app_admin_show", methods={"GET"})
+     * 
+     * @return Response
      */
     public function show(Admin $admin): Response
     {
         return $this->render(
             'admin/show.html.twig',
-            [
-                'admin' => $admin,
-            ]
+            ['admin' => $admin]
         );
     }
 
     /**
+     * edit
+     *
+     * @param Request                     $request
+     * @param Admin                       $admin
+     * @param AdminRepository             $adminRepository
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * 
      * @Route("/{id}/edit", name="app_admin_edit", methods={"GET", "POST"})
+     * 
+     * @return Response
      */
     public function edit(Request $request, Admin $admin, AdminRepository $adminRepository,  UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -108,9 +133,17 @@ class AdminController extends AbstractController
             ]
         );
     }
-
+ 
     /**
+     * delete
+     *
+     * @param  mixed $request
+     * @param  mixed $admin
+     * @param  mixed $adminRepository
+     * 
      * @Route("/{id}", name="app_admin_delete", methods={"POST"})
+     * 
+     * @return Response
      */
     public function delete(Request $request, Admin $admin, AdminRepository $adminRepository): Response
     {

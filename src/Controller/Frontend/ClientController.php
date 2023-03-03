@@ -9,35 +9,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/client")
  */
 class ClientController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
      * @Route("/", name="app_client_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $user = $this->security;
-
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $clients = $entityManager
                 ->getRepository(Client::class)
                 ->findAll();
         } else {
             $clients = $entityManager
                 ->getRepository(Client::class)
-                ->findBySociety($user->getUser()->getSociety()->getId());
+                ->findBySociety($this->getUser()->getSociety()->getId());
         }
 
         // $clients = $entityManager
@@ -58,13 +48,11 @@ class ClientController extends AbstractController
     {
         $client = new Client();
 
-        $user = $this->security;
-
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $client->setSociety($user->getUser()->getSociety());
+            $client->setSociety($this->getUser()->getSociety());
 
             $entityManager->persist($client);
             $entityManager->flush();

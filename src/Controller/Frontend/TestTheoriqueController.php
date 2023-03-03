@@ -23,9 +23,10 @@ class TestTheoriqueController extends AbstractController
     /**
      * index
      * 
-     * @Route("/frontend/test/theorique", name="app_frontend_test_theorique")
+     * @param  EntityManagerInterface $entityManager
      * 
-     * @param  mixed $entityManager
+     * @Route("/frontend/test/theorique", name="app_frontend_test_theorique")
+     *  
      * @return Response
      */
     public function index(EntityManagerInterface $entityManager): Response
@@ -119,6 +120,8 @@ class TestTheoriqueController extends AbstractController
         $userQuizResult->setCandidat($candidat);
         $userQuizResult->setNorme($quiz->getNorme());
         $userQuizResult->setQuiz($quiz);
+        $userQuizResult->setDateTest(new \DateTime());
+        $userQuizResult->setResult('');
         $entityManager->persist($userQuizResult);
         $entityManager->flush();
 
@@ -151,8 +154,8 @@ class TestTheoriqueController extends AbstractController
     /**
      * debutTestTheo
      *
-     * @param  mixed $quiz
-     * @param  mixed $candidat
+     * @param Quiz $quiz
+     * @param Candidat $candidat
      * 
      * @Route("/frontend/test/theo_start/{id}/{id_candidat}", name="app_frontend_test_theorique_start")
      * @ParamConverter("candidat", options={"id" = "id_candidat"})

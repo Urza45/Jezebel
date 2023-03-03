@@ -8,7 +8,6 @@ use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Entity\Categoriechoisie;
 use App\Form\DossierType;
-use App\Form\CandidatType;
 use App\Form\ChoiceCategoriesType;
 use App\Repository\NormeRepository;
 use App\Repository\SocietyRepository;
@@ -16,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\NormesAutoriseesRepository;
-use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,28 +24,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class DossierController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
      * @Route("/", name="app_dossier_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $user = $this->security;
-
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $dossiers = $entityManager
                 ->getRepository(Dossier::class)
                 ->findAll();
         } else {
             $dossiers = $entityManager
                 ->getRepository(Dossier::class)
-                // ->findBySociety($user->getUser()->getSociety()->getId());
                 ->findBySociety($this->getUser()->getSociety()->getId());
         }
 
@@ -73,19 +61,17 @@ class DossierController extends AbstractController
         NormeRepository $normeRepository,
         SocietyRepository $societyRepository
     ): Response {
-        $user = $this->security;
-
         $dossier = new Dossier();
 
         $societeEnCours = new Society();
-        $societeEnCours = $societyRepository->findOneById($user->getUser()->getSociety()->getId());
+        $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
 
         $form = $this->createForm(DossierType::class, $dossier);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $societeEnCours = $societyRepository->findOneById($user->getUser()->getSociety()->getId());
+            $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
             $dossier->setSociety($societeEnCours);
             $entityManager->persist($dossier);
             $entityManager->flush();

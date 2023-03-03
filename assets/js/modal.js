@@ -1,11 +1,11 @@
 $(function () {
     $("body").on("click", ".userinfo", function () {
         //$(".userinfo").on("click", function () {
-        var userId = $(this).data("id");
-        var urlDest = $(this).data("route");
-        var newTitle = $(this).data("title");
-        var newButton = $(this).data("button");
-        var afficheButton = $(this).data("affiche");
+        let userId = $(this).data("id");
+        let urlDest = $(this).data("route");
+        let newTitle = $(this).data("title");
+        let newButton = $(this).data("button");
+        let afficheButton = $(this).data("affiche");
         // AJAX request
         $.ajax({
             url: urlDest,
@@ -46,27 +46,27 @@ $(function () {
     });
 
     $(".submitBtn").on("click", function () {
-        var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-        var name = $("#nameForm").val();
-        var road = $("#route").val();
-        var verif = true;
-        var message = "";
+        let reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        let name = $("#nameForm").val();
+        let road = $("#route").val();
+        let verif = true;
+        let message = "";
 
         switch (name) {
             case "banUser":
-                var activatedUser = $("input[name='ban_user[activatedUser]']:checked").val();
+                let activatedUser = $("input[name='ban_user[activatedUser]']:checked").val();
                 if (activatedUser === "0") {
                     $(".statusMsg").html("Il vous faut choisir entre Oui ou Non.");
                     verif = false;
                 }
                 break;
             case "showUser":
-                var pseudo = $("input[name='show_user[pseudo]'").val().trim();
+                let pseudo = $("input[name='show_user[pseudo]'").val().trim();
                 if ((pseudo.length > 10) || (pseudo.length < 5)) {
                     message = "L'identifiant doit être compris entre 5 et 10 caractères.";
                     verif = false;
                 }
-                var lastName = $("input[name='show_user[lastName]'").val().trim();
+                let lastName = $("input[name='show_user[lastName]'").val().trim();
                 if (lastName === "") {
                     if (message !== "") {
                         message = message + "<br/>";
@@ -74,8 +74,8 @@ $(function () {
                     message = message + "Vous devez saisir un nom.";
                     verif = false;
                 }
-                // var firstName = $("input[name='show_user[firstName]'").val();
-                var email = $("input[name='show_user[email]'").val().trim();
+                // let firstName = $("input[name='show_user[firstName]'").val();
+                let email = $("input[name='show_user[email]'").val().trim();
                 if (email === "") {
                     if (message !== "") {
                         message = message + "<br/>";
@@ -90,9 +90,9 @@ $(function () {
                     message = message + "Vous devez saisir un email valide.";
                     verif = false;
                 }
-                // var phone = $("input[name='show_user[phone]'").val();
-                // var cellPhone = $("input[name='show_user[cellPhone]'").val();
-                var roles = $("#show_user_roles").val();
+                // let phone = $("input[name='show_user[phone]'").val();
+                // let cellPhone = $("input[name='show_user[cellPhone]'").val();
+                let roles = $("#show_user_roles").val();
                 if (roles.toString().trim() === "") {
                     if (message !== "") {
                         message = message + "<br/>";
@@ -100,13 +100,13 @@ $(function () {
                     message = message + "Vous devez choisir au moins un roles.";
                     verif = false;
                 }
-                // var slug = $("input[name='show_user[slug]'").val();
-                // var createdAt = $("select[name='show_user[createdAt][day]'").val() + '/' + $("select[name='show_user[createdAt][month]'").val() + '/';
+                // let slug = $("input[name='show_user[slug]'").val();
+                // let createdAt = $("select[name='show_user[createdAt][day]'").val() + '/' + $("select[name='show_user[createdAt][month]'").val() + '/';
                 // createdAt = createdAt + $("select[name='show_user[createdAt][year]'").val();
-                // var isVerified = $("input[name='show_user[isVerified]']:checked").val();
+                // let isVerified = $("input[name='show_user[isVerified]']:checked").val();
                 break;
             case "addPictureTrick":
-                var legend = $("input[name='file_upload_trick[legend]'").val().trim();
+                let legend = $("input[name='file_upload_trick[legend]'").val().trim();
                 if (legend === "") {
                     if (message !== "") {
                         message = message + "<br/>";
@@ -114,7 +114,7 @@ $(function () {
                     message = message + "Vous devez saisir un nom de photo.";
                     verif = false;
                 }
-                var file = $("input[name='file_upload_trick[url]'").val().trim();
+                let file = $("input[name='file_upload_trick[url]'").val().trim();
                 if (file === "") {
                     if (message !== "") {
                         message = message + "<br/>";

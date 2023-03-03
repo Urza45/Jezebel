@@ -10,36 +10,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/admin")
  */
 class AdminController extends AbstractController
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     /**
      * @Route("/", name="app_admin_index", methods={"GET"})
      */
     public function index(AdminRepository $adminRepository): Response
     {
-        $user = $this->security;
-
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $admins = $adminRepository->findAll();
         } else {
-            $admins = $adminRepository->findBySociety($user->getUser()->getSociety()->getId());
+            $admins = $adminRepository->findBySociety($this->getUser()->getSociety()->getId());
         }
-        
+
         return $this->render(
-            'admin/index.html.twig', [
-            'admins' => $admins,
+            'admin/index.html.twig',
+            [
+                'admins' => $admins,
             ]
         );
     }
@@ -67,9 +58,10 @@ class AdminController extends AbstractController
         }
 
         return $this->renderForm(
-            'admin/new.html.twig', [
-            'admin' => $admin,
-            'form' => $form,
+            'admin/new.html.twig',
+            [
+                'admin' => $admin,
+                'form' => $form,
             ]
         );
     }
@@ -80,8 +72,9 @@ class AdminController extends AbstractController
     public function show(Admin $admin): Response
     {
         return $this->render(
-            'admin/show.html.twig', [
-            'admin' => $admin,
+            'admin/show.html.twig',
+            [
+                'admin' => $admin,
             ]
         );
     }
@@ -108,9 +101,10 @@ class AdminController extends AbstractController
         }
 
         return $this->renderForm(
-            'admin/edit.html.twig', [
-            'admin' => $admin,
-            'form' => $form,
+            'admin/edit.html.twig',
+            [
+                'admin' => $admin,
+                'form' => $form,
             ]
         );
     }

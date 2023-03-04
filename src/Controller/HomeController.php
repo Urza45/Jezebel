@@ -74,7 +74,7 @@ class HomeController extends AbstractController
     {
         $emailParameters = [
             'subject' => 'Réinitialisation de votre mot de passe',
-            'from' => '',
+            'from' => 'admin@jezebel.fr',
             'to' => 'serge.pillay@orange.fr',
             'template' => 'mail/send_email.html.twig',
             'parameters' => [

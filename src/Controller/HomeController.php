@@ -82,8 +82,6 @@ class HomeController extends AbstractController
             ]
         ];
 
-        mail('serge.pillay@orange.fr', 'Réinitialisation de votre mot de passe', 'test');
-
         // Send Mail here
         $sendEmail->send($emailParameters);
 

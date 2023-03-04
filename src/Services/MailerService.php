@@ -4,19 +4,12 @@ namespace App\Services;
 
 use Twig\Environment;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class MailerService extends AbstractController
 {
-    /**
-     * mailer
-     *
-     * @var MailerInterface
-     */
-    private $mailer;
-
     /**
      * twig
      *
@@ -35,13 +28,11 @@ class MailerService extends AbstractController
      * __construct
      *
      * @param  string          $mailFrom
-     * @param  MailerInterface $mailer
      * @param  Environment     $twig
      * @return void
      */
-    public function __construct($mailFrom, MailerInterface $mailer, Environment $twig)
+    public function __construct($mailFrom, Environment $twig)
     {
-        $this->mailer = $mailer;
         $this->twig = $twig;
         $this->mailFrom = $mailFrom;
     }
@@ -54,6 +45,9 @@ class MailerService extends AbstractController
      */
     public function send(array $array): void
     {
+        $transport = Transport::fromDsn('smtp://admin%40jezebel.fr:%7Dn%5Bbz98B4V28@mail.jezebel.fr:465');
+        $mailer = new Mailer($transport);
+
         $from = $this->mailFrom;
         if ($array['from']) {
             $from = $array['from'];
@@ -67,14 +61,7 @@ class MailerService extends AbstractController
                 $this->twig->render($array['template'], $array['parameters']),
                 'text/html'
             );
-            
-        
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            $this->addFlash('danger', 'une erreur est survenue' . $e->getCode());
-        }
+
+        $mailer->send($email);
     }
 }

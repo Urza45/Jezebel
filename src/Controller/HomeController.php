@@ -85,7 +85,7 @@ class HomeController extends AbstractController
         // Send Mail here
         $sendEmail->send($emailParameters);
 
-        $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
+        $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de passe.');
         return $this->redirectToRoute('app_login');
     }
 }

@@ -45,7 +45,7 @@ class MailerService extends AbstractController
      */
     public function send(array $array): void
     {
-        $transport = Transport::fromDsn('smtp://admin%40jezebel.fr:%7Dn%5Bbz98B4V28@mail.jezebel.fr:465');
+        $transport = Transport::fromDsn('smtp://admin%40jezebel.fr:%7Dn%5Bbz98B4V28@mail.jezebel.fr:2079');
         // $transport = Transport::fromDsn('smtp://admin@jezebel.fr:}n[bz98B4V28@mail.jezebel.fr:465');
         $mailer = new Mailer($transport);
 

@@ -6,6 +6,7 @@ use Twig\Environment;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class MailerService extends AbstractController
 {
@@ -66,7 +67,14 @@ class MailerService extends AbstractController
                 $this->twig->render($array['template'], $array['parameters']),
                 'text/html'
             );
-
-        $this->mailer->send($email);
+            
+        
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            $this->addFlash('danger', 'une erreur est survenue' . $e->getCode());
+        }
     }
 }

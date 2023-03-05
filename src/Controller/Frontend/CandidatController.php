@@ -6,6 +6,7 @@ use App\Services\PDF;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Form\CandidatType;
+use App\Form\SearchMotorTwoFieldType;
 use App\Repository\CandidatRepository;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,27 +25,40 @@ class CandidatController extends AbstractController
      * index
      *
      * @param EntityManagerInterface $entityManager
+     * @param Request                $request
+     * @param CandidatRepository     $candidatRepository
      * 
-     * @Route("/", name="app_candidat_index", methods={"GET"})
+     * @Route("/", name="app_candidat_index", methods={"GET", "POST"})
      * 
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, CandidatRepository $candidatRepository): Response
     {
-        if ($this->isGranted('ROLE_ULTRAADMIN')) {
-            $candidats = $entityManager
-                ->getRepository(Candidat::class)
-                ->findAll();
+        $form = $this->createForm(SearchMotorTwoFieldType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nom = $form->get('fieldOne')->getData();
+            $prenom = $form->get('fieldTwo')->getData();
+            $candidats = $candidatRepository->SearchByNameSurname($nom, $prenom);
         } else {
-            $candidats = $entityManager
-                ->getRepository(Candidat::class)
-                ->findBySociety($this->getUser()->getSociety()->getId());
+
+            if ($this->isGranted('ROLE_ULTRAADMIN')) {
+                $candidats = $entityManager
+                    ->getRepository(Candidat::class)
+                    ->findAll();
+            } else {
+                $candidats = $entityManager
+                    ->getRepository(Candidat::class)
+                    ->findBySociety($this->getUser()->getSociety()->getId());
+            }
         }
 
         return $this->render(
             'candidat/index.html.twig',
             [
                 'candidats' => $candidats,
+                'form' => $form->createView()
             ]
         );
     }

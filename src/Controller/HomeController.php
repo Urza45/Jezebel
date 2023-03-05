@@ -43,9 +43,10 @@ class HomeController extends AbstractController
         // $this->redirectToRoute('app_login');
 
         return $this->render(
-            'home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'news' => $news,
+            'home/index.html.twig',
+            [
+                'controller_name' => 'HomeController',
+                'news' => $news,
             ]
         );
     }
@@ -56,14 +57,17 @@ class HomeController extends AbstractController
     public function showPDF()
     {
         $fpdf = new PDF();
-        
+
         $fpdf->AddPage();
         $fpdf->SetFont('Arial', 'B', 16);
         $fpdf->Cell(40, 10, 'Hello World !');
 
         return new Response(
-            $fpdf->Output(), 200, array(
-            'Content-Type' => 'application/pdf')
+            $fpdf->Output(),
+            200,
+            array(
+                'Content-Type' => 'application/pdf'
+            )
         );
     }
 
@@ -72,10 +76,17 @@ class HomeController extends AbstractController
      */
     public function sendMailTestPDF(MailerService $sendEmail)
     {
+        $pdf = new PDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(40, 10, 'Hello World!');
+        $pdf->Output('F', 'report.pdf');
+
         $emailParameters = [
-            'subject' => 'Réinitialisation de votre mot de passe',
-            'from' => 'admin@jezebel.fr',
+            'subject' => 'Message test',
+            // 'from' => $mailFrom,
             'to' => 'serge.pillay@orange.fr',
+            // 'file' => 'report.pdf',
             'template' => 'mail/send_email.html.twig',
             'parameters' => [
                 'user' => 'Serge'
@@ -84,6 +95,8 @@ class HomeController extends AbstractController
 
         // Send Mail here
         $sendEmail->send($emailParameters);
+
+        unlink('report.pdf');
 
         $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de passe.');
         return $this->redirectToRoute('app_login');

@@ -40,11 +40,11 @@
 					<td>{{ candidat.id }}</td>
 					<td>{{ candidat.nomCandidat }}</td>
 					<td>{{ candidat.prenomCandidat }}</td>
-					<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('Y-m-d') : '' }}</td>
+					<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('d/m/Y') : '' }}</td>
 					<td>{{ candidat.idDossier.numDossier }}</td>
 					<td>{{ candidat.idClient }}</td>
-					<td>{{ candidat.dateTheorique ? candidat.dateTheorique|date('Y-m-d') : '' }}</td>
-					<td>{{ candidat.datePratique ? candidat.datePratique|date('Y-m-d') : '' }}</td>
+					<td>{{ candidat.dateTheorique ? candidat.dateTheorique|date('d/m/Y') : '' }}</td>
+					<td>{{ candidat.datePratique ? candidat.datePratique|date('d/m/Y') : '' }}</td>
 					<td>{{ candidat.noteFormation }}</td>
 
 					<td>

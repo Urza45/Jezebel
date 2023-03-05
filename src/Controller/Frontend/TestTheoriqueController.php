@@ -11,6 +11,7 @@ use App\Entity\UserQuizAnswer;
 use App\Entity\UserQuizResult;
 use App\Repository\AnswersRepository;
 use App\Repository\QuestionsRepository;
+use App\Repository\UserQuizResultRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,7 +113,8 @@ class TestTheoriqueController extends AbstractController
         Request $request,
         QuestionsRepository $repoQuestions,
         AnswersRepository $answersRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserQuizResultRepository $userQuizResultRepository
     ) {
         $reponses = $request->get('reponse');
 
@@ -121,7 +123,7 @@ class TestTheoriqueController extends AbstractController
         $userQuizResult->setNorme($quiz->getNorme());
         $userQuizResult->setQuiz($quiz);
         $userQuizResult->setDateTest(new \DateTime());
-        $userQuizResult->setResult('');
+        $userQuizResult->setResult($userQuizResultRepository->getResultQuiz($candidat, $quiz));
         $entityManager->persist($userQuizResult);
         $entityManager->flush();
 
@@ -141,6 +143,8 @@ class TestTheoriqueController extends AbstractController
             $entityManager->persist($resultat);
             $entityManager->flush();
         }
+
+        
         return $this->render('frontend/test_theorique/resultat_theorique.html.twig', [
             'controller_name' => 'TestTheoriqueController',
             'quiz' => $quiz,
@@ -150,7 +154,7 @@ class TestTheoriqueController extends AbstractController
 
     /**
      * 
-     */    
+     */
     /**
      * debutTestTheo
      *

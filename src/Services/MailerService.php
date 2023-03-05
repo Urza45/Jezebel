@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\PDF;
 use Twig\Environment;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Mailer;
@@ -50,18 +51,22 @@ class MailerService extends AbstractController
         $mailer = new Mailer($transport);
 
         $from = $this->mailFrom;
-        if ($array['from']) {
+        if (isset($array['from'])) {
             $from = $array['from'];
         }
 
         $email = (new Email())
             ->from($from)
             ->to($array['to'])
+            ->cc($this->mailFrom)
             ->subject($array['subject'])
             ->html(
                 $this->twig->render($array['template'], $array['parameters']),
                 'text/html'
             );
+        if (isset($array['file'])) {
+            $email->attachFromPath($array['file']);
+        }
 
         $mailer->send($email);
     }

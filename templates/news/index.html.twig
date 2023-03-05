@@ -28,8 +28,8 @@
 						<td>{{ news.auteur }}</td>
 						<td>{{ news.titre }}</td>
 						<td>{{ news.contenu }}</td>
-						<td>{{ news.dateajout ? news.dateajout|date('Y-m-d H:i:s') : '' }}</td>
-						<td>{{ news.datemodif ? news.datemodif|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ news.dateajout ? news.dateajout|date('d/m/Y H:i:s') : '' }}</td>
+						<td>{{ news.datemodif ? news.datemodif|date('d/m/Y H:i:s') : '' }}</td>
 						<td>
 							<a href="{{ path('app_news_show', {'id': news.id}) }}">
 								<i class="fa-regular fa-eye"></i>

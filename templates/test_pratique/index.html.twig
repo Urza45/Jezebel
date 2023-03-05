@@ -50,7 +50,7 @@
 												</td>
 												{% if categorieChoisie.datePratique is not same as (null) %}
 													<td>
-														{{ categorieChoisie.datePratique|date('d-m-Y') }}
+														{{ categorieChoisie.datePratique|date('d/m/Y') }}
 													</td>
 													<td>
 														{% if categorieChoisie.result is same as ('ECHEC') %}

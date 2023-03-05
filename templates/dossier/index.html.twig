@@ -37,8 +37,8 @@
 				<tr class="{{ style }}">
 					<td>{{ dossier.numDossier }}</td>
 					{# <td>{{ dossier.numFacture }}</td> #}
-					<td>{{ dossier.dateDebut ? dossier.dateDebut|date('Y-m-d') : '' }}</td>
-					<td>{{ dossier.dateFin ? dossier.dateFin|date('Y-m-d') : '' }}</td>
+					<td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td>
+					<td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td>
 					<td>{{ dossier.type }}</td>
 					<td>{{ dossier.adresseIntervention }}
 						{{ dossier.cpIntervention }}

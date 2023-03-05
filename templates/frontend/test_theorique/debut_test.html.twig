@@ -4,10 +4,16 @@
 {% endblock %}
 
 {% block body %}
-    <br>
+	<hr>
+	<p>
+		Le test commencera dès que vous cliquerez sur le bouton Commencer ci-dessous.<br/>
+		Il vous faudra répondre à toutes les questions en cochant soit VRAI soit FAUX.
+	</p>
+	<br>
 	<a class="link-dark btn btn-success btn-lg" href="{{ path('app_frontend_test_theorique_test', {'id': quiz.id, 'id_candidat': candidat.id}) }}">
 		Commencer
 	</a>
+	<hr>
 
 {% endblock %}
 {% block javascripts %}{% endblock %}

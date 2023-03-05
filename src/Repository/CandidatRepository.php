@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Candidat;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Candidat;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Candidat>
@@ -17,9 +18,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CandidatRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Candidat::class);
+        $this->security = $security;
     }
 
     public function add(Candidat $entity, bool $flush = false): void
@@ -38,6 +42,49 @@ class CandidatRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function SearchByNameSurname($nom, $prenom)
+    {
+        $user = $this->security;        
+        
+        if ($nom == null && $prenom == null) {
+            return 'false';
+        }
+        $result = $this->createQueryBuilder('o');
+
+
+        if ($nom !== null && $prenom !== null) {
+            $result->where('o.nomCandidat LIKE :nom')
+                ->andWhere('o.prenomCandidat LIKE :prenom')
+                ->setParameter('prenom', '%' . $prenom . '%')
+                ->setParameter('nom', '%' . $nom . '%');
+        }
+
+        if ($nom == null) {
+            $result->where('o.prenomCandidat like :prenom')
+                ->setParameter('prenom', '%' . $prenom . '%');
+        }
+
+        if ($prenom == null) {
+            $result->where('o.nomCandidat like :nom')
+                ->setParameter('nom', '%' . $nom . '%');
+        }
+
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            # code...
+        } else {
+            $result->andWhere('o.society = :society')
+                ->setParameter('society', $user->getUser()->getSociety());
+        }
+
+        // ->where('o.OrderEmail = :email')
+        // ->andWhere('o.Product LIKE :product')
+        // ->setParameter('email', 'some@mail.com')
+        // ->setParameter('product', 'My Products%')
+        
+        dump($result);
+        return $result->getQuery()->getResult();
     }
 
     //    /**

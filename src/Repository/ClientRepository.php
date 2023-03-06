@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @extends ServiceEntityRepository<Client>
@@ -16,9 +17,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ClientRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Client::class);
+        $this->security = $security;
     }
 
     public function add(Client $entity, bool $flush = false): void
@@ -39,28 +43,63 @@ class ClientRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Client[] Returns an array of Client objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function SearchByNumClient($idClient, $ville)
+    {
+        $user = $this->security;
 
-//    public function findOneBySomeField($value): ?Client
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($idClient == null && $ville == null) {
+            return 'false';
+        }
+        $result = $this->createQueryBuilder('o');
+
+        if ($idClient !== null && $idClient !== null) {
+            $result->where('o.nomClient LIKE :nomClient')
+                ->andWhere('o.villeClient LIKE :ville')
+                ->setParameter('nomClient', '%' . $idClient . '%')
+                ->setParameter('ville', '%' . $ville . '%');
+        }
+
+        if ($ville == null) {
+            $result->where('o.nomClient LIKE :nomClient')
+                ->setParameter('nomClient', '%' . $idClient . '%');
+        }
+
+        if ($idClient == null) {
+            $result->where('o.villeClient LIKE :ville')
+                ->setParameter('ville', '%' . $ville . '%');
+        }
+
+        if ($user->isGranted('ROLE_ULTRAADMIN')) {
+            # code...
+        } else {
+            $result->andWhere('o.society = :society')
+                ->setParameter('society', $user->getUser()->getSociety());
+        }
+        return $result->getQuery()->getResult();
+    }
+
+    //    /**
+    //     * @return Client[] Returns an array of Client objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Client
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

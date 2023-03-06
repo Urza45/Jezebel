@@ -4,6 +4,8 @@ namespace App\Controller\Frontend;
 
 use App\Entity\Client;
 use App\Form\ClientType;
+use App\Form\Search\SearchClientType;
+use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,18 +18,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/", name="app_client_index", methods={"GET"})
+     * @Route("/", name="app_client_index", methods={"GET","POST"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, ClientRepository $clientRepository): Response
     {
-        if ($this->isGranted('ROLE_ULTRAADMIN')) {
-            $clients = $entityManager
-                ->getRepository(Client::class)
-                ->findAll();
+        $form = $this->createForm(SearchClientType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $idClient = $form->get('client')->getData();
+            $ville = $form->get('ville')->getData();
+            // $prenom = $form->get('fieldTwo')->getData();
+            $clients = $clientRepository->SearchByNumClient($idClient, $ville);
         } else {
-            $clients = $entityManager
-                ->getRepository(Client::class)
-                ->findBySociety($this->getUser()->getSociety()->getId());
+            if ($this->isGranted('ROLE_ULTRAADMIN')) {
+                $clients = $entityManager
+                    ->getRepository(Client::class)
+                    ->findAll();
+            } else {
+                $clients = $entityManager
+                    ->getRepository(Client::class)
+                    ->findBySociety($this->getUser()->getSociety()->getId());
+            }
         }
 
         // $clients = $entityManager
@@ -35,8 +47,10 @@ class ClientController extends AbstractController
         //     ->findAll();
 
         return $this->render(
-            'client/index.html.twig', [
-            'clients' => $clients,
+            'client/index.html.twig',
+            [
+                'clients' => $clients,
+                'form' => $form->createView()
             ]
         );
     }
@@ -61,9 +75,10 @@ class ClientController extends AbstractController
         }
 
         return $this->renderForm(
-            'client/new.html.twig', [
-            'client' => $client,
-            'form' => $form,
+            'client/new.html.twig',
+            [
+                'client' => $client,
+                'form' => $form,
             ]
         );
     }
@@ -74,8 +89,9 @@ class ClientController extends AbstractController
     public function show(Client $client): Response
     {
         return $this->render(
-            'client/show.html.twig', [
-            'client' => $client,
+            'client/show.html.twig',
+            [
+                'client' => $client,
             ]
         );
     }
@@ -95,9 +111,10 @@ class ClientController extends AbstractController
         }
 
         return $this->renderForm(
-            'client/edit.html.twig', [
-            'client' => $client,
-            'form' => $form,
+            'client/edit.html.twig',
+            [
+                'client' => $client,
+                'form' => $form,
             ]
         );
     }

@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ClientType extends AbstractType
 {
@@ -14,7 +16,13 @@ class ClientType extends AbstractType
         $builder
             ->add('nomClient')
             ->add('adresseClient')
-            ->add('cpClient')
+            ->add('cpClient', IntegerType::class, [
+                'constraints' => new Length([
+                    'min' => 5,
+                    'max' => 5,
+                    'exactMessage' => 'Exactement 5 chifres.',
+                ]),
+            ])
             ->add('villeClient')
             ->add('codeagence');
     }

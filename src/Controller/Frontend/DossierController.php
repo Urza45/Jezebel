@@ -6,9 +6,11 @@ use App\Entity\Dossier;
 use App\Entity\Society;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
-use App\Entity\Categoriechoisie;
 use App\Form\DossierType;
+use App\Entity\Categoriechoisie;
 use App\Form\ChoiceCategoriesType;
+use App\Form\Search\SearchDossierType;
+use App\Repository\DossierRepository;
 use App\Repository\SocietyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,25 +28,34 @@ class DossierController extends AbstractController
      *
      * @param EntityManagerInterface $entityManager
      * 
-     * @Route("/", name="app_dossier_index", methods={"GET"})
+     * @Route("/", name="app_dossier_index", methods={"GET","POST"})
      * 
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, DossierRepository $dossierRepository): Response
     {
-        if ($this->isGranted('ROLE_ULTRAADMIN')) {
-            $dossiers = $entityManager
-                ->getRepository(Dossier::class)
-                ->findAll();
+        $form = $this->createForm(SearchDossierType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $numDossier = $form->get('numDossier')->getData();
+            $idClient = $form->get('idClient')->getData();
+            // $prenom = $form->get('fieldTwo')->getData();
+            $dossiers = $dossierRepository->SearchByNumClient($numDossier, $idClient);
         } else {
-            $dossiers = $entityManager
-                ->getRepository(Dossier::class)
-                ->findBySociety($this->getUser()->getSociety()->getId());
+            if ($this->isGranted('ROLE_ULTRAADMIN')) {
+                $dossiers = $dossierRepository->findAll();
+            } else {
+                $dossiers = $dossierRepository->findBySociety($this->getUser()->getSociety()->getId());
+            }
         }
 
         return $this->render(
             'dossier/index.html.twig',
-            ['dossiers' => $dossiers]
+            [
+                'dossiers' => $dossiers,
+                'form' => $form->createView()
+            ]
         );
     }
 

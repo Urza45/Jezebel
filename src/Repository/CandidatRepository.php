@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use DateTime;
 use App\Entity\Candidat;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
@@ -53,7 +52,6 @@ class CandidatRepository extends ServiceEntityRepository
         }
         $result = $this->createQueryBuilder('o');
 
-
         if ($nom !== null && $prenom !== null) {
             $result->where('o.nomCandidat LIKE :nom')
                 ->andWhere('o.prenomCandidat LIKE :prenom')
@@ -71,19 +69,12 @@ class CandidatRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $nom . '%');
         }
 
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            # code...
-        } else {
+        if (!$user->isGranted('ROLE_ULTRAADMIN')) {
             $result->andWhere('o.society = :society')
                 ->setParameter('society', $user->getUser()->getSociety());
+        // } else {
+            
         }
-
-        // ->where('o.OrderEmail = :email')
-        // ->andWhere('o.Product LIKE :product')
-        // ->setParameter('email', 'some@mail.com')
-        // ->setParameter('product', 'My Products%')
-        
-        dump($result);
         return $result->getQuery()->getResult();
     }
 

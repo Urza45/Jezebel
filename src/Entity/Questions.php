@@ -50,7 +50,7 @@ class Questions
     private $ordre;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserQuizAnswer::class, mappedBy="quesstion")
+     * @ORM\OneToMany(targetEntity=UserQuizAnswer::class, mappedBy="question")
      */
     private $userQuizAnswers;
 

@@ -13,7 +13,11 @@
 		sociétés.<br/>
 		<a href="{{ path('app_client_new') }}">Créer une nouvelle société cliente</a>
 	</center>
-
+	{# Moteur de recherche #}
+	<hr>
+	{# {{ form(form) }} #}
+	<hr>
+	{# Fin moteur de recherche #}
 	<table>
 		<thead>
 			<tr>
@@ -28,8 +32,14 @@
 		</thead>
 		<tbody>
 			{% if clients %}
+				{% set style = 'row-b' %}
 				{% for client in clients %}
-					<tr>
+					{% if style == 'row-b' %}
+						{% set style = 'row-a' %}
+					{% else %}
+						{% set style = 'row-b' %}
+					{% endif %}
+					<tr class="{{ style }}">
 						<td>{{ client.id }}</td>
 						<td>{{ client.nomClient }}</td>
 						<td>{{ client.adresseClient }}</td>

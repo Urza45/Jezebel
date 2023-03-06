@@ -11,19 +11,23 @@
 		candidats.<br/>
 		{# <a href="{{ path('app_candidat_new') }}">Ajouter un candidat</a> #}
 	</center>
-	{# <table class="table"> #}
+	{# Moteur de recherche #}
 	<hr>
 	<div class="container container-fluid">
 		<div class="row justify-content-evenly">
 			<div class="col-lg-12">
 				{{ form_start(form) }}
-				<div class="form-group">
+				<div class="form-group row">
 					<div class="row justify-content-evenly">
 						<div class="col-lg-4 col-12">
-							{{ form_row(form.fieldOne, {'label': 'Nom :', 'required': false, 'attr' : {'placeholder': 'Nom du candidat', 'class': 'form-control' } })}}
+							{{ form_label(form.name)}}
+							{{ form_widget(form.name)}}
+							{{ form_errors(form.name) }}
 						</div>
 						<div class="col-lg-4 col-12">
-							{{ form_row(form.fieldTwo, {'label': 'Prénom :', 'required': false, 'attr' : {'placeholder': 'Prénom du candidat', 'class': 'form-control' } })}}
+							{{ form_label(form.surname)}}
+							{{ form_widget(form.surname)}}
+							{{ form_errors(form.surname) }}
 						</div>
 						<div class="col-lg-4 col-12">
 							{{ form_row(form.submit) }}
@@ -36,6 +40,7 @@
 		</div>
 	</div>
 	<hr>
+	{# Fin moteur de recherche #}
 	<table>
 		<thead>
 			<tr>
@@ -52,39 +57,39 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% set style = 'row-b' %}
-			{% for candidat in candidats %}
-				{% if style == 'row-b' %}
-					{% set style = 'row-a' %}
-				{% else %}
-					{% set style = 'row-b' %}
-				{% endif %}
-				<tr class="{{ style }}">
-					<td>{{ candidat.id }}</td>
-					<td>{{ candidat.nomCandidat }}</td>
-					<td>{{ candidat.prenomCandidat }}</td>
-					<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('d/m/Y') : '' }}</td>
-					<td>{{ candidat.idDossier.numDossier }}</td>
-					<td>{{ candidat.idClient }}</td>
-					<td>{{ candidat.dateTheorique ? candidat.dateTheorique|date('d/m/Y') : '' }}</td>
-					<td>{{ candidat.datePratique ? candidat.datePratique|date('d/m/Y') : '' }}</td>
-					<td>{{ candidat.noteFormation }}</td>
-
-					<td>
-						<a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">
-							<i class="fa-regular fa-eye"></i>
-						</a>
-						<a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" alt="Editer">
-							<i class="fa-solid fa-user-pen"></i>
-						</a>
-					</td>
-				</tr>
+			{% if candidats %}
+				{% set style = 'row-b' %}
+				{% for candidat in candidats %}
+					{% if style == 'row-b' %}
+						{% set style = 'row-a' %}
+					{% else %}
+						{% set style = 'row-b' %}
+					{% endif %}
+					<tr class="{{ style }}">
+						<td>{{ candidat.id }}</td>
+						<td>{{ candidat.nomCandidat }}</td>
+						<td>{{ candidat.prenomCandidat }}</td>
+						<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('d/m/Y') : '' }}</td>
+						<td>{{ candidat.idDossier.numDossier }}</td>
+						<td>{{ candidat.idClient }}</td>
+						<td>{{ candidat.dateTheorique ? candidat.dateTheorique|date('d/m/Y') : '' }}</td>
+						<td>{{ candidat.datePratique ? candidat.datePratique|date('d/m/Y') : '' }}</td>
+						<td>{{ candidat.noteFormation }}</td>
+						<td>
+							<a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" alt="Editer">
+								<i class="fa-solid fa-user-pen"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
 			{% else %}
 				<tr>
 					<td colspan="10">Pas d'enregistrement trouvé</td>
 				</tr>
-			{% endfor %}
+			{% endif %}
 		</tbody>
-	</table>
-
-{% endblock %}
+	</tbody>
+</table>{% endblock %}

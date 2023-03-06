@@ -24,6 +24,10 @@
 	<body>
 		<header>
 			{% include "navtop.html.twig" %}
+			{% if app.user %}
+				Vous êtes connecté(e) :
+				{{ app.user.username }}
+			{% endif %}
 		</header>
 
 		<div class="master_content">

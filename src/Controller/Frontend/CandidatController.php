@@ -6,7 +6,7 @@ use App\Services\PDF;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Form\CandidatType;
-use App\Form\SearchMotorTwoFieldType;
+use App\Form\Search\SearchCandidatNameSurnameType;
 use App\Repository\CandidatRepository;
 use App\Repository\NormeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,33 +24,28 @@ class CandidatController extends AbstractController
     /**
      * index
      *
-     * @param EntityManagerInterface $entityManager
-     * @param Request                $request
-     * @param CandidatRepository     $candidatRepository
+     * @param Request            $request
+     * @param CandidatRepository $candidatRepository
      * 
-     * @Route("/", name="app_candidat_index", methods={"GET", "POST"})
+     * @Route("/", name="app_candidat_index", methods={"GET","POST"})
      * 
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager, Request $request, CandidatRepository $candidatRepository): Response
+    public function index(Request $request, CandidatRepository $candidatRepository): Response
     {
-        $form = $this->createForm(SearchMotorTwoFieldType::class);
+        $form = $this->createForm(SearchCandidatNameSurnameType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $nom = $form->get('fieldOne')->getData();
-            $prenom = $form->get('fieldTwo')->getData();
+            $nom = $form->get('name')->getData();
+            $prenom = $form->get('surname')->getData();
             $candidats = $candidatRepository->SearchByNameSurname($nom, $prenom);
         } else {
 
             if ($this->isGranted('ROLE_ULTRAADMIN')) {
-                $candidats = $entityManager
-                    ->getRepository(Candidat::class)
-                    ->findAll();
+                $candidats = $candidatRepository->findAll();
             } else {
-                $candidats = $entityManager
-                    ->getRepository(Candidat::class)
-                    ->findBySociety($this->getUser()->getSociety()->getId());
+                $candidats = $candidatRepository->findBySociety($this->getUser()->getSociety()->getId());
             }
         }
 

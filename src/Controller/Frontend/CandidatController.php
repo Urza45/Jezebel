@@ -10,6 +10,7 @@ use App\Form\CandidatType;
 use App\Form\Search\SearchCandidatNameSurnameType;
 use App\Repository\CandidatRepository;
 use App\Repository\NormeRepository;
+use App\Repository\UserQuizResultRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -237,7 +238,8 @@ class CandidatController extends AbstractController
         Candidat $candidat,
         Quiz $quiz,
         CandidatRepository $candidatRepository,
-        NormeRepository $normeRepository
+        NormeRepository $normeRepository,
+        UserQuizResultRepository $userQuizResultRepository
     ) {
         $fpdf = new PDF();
         $societe = $this->getUser()->getSociety();
@@ -253,21 +255,88 @@ class CandidatController extends AbstractController
         $fpdf->AliasNbPages();
         $fpdf->setAddHeader(PDF::WITH_HEADER);
         $fpdf->setAddFooter(PDF::WITH_FOOTER);
-        $fpdf->AddPage();
+
 
         $userQuizResults = $candidat->getUserQuizResults();
-        
-        foreach($userQuizResults as $userQuizResult) {
-            dump('userQuizResult : ' . $userQuizResult->getNorme()->getLabel());
+
+        // On initialise le placement des cellules
+        $X = 15;
+        $Y = 55;
+        foreach ($userQuizResults as $userQuizResult) {
+            $fpdf->AddPage();
+            $fpdf->Cell(0, 15, $candidat->getNomCandidat(). ' ' . $candidat->getPrenomCandidat(), 0, 1, 'C');
             $answers = $userQuizResult->getUserQuizAnswers();
-            foreach($answers as $answer) {
-                dump($answer);
+            // ordre pour vérifier si on change de thème
+            $ordre = 0;
+            $totalPoint = 0;
+            $pointsTheme = 0;
+            foreach ($answers as $answer) {
+                if ($fpdf->GetY() > 261) {
+                    $fpdf->SetY($Y);
+                    $X = $X + 60;
+                }
+
+                $ordreTheme = $answer->getQuestion()->getSousTheme()->getThemeTheorique()->getOrdre();
+                $ptsTheme = $answer->getQuestion()->getSousTheme()->getThemeTheorique()->getPts();
+                if ($ordreTheme != $ordre) {
+                    if ($ordre > 0) {
+                        $fpdf->SetX($X);
+                        $fpdf->SetFillColor(220, 220, 220);
+                        $fpdf->Cell(40, 5, 'Total', 1, 0, 'R', true);
+                        $fpdf->SetTextColor(0, 0, 0);
+                        if ($totalPoint < ($pointsTheme / 2)) {
+                            $fpdf->SetTextColor(255, 0, 0);
+                        }
+                        $fpdf->Cell(20, 5, $totalPoint . '/' . $pointsTheme, 1, 1, 'C', true);
+                    }
+                    $totalPoint = 0;
+                    $pointsTheme = 0;
+                    $fpdf->SetX($X);
+                    $fpdf->SetFillColor(255, 255, 0);
+                    $fpdf->Cell(60, 5, 'THEME ' . $ordreTheme, 1, 1, 'C', true);
+                    $ordre = $ordreTheme;
+                }
+                $fpdf->SetX($X);
+                $fpdf->Cell(10, 5, $answer->getQuestion()->getOrdre(), 1, 0, 'C');
+                $fpdf->SetTextColor(0, 0, 0);
+                if ($answer->getPts() == 0) {
+                    $fpdf->SetTextColor(255, 0, 0);
+                }
+                $fpdf->Cell(40, 5, $answer->getAnswer()->getIntitule(), 1, 0, 'C');
+                $fpdf->Cell(10, 5, $answer->getPts() . '/1', 1, 1, 'C');
+                $totalPoint += $answer->getPts();
+                $pointsTheme += 1;
             }
+            $fpdf->SetX($X);
+            $fpdf->SetFillColor(220, 220, 220);
+            $fpdf->SetTextColor(0, 0, 0);
+            $fpdf->Cell(40, 5, 'Total', 1, 0, 'R', true);
+            
+            if ($totalPoint < ($pointsTheme / 2)) {
+                $fpdf->SetTextColor(255, 0, 0);
+            }
+            $fpdf->Cell(20, 5, $totalPoint . '/' . $pointsTheme, 1, 1, 'C', true);
+            $quiz = $userQuizResult->getQuiz();
+
+            $fpdf->SetY(200);
+            $fpdf->SetX($X);
+            $fpdf->Cell(40, 10, 'TOTAL GENERAL', 1, 0, 'C');
+            $fpdf->Cell(20, 10, $userQuizResultRepository->getNoteGlobale($candidat, $quiz)[0]['noteGlobale'] . '/100', 1, 1, 'C');
+            $NotesTheme = $userQuizResultRepository->getNotesThemes($candidat, $quiz);
+
+            $i = 0;
+            foreach ($NotesTheme as $NoteTheme) {
+                $i++;
+                $fpdf->SetX($X);
+                $fpdf->Cell(40, 5, 'THEME ' . $i, 1, 0, 'C');
+
+                $fpdf->Cell(20, 5, $NoteTheme['note'] . '/' . $NoteTheme['pts'], 1, 1, 'C');
+            }
+            $fpdf->SetX($X);
+            $fpdf->Cell(60, 10, 'RESULTAT : ' . $userQuizResult->getResult(), 1, 0, 'C');
+
+
         }
-
-        dump($candidat->getUserQuizResults());
-        dd($quiz->getThemeTheoriques());
-
         return new Response(
             $fpdf->Output(),
             200,

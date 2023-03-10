@@ -24,10 +24,10 @@
 						{% for question in sousTheme.questions %}
 							<tr>
 								<td class="text-dark">
-									<h3>Question N°{{ increment }}</h3><br/>
+									<h3>Question N°{{ question.ordre }}</h3><br/>
 									{% if question.photo is defined %}
 										{% if question.photo is not same as("") %}
-											<img src="{{ asset("/images/CACES/tests/")}}{{candidat.idDossier.idNorme.label}}/{{question.photo}}" width="200px" class="img-fluid">
+											<img src="{{ asset("/images/CACES/tests/")}}{{candidat.idDossier.idNorme.label}}/{{question.photo}}" class="img-fluid">
 											{% else %}
 
 										{% endif %}

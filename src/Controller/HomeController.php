@@ -3,44 +3,29 @@
 namespace App\Controller;
 
 use App\Services\PDF;
-// use FPDF;
 use App\Entity\News;
 use App\Services\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomeController extends AbstractController
-{
+{ 
     /**
+     * index
+     *
+     * @param EntityManagerInterface $entityManager
+     *
      * @Route("/", name="app_home")
+     * 
+     * @return Response
      */
-    public function index(
-        EntityManagerInterface $entityManager,
-        MailerService $sendEmail,
-        Session $session
-    ): Response {
+    public function index(EntityManagerInterface $entityManager): Response
+    {
         $news = $entityManager
             ->getRepository(News::class)
             ->findAll();
-
-        // $emailParameters = [
-        //     'subject' => 'Réinitialisation de votre mot de passe',
-        //     'from' => '',
-        //     'to' => 'serge.pillay@orange.fr',
-        //     'template' => 'mail/send_email.html.twig',
-        //     'parameters' => [
-        //         'user' => 'Serge'
-        //     ]
-        // ];
-
-        // // Send Mail here
-        // $sendEmail->send($emailParameters);
-
-        // $this->addFlash('success', 'Un email vous a été envoyé pour réinitailiser votre mot de pase.');
-        // $this->redirectToRoute('app_login');
 
         return $this->render(
             'home/index.html.twig',
@@ -50,9 +35,13 @@ class HomeController extends AbstractController
             ]
         );
     }
-
+ 
     /**
+     * showPDF
+     *
      * @Route("/testPDF", name="app_test_PDF")
+     *
+     * @return void
      */
     public function showPDF()
     {
@@ -70,9 +59,15 @@ class HomeController extends AbstractController
             )
         );
     }
-
+  
     /**
+     * sendMailTestPDF
+     *
+     * @param  mixed $sendEmail
+     *
      * @Route("/testMail", name="app_test_mail")
+     *
+     * @return void
      */
     public function sendMailTestPDF(MailerService $sendEmail)
     {

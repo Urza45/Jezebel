@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+{# {{ form_widget(form) }} #}
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		{{ form_row(form.date) }}
+	</div>
+	{# <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">{{ form_row(form.tva) }}</div> #}
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		{{ form_row(form.acompte) }}
+	</div>
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+		{{ form_row(form.reference) }}
+	</div>
+</div>
+
+{% macro niceForm(form) %}
+	<div class="row">
+		<div class="col-lg-6">
+			{{ form_row(form.description) }}
+		</div>
+		<div class="col-lg-2">{{ form_row(form.quantite) }}</div>
+		<div class="col-lg-2">{{ form_row(form.tva) }}</div>
+		<div class="col-lg-2">{{ form_row(form.prix) }}</div>
+	</div>
+{% endmacro %}
+
+{% import _self as formMacro %}
+
+<fieldset>
+<legend>Nouvelle prestation :</legend>
+
+<div id="lignes" class="" data-prototype="{{ formMacro.niceForm(form.lignes.vars.prototype)|e('html_attr') }}">
+	<div class="inline">
+		{{ form_widget(form.lignes) }}
+		<span></span>
+	</div>
+</div>
+</fieldset>
+
+
+{# {% set prototype_tome = form.lignes.vars.prototype %}
+
+Son rendu se fait aussi simplement qu'un formulaire standard :
+
+
+<div id="lignes" class="d-flex flex-row bg-warning" data-prototype="
+	<div>
+		{{ form_widget(prototype_tome.description) }}
+
+		{{ form_widget(prototype_tome.prix) }}
+	</div>
+	">
+	<div>
+		{{ form_widget(form.lignes) }}
+		<span></span>
+	</div>
+</div> #}
+
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

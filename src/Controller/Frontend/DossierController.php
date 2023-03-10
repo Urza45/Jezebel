@@ -26,13 +26,14 @@ class DossierController extends AbstractController
     /**
      * index
      *
-     * @param EntityManagerInterface $entityManager
+     * @param Request           $request
+     * @param DossierRepository $dossierRepository
      * 
      * @Route("/", name="app_dossier_index", methods={"GET","POST"})
      * 
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager, Request $request, DossierRepository $dossierRepository): Response
+    public function index(Request $request, DossierRepository $dossierRepository): Response
     {
         $form = $this->createForm(SearchDossierType::class);
         $form->handleRequest($request);

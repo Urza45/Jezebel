@@ -167,7 +167,6 @@ class NormeRepository extends ServiceEntityRepository
         $requete = $conn->prepare('SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie');
         $requete->bindValue(':id_categorie', (int) $id_categorie);
         $listeTheme = $requete->execute()->fetchAll();
-        $style = 'row-a';
         $increment = 0; // Nombre de questions
         $pdf->Rect(10, 60, 190, 220);
         $pdf->Rect(10, 60, 50, 220); //$pdf->GetX().' '.$pdf->GetY().' '.$pdf->GetPageWidth().' '.$pdf->GetPageHeight()

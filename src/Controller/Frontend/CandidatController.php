@@ -262,9 +262,12 @@ class CandidatController extends AbstractController
         // On initialise le placement des cellules
         $X = 15;
         $Y = 55;
+
         foreach ($userQuizResults as $userQuizResult) {
             $fpdf->AddPage();
-            $fpdf->Cell(0, 15, $candidat->getNomCandidat(). ' ' . $candidat->getPrenomCandidat(), 0, 1, 'C');
+            $fpdf->SetX(15);
+            $fpdf->SetY($Y);
+            $fpdf->Cell(0, 15, $candidat->getNomCandidat() . ' ' . $candidat->getPrenomCandidat(), 0, 1, 'C');
             $answers = $userQuizResult->getUserQuizAnswers();
             // ordre pour vérifier si on change de thème
             $ordre = 0;
@@ -311,7 +314,7 @@ class CandidatController extends AbstractController
             $fpdf->SetFillColor(220, 220, 220);
             $fpdf->SetTextColor(0, 0, 0);
             $fpdf->Cell(40, 5, 'Total', 1, 0, 'R', true);
-            
+
             if ($totalPoint < ($pointsTheme / 2)) {
                 $fpdf->SetTextColor(255, 0, 0);
             }
@@ -334,8 +337,6 @@ class CandidatController extends AbstractController
             }
             $fpdf->SetX($X);
             $fpdf->Cell(60, 10, 'RESULTAT : ' . $userQuizResult->getResult(), 1, 0, 'C');
-
-
         }
         return new Response(
             $fpdf->Output(),

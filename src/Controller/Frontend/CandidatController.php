@@ -262,11 +262,11 @@ class CandidatController extends AbstractController
         // On initialise le placement des cellules
         $X = 15;
         $Y = 55;
-
+        $fpdf->SetX(15);
+        $fpdf->SetY($Y);
         foreach ($userQuizResults as $userQuizResult) {
             $fpdf->AddPage();
-            $fpdf->SetX(15);
-            $fpdf->SetY($Y);
+
             $fpdf->Cell(0, 15, $candidat->getNomCandidat() . ' ' . $candidat->getPrenomCandidat(), 0, 1, 'C');
             $answers = $userQuizResult->getUserQuizAnswers();
             // ordre pour vérifier si on change de thème

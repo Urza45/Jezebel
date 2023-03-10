@@ -262,7 +262,7 @@ class CandidatController extends AbstractController
         // On initialise le placement des cellules
         $X = 15;
         $Y = 55;
-        $fpdf->SetX(15);
+        $fpdf->SetX($X);
         $fpdf->SetY($Y);
         foreach ($userQuizResults as $userQuizResult) {
             $fpdf->AddPage();
@@ -337,6 +337,9 @@ class CandidatController extends AbstractController
             }
             $fpdf->SetX($X);
             $fpdf->Cell(60, 10, 'RESULTAT : ' . $userQuizResult->getResult(), 1, 0, 'C');
+
+            $fpdf->SetX($X);
+            $fpdf->SetY($Y);
         }
         return new Response(
             $fpdf->Output(),

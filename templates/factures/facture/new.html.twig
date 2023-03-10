@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Facture
+{% endblock %}
+
+{% block body %}
+	<h1>Create new Facture</h1>
+
+	{{ include('factures/facture/_form.html.twig') }}
+
+	<a href="{{ path('app_factures_facture_index') }}">back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{# <script type="text/javascript">
+		function ajoutLigne() {
+var div = $('#departement');
+var prototype = div.data('prototype');
+var index = div.data('index');
+if (isNaN(index)) {
+index = 0;
+}
+var newForm = prototype.replace(/__name__/g, index);
+
+div.data('index', index + 1);
+
+$('#btn-add-ligne').before(newForm);
+}
+$(function () {
+$('#facture_lignes').append('<button id="btn-add-ligne" type="button">Ajouter</button>');
+$('#btn-add-ligne').on('click', function (e) { // prevent the link from creating a "#" on the URL
+e.preventDefault();
+
+// add a new tag form (see next code block)
+ajoutLigne();
+});
+});
+	</script> #}
+	<script>
+        let collection, boutonAjout, span;
+        window.onload = () => {
+            collection = document.querySelector("#lignes");
+            span = collection.querySelector("span");
+
+            boutonAjout = document.createElement("button");
+            boutonAjout.className = "ajout-departement btn btn-success";
+            boutonAjout.innerText = "Ajouter une ligne";
+
+            let nouveauBouton = span.append(boutonAjout);
+
+            collection.dataset.index = collection.querySelectorAll("input").length;
+
+            boutonAjout.addEventListener("click", function(){
+                addButton(collection, nouveauBouton);
+            });
+        }
+
+        function addButton(collection, nouveauBouton){
+            let prototype = collection.dataset.prototype;
+
+            let index = collection.dataset.index;
+
+            prototype = prototype.replace(/__name__/g, index);
+
+            let content = document.createElement("html");
+            content.innerHTML = prototype;
+            let newForm = content.querySelector("div");
+
+            let boutonSuppr = document.createElement("button");
+            boutonSuppr.type = "button";
+            boutonSuppr.className = "btn btn-danger";
+            boutonSuppr.id = "delete-lignes-" + index;
+            boutonSuppr.innerText = "Supprimer cette ligne";
+
+            newForm.append(boutonSuppr);
+
+            collection.dataset.index++;
+
+            let boutonAjout = collection.querySelector(".ajout-departement");
+
+            span.insertBefore(newForm, boutonAjout);
+
+            boutonSuppr.addEventListener("click", function(){
+                this.previousElementSibling.parentElement.remove();
+            })
+        }
+
+    </script>
+{% endblock %}

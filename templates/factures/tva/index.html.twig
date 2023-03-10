@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TVA index{% endblock %}
+
+{% block body %}
+    <h1>TVA index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tva</th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for t_v_a in t_v_as %}
+            <tr>
+                <td>{{ t_v_a.id }}</td>
+                <td>{{ t_v_a.tva }}</td>
+                <td>{{ t_v_a.libelle }}</td>
+                <td>
+                    <a href="{{ path('app_factures_t_v_a_show', {'id': t_v_a.id}) }}">show</a>
+                    <a href="{{ path('app_factures_t_v_a_edit', {'id': t_v_a.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_factures_t_v_a_new') }}">Create new</a>
+{% endblock %}

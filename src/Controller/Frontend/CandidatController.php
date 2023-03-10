@@ -5,6 +5,7 @@ namespace App\Controller\Frontend;
 use App\Services\PDF;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
+use App\Entity\Quiz;
 use App\Form\CandidatType;
 use App\Form\Search\SearchCandidatNameSurnameType;
 use App\Repository\CandidatRepository;
@@ -163,8 +164,17 @@ class CandidatController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{id_categorie}", name="app_candidat_test_pratique_result")
+     * resultsCandidatPDF
+     *
+     * @param  Candidat           $candidat
+     * @param  Categorie          $categorie
+     * @param  CandidatRepository $candidatRepository
+     * @param  NormeRepository    $normeRepository
+     * 
+     * @Route("/rp/{id}/{id_categorie}", name="app_candidat_test_pratique_result")
      * @ParamConverter("categorie",   options={"id" = "id_categorie"})
+     * 
+     * @return void
      */
     public function resultsCandidatPDF(
         Candidat $candidat,
@@ -175,7 +185,7 @@ class CandidatController extends AbstractController
         $fpdf = new PDF();
         // Paramètre du PDF
         $fpdf->SetFont('Arial');
-        $fpdf->setReference('Serge Pillay');
+        $fpdf->setReference('');
         $fpdf->setLogo('./images/logo/' . $this->getUser()->getSociety()->getId() . '.jpg');
         $fpdf->setTitre($this->getUser()->getSociety()->getName());
         $adresse = $this->getUser()->getSociety()->getAddress()
@@ -199,6 +209,64 @@ class CandidatController extends AbstractController
         $note2 = $candidatRepository->loadNotes2($candidat->getId(), $categorie->getId());
 
         $fpdf = $normeRepository->getQuestionnairePDF($fpdf, $candidat->getIdDossier()->getIdNorme()->getId(), $categorie->getId(), $note1, $note2);
+
+        return new Response(
+            $fpdf->Output(),
+            200,
+            array(
+                'Content-Type' => 'application/pdf'
+            )
+        );
+    }
+
+    /**
+     * resultsTheoryPDF
+     *
+     * @param  Candidat           $candidat
+     * @param  Quiz               $quiz
+     * @param  CandidatRepository $candidatRepository
+     * @param  NormeRepository    $normeRepository
+     * @param  Quiz                
+     * 
+     * @Route("/rt/{id}/{id_quiz}", name="app_candidat_test_theo_result")
+     * @ParamConverter("quiz", options={"id" = "id_quiz"})
+     * 
+     * @return void
+     */
+    public function resultsTheoryPDF(
+        Candidat $candidat,
+        Quiz $quiz,
+        CandidatRepository $candidatRepository,
+        NormeRepository $normeRepository
+    ) {
+        $fpdf = new PDF();
+        $societe = $this->getUser()->getSociety();
+        // Paramètre du PDF
+        $fpdf->SetFont('Arial');
+        $fpdf->setReference('');
+        $fpdf->setLogo('./images/logo/' . $societe->getId() . '.jpg');
+        $fpdf->setTitre($societe->getName());
+        $adresse = $societe->getAddress()
+            . ' - ' . $societe->getCp()
+            . ' - ' . $societe->getTown();
+        $fpdf->setAdresse($adresse);
+        $fpdf->AliasNbPages();
+        $fpdf->setAddHeader(PDF::WITH_HEADER);
+        $fpdf->setAddFooter(PDF::WITH_FOOTER);
+        $fpdf->AddPage();
+
+        $userQuizResults = $candidat->getUserQuizResults();
+        
+        foreach($userQuizResults as $userQuizResult) {
+            dump('userQuizResult : ' . $userQuizResult->getNorme()->getLabel());
+            $answers = $userQuizResult->getUserQuizAnswers();
+            foreach($answers as $answer) {
+                dump($answer);
+            }
+        }
+
+        dump($candidat->getUserQuizResults());
+        dd($quiz->getThemeTheoriques());
 
         return new Response(
             $fpdf->Output(),

@@ -70,6 +70,36 @@ class TestTheoriqueController extends AbstractController
     }
 
     /**
+     * delete
+     *
+     * @param Request                $request
+     * @param UserQuizResult         $UserQuizResult
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @Route("/frontend/test/delete/theo//{id}", name="app_frontend_test_theo_delete", methods={"POST", "GET"})
+     * 
+     * @return Response
+     */
+    public function delete(UserQuizResult $userQuizResult, Request $request,  EntityManagerInterface $entityManager): Response
+    {
+        $answers = $userQuizResult->getUserQuizAnswers();
+
+        
+        
+        foreach ($answers as $answer) {
+            $entityManager->remove($answer);
+            $entityManager->flush();
+        };
+        
+        // if ($this->isCsrfTokenValid('delete' . $userQuizResult->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($userQuizResult);
+            $entityManager->flush();
+        // }
+
+        return $this->redirectToRoute('app_frontend_test_theorique', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
      * Undocumented function
      *
      * @param Quiz     $quiz
@@ -144,7 +174,7 @@ class TestTheoriqueController extends AbstractController
             $entityManager->flush();
         }
 
-        
+
         return $this->render('frontend/test_theorique/resultat_theorique.html.twig', [
             'controller_name' => 'TestTheoriqueController',
             'quiz' => $quiz,

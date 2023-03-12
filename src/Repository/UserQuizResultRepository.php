@@ -84,16 +84,16 @@ class UserQuizResultRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getResultQuiz(Candidat $candidat, Quiz $quiz)
+    public function getResultQuiz(Candidat $candidat, UserQuizResult $userQuizResult)
     {
         $resultat = 'RECU';
 
-        $noteGlobal = $this->getNoteGlobale($candidat, $quiz)[0]['noteGlobale'];
+        $noteGlobal = $this->getNoteGlobale($candidat, $userQuizResult)[0]['noteGlobale'];
 
         if ($noteGlobal < 70) {
              $resultat = 'ECHEC';
         } else {
-            $notesThemes = $this->getNotesThemes($candidat, $quiz);
+            $notesThemes = $this->getNotesThemes($candidat, $userQuizResult);
             foreach ($notesThemes as $tab) {
                 $note = $tab['note'];
                 $noteMax = $tab['pts'];

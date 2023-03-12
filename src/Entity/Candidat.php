@@ -345,6 +345,11 @@ class Candidat
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getNomCandidat();
+    }
+
     /**
      * @return Collection<int, UserQuizResult>
      */

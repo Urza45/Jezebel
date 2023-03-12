@@ -1,6 +1,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example">
-	<div class="container-fluid">
+	<div
+		class="container-fluid">
 		{# <a class="navbar-brand" href="#">Expand at xl</a> #}
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -14,48 +15,61 @@
 				</li>
 				{% if app.user %}
 					{% if is_granted('ROLE_SUPERADMIN') %}
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
-						<ul class="dropdown-menu" aria-labelledby="dropdown01">
-							<li>
-								<a class="dropdown-item" href="{{ path('app_admin_index') }}">
-									<i class="fa-solid fa-user"></i>
-									Utilisateurs</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_news_index') }}">
-									<i class="fa-solid fa-newspaper"></i>
-									News</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_parameters_society_index') }}">
-									<i class="fa-solid fa-screwdriver-wrench"></i>
-									Paramètres</a>
-							</li>
-						</ul>
-					</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown01">
+								<li>
+									<a class="dropdown-item" href="{{ path('app_admin_index') }}">
+										<i class="fa-solid fa-user"></i>
+										Utilisateurs</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_news_index') }}">
+										<i class="fa-solid fa-newspaper"></i>
+										News</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_parameters_society_index') }}">
+										<i class="fa-solid fa-screwdriver-wrench"></i>
+										Paramètres</a>
+								</li>
+							</ul>
+						</li>
 					{% endif %}
 					{% if is_granted('ROLE_ADMIN') %}
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
-						<ul class="dropdown-menu" aria-labelledby="dropdown02">
-							<li>
-								<a class="dropdown-item" href="{{ path('app_client_index') }}">
-									<i class="fa-solid fa-industry"></i>
-									Sociétés</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_dossier_index') }}">
-									<i class="fa-solid fa-file"></i>
-									Dossiers</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_candidat_index') }}">
-									<i class="fa-solid fa-user"></i>
-									Candidats</a>
-							</li>
-						</ul>
-					</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown02">
+								<li>
+									<a class="dropdown-item" href="{{ path('app_client_index') }}">
+										<i class="fa-solid fa-industry"></i>
+										Sociétés</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										<i class="fa-solid fa-address-book"></i>Contacts (En cours de réalisation)
+									</a>
+								</li>
+								<li><hr class="dropdown-divider"></li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_dossier_index') }}">
+										<i class="fa-solid fa-file"></i>
+										Dossiers</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										<i class="fa-solid fa-file-invoice-dollar"></i>
+										Facturation (En cours de réalisation)
+									</a>
+								</li>
+								<li><hr class="dropdown-divider"></li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_candidat_index') }}">
+										<i class="fa-solid fa-user"></i>
+										Candidats</a>
+								</li>
+							</ul>
+						</li>
 					{% endif %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Tests</a>

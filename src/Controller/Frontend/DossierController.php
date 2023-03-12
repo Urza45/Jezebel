@@ -10,6 +10,7 @@ use App\Form\DossierType;
 use App\Entity\Categoriechoisie;
 use App\Form\ChoiceCategoriesType;
 use App\Form\Search\SearchDossierType;
+use App\Repository\CandidatRepository;
 use App\Repository\DossierRepository;
 use App\Repository\SocietyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -112,12 +113,15 @@ class DossierController extends AbstractController
      * 
      * @return Response
      */
-    public function show(Dossier $dossier): Response
+    public function show(Dossier $dossier, CandidatRepository $candidatRepository): Response
     {
+        $candidats = $candidatRepository->findByIdDossier($dossier->getId());
+        
         return $this->render(
             'dossier/show.html.twig',
             [
                 'dossier' => $dossier,
+                'candidats' => $candidats
             ]
         );
     }
@@ -139,7 +143,6 @@ class DossierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
 
             $entityManager->persist($dossier);
             $entityManager->flush();

@@ -41,18 +41,18 @@ class UserQuizResultRepository extends ServiceEntityRepository
         }
     }
 
-    public function getNoteGlobale(Candidat $candidat, Quiz $quiz)
+    public function getNoteGlobale(Candidat $candidat, UserQuizResult $userQuizResult)
     {
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
             select sum(pts) noteGlobale from user_quiz_answer a, user_quiz_result r 
-            where a.user_quiz_result_id = r.id and r.quiz_id = :quiz and r.candidat_id = :candidat;
+            where a.user_quiz_result_id = r.id and r.id = :quiz and r.candidat_id = :candidat;
             ';
 
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery([
-            'quiz' => $quiz->getId(),
+            'quiz' => $userQuizResult->getId(),
             'candidat' => $candidat->getId()
         ]);
 
@@ -60,7 +60,7 @@ class UserQuizResultRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getNotesThemes(Candidat $candidat, Quiz $quiz)
+    public function getNotesThemes(Candidat $candidat, UserQuizResult $userQuizResult)
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -70,13 +70,13 @@ class UserQuizResultRepository extends ServiceEntityRepository
         inner join questions q on uqa.question_id = q.id 
         inner join sous_theme st on q.sous_theme_id = st.id 
         inner join theme_theorique tt on st.theme_theorique_id = tt.id 
-        where uqr.quiz_id = :quiz and uqr.candidat_id = :candidat
+        where uqr.id = :quiz and uqr.candidat_id = :candidat
         group by tt.id
             ';
 
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery([
-            'quiz' => $quiz->getId(),
+            'quiz' => $userQuizResult->getId(),
             'candidat' => $candidat->getId()
         ]);
 

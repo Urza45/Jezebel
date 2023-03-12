@@ -1,102 +1,121 @@
 <!-- Navigation-->
-<nav>
-	<ul class="nav justify-content-end">
-		<li>
-			<a href="{{ path('app_home') }}">
-				<i class="fa-solid fa-house-chimney"></i>
-			</a>
-		</li>
-		{% if app.user %}
-			{% if 'ROLE_ULTRAADMIN' in app.user.roles %}
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example">
+	<div class="container-fluid">
+		{# <a class="navbar-brand" href="#">Expand at xl</a> #}
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarsExample06">
+			<ul class="navbar-nav me-auto mb-2 mb-xl-0">
 				<li class="nav-item">
-					<a class="dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Abonnements
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a class="dropdown-item" href="/admin/utilisateurs.html">Sociétés</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/normes.html">Contacts</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/news.html">Normes autorisées</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/news.html">Abonnements</a>
-						</li>
-					</ul>
+					<a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">
+						<i class="fa-solid fa-house-chimney"></i>
+						Accueil</a>
 				</li>
-			{% endif %}
-			{% if 'ROLE_SUPERADMIN' in app.user.roles %}
-				<li class="nav-item">
-					<a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Administration
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a class="dropdown-item" href="/admin/utilisateurs.html">Utilisateurs</a>
+				{% if app.user %}
+					{% if is_granted('ROLE_SUPERADMIN') %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown01">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_admin_index') }}">
+									<i class="fa-solid fa-user"></i>
+									Utilisateurs</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_news_index') }}">
+									<i class="fa-solid fa-newspaper"></i>
+									News</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_parameters_society_index') }}">
+									<i class="fa-solid fa-screwdriver-wrench"></i>
+									Paramètres</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown02">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_client_index') }}">
+									<i class="fa-solid fa-industry"></i>
+									Sociétés</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_dossier_index') }}">
+									<i class="fa-solid fa-file"></i>
+									Dossiers</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_candidat_index') }}">
+									<i class="fa-solid fa-user"></i>
+									Candidats</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-expanded="false">Tests</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown03">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_frontend_test_theorique') }}">
+									<i class="fa-solid fa-chalkboard-user"></i>
+									Tests théoriques</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_test_pratique') }}">
+									<i class="fa-solid fa-tractor"></i>
+									Tests pratiques</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/documentation">Documentation</a>
+					</li>
+					{% if is_granted('ROLE_ULTRAADMIN') %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa-solid fa-gear"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdown04">
+								<li>
+									<a class="dropdown-item" href="/society/">Sociétés</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/contact/">Contacts</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/normes/autorisees">Normes autorisées</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/admin/news.html">Abonnements</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_norme_index') }}">Normes</a>
+								</li>
+							</ul>
 						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/normes.html">Normes</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/news.html">News</a>
-						</li>
-					</ul>
-				</li>
-			{% endif %}
-			{% if 'ROLE_ADMIN' in app.user.roles %}
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Dropdown
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li>
-							<a class="dropdown-item" href="#">Action</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">Another action</a>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Gestion
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li>
-							<a class="dropdown-item" href="/admin/client.html">Clients</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/dossier.html">Dossiers</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="/admin/dossier.html">Candidats</a>
-						</li>
-					</ul>
-				</li>
-			{% endif %}
-
-			<li>
-				<a href="/saisie.html">Tests pratiques</a>
-			</li>
-			<li>
-				<a href="/print/index.html">Documentation</a>
-			</li>
-			<li class="last">
-				<a href="/logout">Déconnexion</a>
-			</li>
-
-		{% else %}
-			<li class="last">
-				<a href="/login">Espace réservé</a>
-			</li>
-		{% endif %}
-	</ul>
-
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_logout') }}">
+							Se déconnecter
+							<i class="fa-solid fa-right-from-bracket"></i>
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_login') }}">
+							<i class="fa-solid fa-right-to-bracket"></i>
+							Se connecter</a>
+					</li>
+				{% endif %}
+			</ul>
+			<form>
+				{# <input class="form-control" type="text" placeholder="Search" aria-label="Search"> #}
+			</form>
+		</div>
+	</div>
 </nav>

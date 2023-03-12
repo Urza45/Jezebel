@@ -42,55 +42,65 @@
 	</div>
 	<hr>
 	{# Fin moteur de recherche #}
-	<table>
-		<thead>
-			<tr>
-				<th>Dossier</th>
-				{# <th>Facture</th> #}
-				<th>Début</th>
-				<th>Fin</th>
-				<th>Type</th>
-				<th>Adresse Intervention</th>
-				<th>Norme</th>
-				<th>Client</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% set style = 'row-b' %}
-			{% for dossier in dossiers %}
-				{% if style == 'row-b' %}
-					{% set style = 'row-a' %}
-				{% else %}
-					{% set style = 'row-b' %}
-				{% endif %}
-				<tr class="{{ style }}">
-					<td>{{ dossier.numDossier }}</td>
-					{# <td>{{ dossier.numFacture }}</td> #}
-					<td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td>
-					<td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td>
-					<td>{{ dossier.type }}</td>
-					<td>{{ dossier.adresseIntervention }}
-						{{ dossier.cpIntervention }}
-						{{ dossier.villeIntervention }}</td>
-					<td>{{ dossier.idNorme }}</td>
-
-					<td>{{ dossier.idClient }}</td>
-					<td>
-						<a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
-							<i class="fa-regular fa-eye"></i>
-						</a>
-						<a href="{{ path('app_dossier_edit', {'id': dossier.id}) }}">
-							<i class="fa-solid fa-file-pen"></i>
-						</a>
-						<a href="{{ path('app_dossier_add_candidat', {'id': dossier.id}) }}">
-							<i class="fa-solid fa-user-plus"></i>
-						</a>
-						{# <a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
-																																																					<i class="fa-solid fa-file-pdf"></i>
-																																																				</a> #}
-					</td>
+	<div class="table-responsive">
+		<table class="table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Dossier</th>
+					{# <th>Facture</th> #}
+					<th>Début</th>
+					<th>Fin</th>
+					<th>Type</th>
+					<th>Adresse Intervention</th>
+					<th>Norme</th>
+					<th>Client</th>
+					<th>Actions</th>
 				</tr>
+			</thead>
+			<tbody>
+				{% set style = 'row-b' %}
+				{% for dossier in dossiers %}
+					<tr>
+						<td>{{ dossier.numDossier }}</td>
+						{# <td>{{ dossier.numFacture }}</td> #}
+						<td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td>
+						<td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td>
+						<td>{{ dossier.type }}</td>
+						<td>{{ dossier.adresseIntervention }}
+							{{ dossier.cpIntervention }}
+							{{ dossier.villeIntervention }}</td>
+						<td>{{ dossier.idNorme }}</td>
+
+						<td>{{ dossier.idClient }}</td>
+						<td>
+							<a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{ path('app_dossier_edit', {'id': dossier.id}) }}">
+								<i class="fa-solid fa-file-pen"></i>
+							</a>
+							<a href="{{ path('app_dossier_add_candidat', {'id': dossier.id}) }}">
+								<i class="fa-solid fa-user-plus"></i>
+							</a>
+							{# <a href="{{ path('app_dossier_show', {'id': dossier.id}) }}"> #}
+						{# <i class="fa-solid fa-file-pdf"></i> #}
+							{# </a> #}
+						</td>
+					</tr>
+					{% if contacts is defined %}
+
+						{% else %}
+							<td colspan="7">
+								Pas de contact trouvé<br>
+								<a href="#">
+									<i class="fa-solid fa-address-book"></i></i>
+									Ajouter un contact (En cours de réalisation)
+								</a>
+							</td>
+							<td></td>
+						</a>
+					</td>
+				{% endif %}
 			{% else %}
 				<tr>
 					<td colspan="12">no records found</td>
@@ -98,5 +108,4 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-{% endblock %}
+</div>{% endblock %}

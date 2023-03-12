@@ -59,7 +59,7 @@
 												<i class="fa-solid fa-square-check text-success"></i>
 											{% endif %}
 											{{ resultat.result}}
-											<a href="{{ path('app_candidat_test_theo_result', {'id': candidat.id, 'id_quiz': resultat.quiz.id}) }}" target="_blank">
+											<a href="{{ path('app_candidat_test_theo_result', {'id': candidat.id, 'id_quiz': resultat.id}) }}" target="_blank">
 												<i class="fa-solid fa-file-pdf"></i>
 											</a><br/>
 										{% endfor %}

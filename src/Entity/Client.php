@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,6 +62,16 @@ class Client
      * @ORM\ManyToOne(targetEntity=Society::class, inversedBy="clients")
      */
     private $society;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ContactClient::class, mappedBy="client")
+     */
+    private $contactClients;
+
+    public function __construct()
+    {
+        $this->contactClients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +151,36 @@ class Client
     public function setSociety(?Society $society): self
     {
         $this->society = $society;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactClient>
+     */
+    public function getContactClients(): Collection
+    {
+        return $this->contactClients;
+    }
+
+    public function addContactClient(ContactClient $contactClient): self
+    {
+        if (!$this->contactClients->contains($contactClient)) {
+            $this->contactClients[] = $contactClient;
+            $contactClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactClient(ContactClient $contactClient): self
+    {
+        if ($this->contactClients->removeElement($contactClient)) {
+            // set the owning side to null (unless already changed)
+            if ($contactClient->getClient() === $this) {
+                $contactClient->setClient(null);
+            }
+        }
 
         return $this;
     }

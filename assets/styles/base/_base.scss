@@ -28,9 +28,9 @@ body {
 .master_content {
   padding: $height-header 0 $height-footer 0;
 
-  @media all and (max-width: 767px) {
-    padding: 0 0 $height-footer 0;
-  }
+  // @media all and (max-width: 767px) {
+  //   padding: 0 0 $height-footer 0;
+  // }
 }
 
 section {

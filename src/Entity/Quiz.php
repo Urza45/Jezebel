@@ -79,6 +79,11 @@ class Quiz
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getIntitule();
+    }
+
     /**
      * @return Collection<int, ThemeTheorique>
      */

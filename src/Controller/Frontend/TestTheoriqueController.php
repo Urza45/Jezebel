@@ -9,6 +9,7 @@ use App\Entity\Candidat;
 use App\Entity\Questions;
 use App\Entity\UserQuizAnswer;
 use App\Entity\UserQuizResult;
+use App\Form\UserQuizResultType;
 use App\Repository\AnswersRepository;
 use App\Repository\QuestionsRepository;
 use App\Repository\UserQuizResultRepository;
@@ -30,7 +31,7 @@ class TestTheoriqueController extends AbstractController
      *  
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, UserQuizResultRepository $userQuizResultRepository): Response
     {
         // Liste des dossiers
         if ($this->isGranted('ROLE_ULTRAADMIN')) {
@@ -55,12 +56,39 @@ class TestTheoriqueController extends AbstractController
                 ->findBySociety($this->getUser()->getSociety()->getId());
         }
 
+        $tab = $request->request->get('user_quiz_result');
+        dump($tab);
+
+        if ($tab) {
+            $userQuiz = $userQuizResultRepository->findOneById($tab['id']);
+            $date = new \DateTime($tab['dateTest']);
+            $userQuiz->setDateTest($date);
+            $entityManager->persist($userQuiz);
+            $entityManager->flush();
+        }
+        // dump($request->request->get('user_quiz_result')['dateTest']);
+        // dump($request->request->get('user_quiz_result')['id']);
+
+        foreach ($candidats as $candidat) {
+            $userQuizResults = $candidat->getUserQuizResults();
+            foreach ($userQuizResults as $userQuizResult) {
+                $form[$userQuizResult->getId()] = $this->createForm(UserQuizResultType::class, $userQuizResult);
+                // $form[$userQuizResult->getId()]->handleRequest($userQuizResult);
+                $formView[$userQuizResult->getId()] = $form[$userQuizResult->getId()]->createView();
+            }
+        }
+
+
+
+
+
         return $this->render(
             'frontend/test_theorique/index.html.twig',
             [
                 'controller_name' => 'TestTheoriqueController',
                 'dossiers' => $dossiers,
                 'candidats' => $candidats,
+                'form' => $formView
             ]
         );
 
@@ -84,16 +112,16 @@ class TestTheoriqueController extends AbstractController
     {
         $answers = $userQuizResult->getUserQuizAnswers();
 
-        
-        
+
+
         foreach ($answers as $answer) {
             $entityManager->remove($answer);
             $entityManager->flush();
         };
-        
+
         // if ($this->isCsrfTokenValid('delete' . $userQuizResult->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($userQuizResult);
-            $entityManager->flush();
+        $entityManager->remove($userQuizResult);
+        $entityManager->flush();
         // }
 
         return $this->redirectToRoute('app_frontend_test_theorique', [], Response::HTTP_SEE_OTHER);
@@ -153,7 +181,7 @@ class TestTheoriqueController extends AbstractController
         $userQuizResult->setNorme($quiz->getNorme());
         $userQuizResult->setQuiz($quiz);
         $userQuizResult->setDateTest(new \DateTime());
-        $userQuizResult->setResult($userQuizResultRepository->getResultQuiz($candidat, $quiz));
+        // $userQuizResult->setResult($userQuizResultRepository->getResultQuiz($candidat, $quiz));
         $entityManager->persist($userQuizResult);
         $entityManager->flush();
 
@@ -171,6 +199,10 @@ class TestTheoriqueController extends AbstractController
                 $resultat->setPts($repo->getPts());
             }
             $entityManager->persist($resultat);
+            $entityManager->flush();
+
+            $userQuizResult->setResult($userQuizResultRepository->getResultQuiz($candidat, $userQuizResult));
+            $entityManager->persist($userQuizResult);
             $entityManager->flush();
         }
 

@@ -15,12 +15,13 @@
 
 {% macro niceForm(form) %}
 	<div class="row">
-		<div class="col-lg-6">
-			{{ form_row(form.description) }}
+		<div class="col-lg-5">
+			{{ form_widget(form.description) }}
 		</div>
-		<div class="col-lg-2">{{ form_row(form.quantite) }}</div>
-		<div class="col-lg-2">{{ form_row(form.tva) }}</div>
-		<div class="col-lg-2">{{ form_row(form.prix) }}</div>
+		<div class="col-lg-2">{{ form_widget(form.quantite) }}</div>
+		<div class="col-lg-2">{{ form_widget(form.tva) }}</div>
+		<div class="col-lg-2">{{ form_widget(form.prix) }}</div>
+		<div id="bt_suppr" class="col-lg-1"></div>
 	</div>
 {% endmacro %}
 
@@ -57,5 +58,5 @@ Son rendu se fait aussi simplement qu'un formulaire standard :
 </div> #}
 
 
-<button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

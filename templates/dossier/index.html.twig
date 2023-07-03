@@ -42,18 +42,20 @@
 	</div>
 	<hr>
 	{# Fin moteur de recherche #}
-	<div class="table-responsive">
-		<table class="table-bordered table-hover">
+	
+		<table id="formatedTable" class="table-bordered table-hover table-responsive">
 			<thead>
 				<tr>
 					<th>Dossier</th>
-					{# <th>Facture</th> #}
-					<th>Début</th>
-					<th>Fin</th>
-					<th>Type</th>
-					<th>Adresse Intervention</th>
-					<th>Norme</th>
 					<th>Client</th>
+					{# <th>Facture</th> #}
+					{# <th>Début</th>
+																											<th>Fin</th> #}
+					<th>Contact(s)</th>
+					<th>Type</th>
+					{# <th>Adresse Intervention</th> #}
+					<th>Norme</th>
+
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -63,15 +65,19 @@
 					<tr>
 						<td>{{ dossier.numDossier }}</td>
 						{# <td>{{ dossier.numFacture }}</td> #}
-						<td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td>
-						<td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td>
-						<td>{{ dossier.type }}</td>
-						<td>{{ dossier.adresseIntervention }}
-							{{ dossier.cpIntervention }}
-							{{ dossier.villeIntervention }}</td>
-						<td>{{ dossier.idNorme }}</td>
-
+						{# <td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td>
+																																	<td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td> #}
 						<td>{{ dossier.idClient }}</td>
+						<td>
+							{% if contacts is defined %}
+
+								{% else %}
+									Pas de contact trouvé
+							{% endif %}
+							<i class="fa-solid fa-address-book"></i>Ajouter un contact (En cours de réalisation)
+						</td>
+						<td>{{ dossier.type }}</td>
+						<td>{{ dossier.idNorme }}</td>
 						<td>
 							<a href="{{ path('app_dossier_show', {'id': dossier.id}) }}">
 								<i class="fa-regular fa-eye"></i>
@@ -86,26 +92,15 @@
 						{# <i class="fa-solid fa-file-pdf"></i> #}
 							{# </a> #}
 						</td>
+						{# <td>{{ dossier.adresseIntervention }} #}
+						{# {{ dossier.cpIntervention }}{{ dossier.villeIntervention }} #}
 					</tr>
-					{% if contacts is defined %}
-
-						{% else %}
-							<td colspan="7">
-								Pas de contact trouvé<br>
-								<a href="#">
-									<i class="fa-solid fa-address-book"></i></i>
-									Ajouter un contact (En cours de réalisation)
-								</a>
-							</td>
-							<td></td>
-						</a>
-					</td>
-				{% endif %}
-			{% else %}
-				<tr>
-					<td colspan="12">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>{% endblock %}
+				{% else %}
+					<tr>
+						<td colspan="12">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

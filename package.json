@@ -24,6 +24,9 @@
     "dependencies": {
         "autoprefixer": "^10.4.13",
         "bootstrap": "^5.2.3",
+        "datatables.net": "^1.13.4",
+        "datatables.net-bs5": "^1.13.4",
+        "datatables.net-dt": "^1.13.4",
         "postcss-loader": "^7.0.2"
     }
 }

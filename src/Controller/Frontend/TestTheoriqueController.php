@@ -57,7 +57,6 @@ class TestTheoriqueController extends AbstractController
         }
 
         $tab = $request->request->get('user_quiz_result');
-        dump($tab);
 
         if ($tab) {
             $userQuiz = $userQuizResultRepository->findOneById($tab['id']);
@@ -66,8 +65,6 @@ class TestTheoriqueController extends AbstractController
             $entityManager->persist($userQuiz);
             $entityManager->flush();
         }
-        // dump($request->request->get('user_quiz_result')['dateTest']);
-        // dump($request->request->get('user_quiz_result')['id']);
 
         foreach ($candidats as $candidat) {
             $userQuizResults = $candidat->getUserQuizResults();
@@ -78,10 +75,6 @@ class TestTheoriqueController extends AbstractController
             }
         }
 
-
-
-
-
         return $this->render(
             'frontend/test_theorique/index.html.twig',
             [
@@ -91,10 +84,6 @@ class TestTheoriqueController extends AbstractController
                 'form' => $formView
             ]
         );
-
-        // return $this->render('frontend/test_theorique/index.html.twig', [
-        //     'controller_name' => 'TestTheoriqueController',
-        // ]);
     }
 
     /**

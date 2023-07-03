@@ -5,46 +5,46 @@
 
 {% block body %}
 
-		<h1>Liste des news</h1>
+	<h1>Liste des news</h1>
 
-		<center>
-			<a href="{{ path('app_news_new') }}">Créer une news</a>
-		</center>
+	<center>
+		<a href="{{ path('app_news_new') }}">Créer une news</a>
+	</center>
 
-		<table>
-			<thead>
+	<table id="formatedTable" class="table-bordered table-hover table-responsive">
+		<thead>
+			<tr>
+				<th>Auteur</th>
+				<th>Titre</th>
+				<th>Contenu</th>
+				<th>Dateajout</th>
+				<th>Datemodif</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for news in news %}
 				<tr>
-					<th>Auteur</th>
-					<th>Titre</th>
-					<th>Contenu</th>
-					<th>Dateajout</th>
-					<th>Datemodif</th>
-					<th>actions</th>
+					<td>{{ news.auteur }}</td>
+					<td>{{ news.titre }}</td>
+					<td>{{ news.contenu }}</td>
+					<td>{{ news.dateajout ? news.dateajout|date('d/m/Y H:i:s') : '' }}</td>
+					<td>{{ news.datemodif ? news.datemodif|date('d/m/Y H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_news_show', {'id': news.id}) }}">
+							<i class="fa-regular fa-eye"></i>
+						</a>
+						<a href="{{ path('app_news_edit', {'id': news.id}) }}">
+							<i class="fa-solid fa-file-pen"></i>
+						</a>
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				{% for news in news %}
-					<tr>
-						<td>{{ news.auteur }}</td>
-						<td>{{ news.titre }}</td>
-						<td>{{ news.contenu }}</td>
-						<td>{{ news.dateajout ? news.dateajout|date('d/m/Y H:i:s') : '' }}</td>
-						<td>{{ news.datemodif ? news.datemodif|date('d/m/Y H:i:s') : '' }}</td>
-						<td>
-							<a href="{{ path('app_news_show', {'id': news.id}) }}">
-								<i class="fa-regular fa-eye"></i>
-							</a>
-							<a href="{{ path('app_news_edit', {'id': news.id}) }}">
-								<i class="fa-solid fa-file-pen"></i>
-							</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="7">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
 {% endblock %}

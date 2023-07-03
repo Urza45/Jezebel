@@ -70,15 +70,15 @@
 														{% else %}
 															<td>
 																{{ resultat.dateTest|date("d/m/Y") }}
-																-
-																{% if resultat.result is same as ('ECHEC') %}
-																	<i class="fa-solid fa-square-xmark text-danger"></i>
-																{% else %}
-																	<i class="fa-solid fa-square-check text-success"></i>
-																{% endif %}
+
 															</td>
 														{% endif %}
 														<td>
+															{% if resultat.result is same as ('ECHEC') %}
+																<i class="fa-solid fa-square-xmark text-danger"></i>
+															{% else %}
+																<i class="fa-solid fa-square-check text-success"></i>
+															{% endif %}
 															{{ resultat.result}}
 															<a href="{{ path('app_candidat_test_theo_result', {'id': candidat.id, 'id_quiz': resultat.id}) }}" target="_blank">
 																<i class="fa-solid fa-file-pdf"></i>

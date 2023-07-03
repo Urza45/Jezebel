@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
-{ 
+{
     /**
      * index
      *
@@ -35,7 +35,7 @@ class HomeController extends AbstractController
             ]
         );
     }
- 
+
     /**
      * showPDF
      *
@@ -59,7 +59,7 @@ class HomeController extends AbstractController
             )
         );
     }
-  
+
     /**
      * sendMailTestPDF
      *
@@ -81,7 +81,7 @@ class HomeController extends AbstractController
             'subject' => 'Message test',
             // 'from' => $mailFrom,
             'to' => 'serge.pillay@orange.fr',
-            // 'file' => 'report.pdf',
+            'file' => 'report.pdf',
             'template' => 'mail/send_email.html.twig',
             'parameters' => [
                 'user' => 'Serge'

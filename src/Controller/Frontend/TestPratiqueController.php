@@ -59,6 +59,15 @@ class TestPratiqueController extends AbstractController
             ->getRepository(Categoriechoisie::class)
             ->findAll();
 
+        // foreach ($candidats as $candidat) {
+        //     $userQuizResults = $candidat->get();
+        //     foreach ($userQuizResults as $userQuizResult) {
+        //         $form[$userQuizResult->getId()] = $this->createForm(UserQuizResultType::class, $userQuizResult);
+        //         // $form[$userQuizResult->getId()]->handleRequest($userQuizResult);
+        //         $formView[$userQuizResult->getId()] = $form[$userQuizResult->getId()]->createView();
+        //     }
+        // }
+
         $test = $normeRepository->getQuestionnaire(1, 1, 1);
 
         $test2 = $candidatRepository->resultats_categorie(5, 6);

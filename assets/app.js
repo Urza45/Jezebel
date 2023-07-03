@@ -12,4 +12,27 @@ import './styles/app.scss';
 import { Tooltip, Toast, Popover } from 'bootstrap';
 
 // start the Stimulus application
-import './bootstrap';
+// import './bootstrap';
+
+import 'datatables.net';
+import 'datatables.net-bs5';
+
+// DataTables initialisation
+// $(function () {
+//     $('formatedTable').DataTable();
+//     console.log('OK');
+// })
+// let table = new DataTable('formatedTable', {
+//     // config options...
+// });
+
+
+$.extend(true, $.fn.dataTable.defaults, {
+    language: {
+        url: '/css/fonts/fr-FR.json'
+    },
+});
+
+$('#formatedTable').DataTable();
+
+

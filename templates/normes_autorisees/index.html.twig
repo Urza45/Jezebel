@@ -1,37 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}NormesAutorisees index{% endblock %}
+{% block title %}NormesAutorisees index
+{% endblock %}
 
 {% block body %}
-    <h1>NormesAutorisees index</h1>
+	<h1>NormesAutorisees index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Société</th>
-                <th>Norme</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for normes_autorisee in normes_autorisees %}
-            <tr>
-                <td>{{ normes_autorisee.id }}</td>
-                <td>{{ normes_autorisee.society }}</td>
-                <td>{{ normes_autorisee.normes }}</td>
-                <td>
-                    <a href="{{ path('app_normes_autorisees_show', {'id': normes_autorisee.id}) }}">show</a>
-                    <a href="{{ path('app_normes_autorisees_edit', {'id': normes_autorisee.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table id="formatedTable" class="table-bordered table-hover table-responsive">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Société</th>
+				<th>Norme</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for normes_autorisee in normes_autorisees %}
+				<tr>
+					<td>{{ normes_autorisee.id }}</td>
+					<td>{{ normes_autorisee.society }}</td>
+					<td>{{ normes_autorisee.normes }}</td>
+					<td>
+						<a href="{{ path('app_normes_autorisees_show', {'id': normes_autorisee.id}) }}">show</a>
+						<a href="{{ path('app_normes_autorisees_edit', {'id': normes_autorisee.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="2">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_normes_autorisees_new') }}">Create new</a>
+	<a href="{{ path('app_normes_autorisees_new') }}">Create new</a>
 {% endblock %}

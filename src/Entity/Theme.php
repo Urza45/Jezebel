@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Theme
  *
- * @ORM\Table(name="theme",                                      indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
+ * @ORM\Table(name="theme", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
  * @ORM\Entity(repositoryClass="App\Repository\ThemeRepository")
  */
 class Theme
@@ -16,7 +16,7 @@ class Theme
     /**
      * @var int
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

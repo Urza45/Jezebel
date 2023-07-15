@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * @Route("/test/pratique")
  */
@@ -25,12 +24,12 @@ class TestPratiqueController extends AbstractController
     /**
      * index
      *
-     * @param  NormeRepository        $normeRepository
-     * @param  CandidatRepository     $candidatRepository
-     * @param  EntityManagerInterface $entityManager
-     * 
+     * @param NormeRepository        $normeRepository
+     * @param CandidatRepository     $candidatRepository
+     * @param EntityManagerInterface $entityManager
+     *
      * @Route("/", name="app_test_pratique")
-     * 
+     *
      * @return void
      */
     public function index(
@@ -70,7 +69,7 @@ class TestPratiqueController extends AbstractController
 
         $test = $normeRepository->getQuestionnaire(1, 1, 1);
 
-        $test2 = $candidatRepository->resultats_categorie(5, 6);
+        $test2 = $candidatRepository->resultatsCategorie(5, 6);
 
         return $this->render(
             'test_pratique/index.html.twig',

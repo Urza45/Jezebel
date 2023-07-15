@@ -29,9 +29,9 @@ class CandidatController extends AbstractController
      *
      * @param Request            $request
      * @param CandidatRepository $candidatRepository
-     * 
+     *
      * @Route("/", name="app_candidat_index", methods={"GET","POST"})
-     * 
+     *
      * @return Response
      */
     public function index(Request $request, CandidatRepository $candidatRepository): Response
@@ -42,9 +42,8 @@ class CandidatController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $nom = $form->get('name')->getData();
             $prenom = $form->get('surname')->getData();
-            $candidats = $candidatRepository->SearchByNameSurname($nom, $prenom);
+            $candidats = $candidatRepository->searchByNameSurname($nom, $prenom);
         } else {
-
             if ($this->isGranted('ROLE_ULTRAADMIN')) {
                 $candidats = $candidatRepository->findAll();
             } else {
@@ -64,11 +63,11 @@ class CandidatController extends AbstractController
     /**
      * new
      *
-     * @param  Request                $request
-     * @param  EntityManagerInterface $entityManager
-     * 
+     * @param Request                $request
+     * @param EntityManagerInterface $entityManager
+     *
      * @Route("/new", name="app_candidat_new", methods={"GET", "POST"})
-     * 
+     *
      * @return Response
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -97,10 +96,10 @@ class CandidatController extends AbstractController
     /**
      * show
      *
-     * @param  mixed $candidat
-     * 
+     * @param mixed $candidat
+     *
      * @Route("/{id}", name="app_candidat_show", methods={"GET"})
-     * 
+     *
      * @return Response
      */
     public function show(Candidat $candidat): Response
@@ -116,12 +115,12 @@ class CandidatController extends AbstractController
     /**
      * edit
      *
-     * @param  Request                $request
-     * @param  Candidat               $candidat
-     * @param  EntityManagerInterface $entityManager
-     * 
+     * @param Request                $request
+     * @param Candidat               $candidat
+     * @param EntityManagerInterface $entityManager
+     *
      * @Route("/{id}/edit", name="app_candidat_edit", methods={"GET", "POST"})
-     * 
+     *
      * @return Response
      */
     public function edit(Request $request, Candidat $candidat, EntityManagerInterface $entityManager): Response
@@ -147,12 +146,12 @@ class CandidatController extends AbstractController
     /**
      * delete
      *
-     * @param  Request                $request
-     * @param  Candidat               $candidat
-     * @param  EntityManagerInterface $entityManager
-     * 
+     * @param Request                $request
+     * @param Candidat               $candidat
+     * @param EntityManagerInterface $entityManager
+     *
      * @Route("/{id}", name="app_candidat_delete", methods={"POST"})
-     * 
+     *
      * @return Response
      */
     public function delete(Request $request, Candidat $candidat, EntityManagerInterface $entityManager): Response
@@ -168,14 +167,14 @@ class CandidatController extends AbstractController
     /**
      * resultsCandidatPDF
      *
-     * @param  Candidat           $candidat
-     * @param  Categorie          $categorie
-     * @param  CandidatRepository $candidatRepository
-     * @param  NormeRepository    $normeRepository
-     * 
+     * @param Candidat           $candidat
+     * @param Categorie          $categorie
+     * @param CandidatRepository $candidatRepository
+     * @param NormeRepository    $normeRepository
+     *
      * @Route("/rp/{id}/{id_categorie}", name="app_candidat_test_pratique_result")
-     * @ParamConverter("categorie",   options={"id" = "id_categorie"})
-     * 
+     * @ParamConverter("categorie",      options={"id" = "id_categorie"})
+     *
      * @return void
      */
     public function resultsCandidatPDF(
@@ -200,7 +199,14 @@ class CandidatController extends AbstractController
         $fpdf->AddPage();
 
         $fpdf->SetFont('Arial', 'B', 15);
-        $fpdf->Cell(0, 10, utf8_decode($candidat->getIdDossier()->getIdNorme()->getLabel() . ' - ' . $categorie->getLabel()), 'LTR', 0, 'C');
+        $fpdf->Cell(
+            0,
+            10,
+            utf8_decode($candidat->getIdDossier()->getIdNorme()->getLabel() . ' - ' . $categorie->getLabel()),
+            'LTR',
+            0,
+            'C'
+        );
         $fpdf->Ln(5);
         $fpdf->SetFont('Arial', '', 12);
         $fpdf->Cell(0, 10, utf8_decode($candidat->getIdDossier()->getIdNorme()->getComments()), 'LBR', 0, 'C');
@@ -210,7 +216,13 @@ class CandidatController extends AbstractController
         $note1 = $candidatRepository->loadNotes1($candidat->getId(), $categorie->getId());
         $note2 = $candidatRepository->loadNotes2($candidat->getId(), $categorie->getId());
 
-        $fpdf = $normeRepository->getQuestionnairePDF($fpdf, $candidat->getIdDossier()->getIdNorme()->getId(), $categorie->getId(), $note1, $note2);
+        $fpdf = $normeRepository->getQuestionnairePDF(
+            $fpdf,
+            $candidat->getIdDossier()->getIdNorme()->getId(),
+            $categorie->getId(),
+            $note1,
+            $note2
+        );
 
         return new Response(
             $fpdf->Output(),
@@ -224,15 +236,15 @@ class CandidatController extends AbstractController
     /**
      * resultsTheoryPDF
      *
-     * @param  Candidat           $candidat
-     * @param  UserQuizResult     $userQuizResult,
-     * @param  CandidatRepository $candidatRepository
-     * @param  NormeRepository    $normeRepository
-     * @param  Quiz                
-     * 
-     * @Route("/rt/{id}/{id_quiz}", name="app_candidat_test_theo_result")
+     * @param Candidat           $candidat
+     * @param UserQuizResult     $userQuizResult,
+     * @param CandidatRepository $candidatRepository
+     * @param NormeRepository    $normeRepository
+     * @param Quiz
+     *
+     * @Route("/rt/{id}/{id_quiz}",      name="app_candidat_test_theo_result")
      * @ParamConverter("userQuizResult", options={"id" = "id_quiz"})
-     * 
+     *
      * @return void
      */
     public function resultsTheoryPDF(
@@ -242,7 +254,6 @@ class CandidatController extends AbstractController
         CandidatRepository $candidatRepository,
         NormeRepository $normeRepository,
         UserQuizResultRepository $userQuizResultRepository
-
     ) {
         $fpdf = new PDF();
         $societe = $this->getUser()->getSociety();
@@ -337,7 +348,10 @@ class CandidatController extends AbstractController
         $fpdf->SetY(200);
         $fpdf->SetX($X);
         $fpdf->Cell(40, 10, 'TOTAL GENERAL', 1, 0, 'C');
-        $fpdf->Cell(20, 10, $userQuizResultRepository->getNoteGlobale($candidat, $userQuizResult)[0]['noteGlobale'] . '/100', 1, 1, 'C');
+        $fpdf->Cell(20, 10, $userQuizResultRepository->getNoteGlobale(
+            $candidat,
+            $userQuizResult
+        )[0]['noteGlobale'] . '/100', 1, 1, 'C');
         $NotesTheme = $userQuizResultRepository->getNotesThemes($candidat, $userQuizResult);
 
         $i = 0;

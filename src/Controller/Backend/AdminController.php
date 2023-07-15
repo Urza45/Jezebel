@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Serge Pillay <serge.pillay@orange.fr>
+ */
+
 namespace App\Controller\Backend;
 
 use App\Entity\Admin;
@@ -21,9 +25,9 @@ class AdminController extends AbstractController
      *
      * Affiche les utilisateurs de la société
      *
-     * @param AdminRepository $adminRepository
+     * @param      AdminRepository $adminRepository
      * @Route("/", name="app_admin_index", methods={"GET"})
-     * @return Response
+     * @return     Response
      */
     public function index(AdminRepository $adminRepository): Response
     {
@@ -41,17 +45,21 @@ class AdminController extends AbstractController
 
     /**
      * new
-     * 
+     *
      * Création d'un nouvel utilisateur
      *
-     * @param Request                     $request
-     * @param AdminRepository             $adminRepository
-     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param         Request                     $request
+     * @param         AdminRepository             $adminRepository
+     * @param         UserPasswordHasherInterface $userPasswordHasher
+     * @return        Response
+     *
      * @Route("/new", name="app_admin_new", methods={"GET", "POST"})
-     * @return Response
      */
-    public function new(Request $request, AdminRepository $adminRepository, UserPasswordHasherInterface $userPasswordHasher): Response
-    {
+    public function new(
+        Request $request,
+        AdminRepository $adminRepository,
+        UserPasswordHasherInterface $userPasswordHasher
+    ): Response {
         $admin = new Admin();
         $form = $this->createForm(AdminType::class, $admin);
         $form->handleRequest($request);
@@ -80,12 +88,12 @@ class AdminController extends AbstractController
 
     /**
      * show
-     * 
+     *
      * Affiche les données d'un utilisateur
      *
-     * @param Admin $admin
+     * @param          Admin $admin
      * @Route("/{id}", name="app_admin_show", methods={"GET"})
-     * @return Response
+     * @return         Response
      */
     public function show(Admin $admin): Response
     {
@@ -100,15 +108,20 @@ class AdminController extends AbstractController
      *
      * Edite les données d'un utilisateur
      *
-     * @param Request                     $request
-     * @param Admin                       $admin
-     * @param AdminRepository             $adminRepository
-     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param               Request                     $request
+     * @param               Admin                       $admin
+     * @param               AdminRepository             $adminRepository
+     * @param               UserPasswordHasherInterface $userPasswordHasher
+     * @return              Response
+     *
      * @Route("/{id}/edit", name="app_admin_edit", methods={"GET", "POST"})
-     * @return Response
      */
-    public function edit(Request $request, Admin $admin, AdminRepository $adminRepository,  UserPasswordHasherInterface $userPasswordHasher): Response
-    {
+    public function edit(
+        Request $request,
+        Admin $admin,
+        AdminRepository $adminRepository,
+        UserPasswordHasherInterface $userPasswordHasher
+    ): Response {
         $form = $this->createForm(AdminType::class, $admin);
         $form->handleRequest($request);
 
@@ -139,11 +152,11 @@ class AdminController extends AbstractController
      *
      * Supprime un utilisateur
      *
-     * @param  mixed $request
-     * @param  mixed $admin
-     * @param  mixed $adminRepository
+     * @param          mixed $request
+     * @param          mixed $admin
+     * @param          mixed $adminRepository
      * @Route("/{id}", name="app_admin_delete", methods={"POST"})
-     * @return Response
+     * @return         Response
      */
     public function delete(Request $request, Admin $admin, AdminRepository $adminRepository): Response
     {

@@ -24,15 +24,19 @@ class TestTheoriqueController extends AbstractController
 {
     /**
      * index
-     * 
+     *
      * @param  EntityManagerInterface $entityManager
-     * 
-     * @Route("/frontend/test/theorique", name="app_frontend_test_theorique")
-     *  
+     * @param  Request $request
+     * @param  UserQuizResultRepository $userQuizResultRepository
      * @return Response
+     *
+     * @Route("/frontend/test/theorique", name="app_frontend_test_theorique")
      */
-    public function index(EntityManagerInterface $entityManager, Request $request, UserQuizResultRepository $userQuizResultRepository): Response
-    {
+    public function index(
+        EntityManagerInterface $entityManager,
+        Request $request,
+        UserQuizResultRepository $userQuizResultRepository
+    ): Response {
         // Liste des dossiers
         if ($this->isGranted('ROLE_ULTRAADMIN')) {
             $dossiers = $entityManager
@@ -92,13 +96,16 @@ class TestTheoriqueController extends AbstractController
      * @param Request                $request
      * @param UserQuizResult         $UserQuizResult
      * @param EntityManagerInterface $entityManager
-     * 
+     *
      * @Route("/frontend/test/delete/theo//{id}", name="app_frontend_test_theo_delete", methods={"POST", "GET"})
-     * 
+     *
      * @return Response
      */
-    public function delete(UserQuizResult $userQuizResult, Request $request,  EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        UserQuizResult $userQuizResult,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $answers = $userQuizResult->getUserQuizAnswers();
 
 
@@ -121,22 +128,25 @@ class TestTheoriqueController extends AbstractController
      *
      * @param Quiz     $quiz
      * @param Candidat $candidat
-     * 
+     *
      * @Route("/frontend/test/theorique/{id}/{id_candidat}", name="app_frontend_test_theorique_test")
-     * @ParamConverter("candidat", options={"id" = "id_candidat"})
-     * 
+     * @ParamConverter("candidat",                           options={"id" = "id_candidat"})
+     *
      * @return void
      */
     public function examenTheorique(Quiz $quiz, Candidat $candidat)
     {
         $themes = $quiz->getNorme()->getThemeTheoriques();
 
-        return $this->render('frontend/test_theorique/test_theorique.html.twig', [
-            'controller_name' => 'TestTheoriqueController',
-            'quiz' => $quiz,
-            'themes' => $themes,
-            'candidat' => $candidat
-        ]);
+        return $this->render(
+            'frontend/test_theorique/test_theorique.html.twig',
+            [
+                'controller_name' => 'TestTheoriqueController',
+                'quiz' => $quiz,
+                'themes' => $themes,
+                'candidat' => $candidat
+            ]
+        );
     }
 
     /**
@@ -148,10 +158,10 @@ class TestTheoriqueController extends AbstractController
      * @param QuestionsRepository    $repoQuestions
      * @param AnswersRepository      $answersRepository
      * @param EntityManagerInterface $entityManager
-     * 
+     *
      * @Route("/frontend/test/theo_save/{id}/{id_candidat}", name="app_frontend_test_theorique_save")
-     * @ParamConverter("candidat", options={"id" = "id_candidat"})
-     * 
+     * @ParamConverter("candidat",                           options={"id" = "id_candidat"})
+     *
      * @return void
      */
     public function saveExamTheo(
@@ -196,33 +206,36 @@ class TestTheoriqueController extends AbstractController
         }
 
 
-        return $this->render('frontend/test_theorique/resultat_theorique.html.twig', [
-            'controller_name' => 'TestTheoriqueController',
-            'quiz' => $quiz,
-            'candidat' => $candidat
-        ]);
+        return $this->render(
+            'frontend/test_theorique/resultat_theorique.html.twig',
+            [
+                'controller_name' => 'TestTheoriqueController',
+                'quiz' => $quiz,
+                'candidat' => $candidat
+            ]
+        );
     }
 
     /**
-     * 
-     */
-    /**
      * debutTestTheo
      *
-     * @param Quiz $quiz
+     * @param Quiz     $quiz
      * @param Candidat $candidat
-     * 
+     *
      * @Route("/frontend/test/theo_start/{id}/{id_candidat}", name="app_frontend_test_theorique_start")
-     * @ParamConverter("candidat", options={"id" = "id_candidat"})
-     * 
+     * @ParamConverter("candidat",                            options={"id" = "id_candidat"})
+     *
      * @return void
      */
     public function debutTestTheo(Quiz $quiz, Candidat $candidat)
     {
-        return $this->render('frontend/test_theorique/debut_test.html.twig', [
-            'controller_name' => 'TestTheoriqueController',
-            'quiz' => $quiz,
-            'candidat' => $candidat
-        ]);
+        return $this->render(
+            'frontend/test_theorique/debut_test.html.twig',
+            [
+                'controller_name' => 'TestTheoriqueController',
+                'quiz' => $quiz,
+                'candidat' => $candidat
+            ]
+        );
     }
 }

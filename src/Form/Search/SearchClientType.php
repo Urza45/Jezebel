@@ -14,32 +14,44 @@ class SearchClientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('client', TextType::class, [
-                'required' => false,
-                'label' => 'Société :',
-                'trim' => true,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'minMessage' => 'Minimum 2 caractères',
-                ]),
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Nom de la société'
-                ],
-            ])
-            ->add('ville', TextType::class, [
-                'required' => false,
-                'label' => 'Ville :',
-                'trim' => true,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'minMessage' => 'Minimum 2 caractères',
-                ]),
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Nom de la ville'
-                ],
-            ])
+            ->add(
+                'client',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Société :',
+                    'trim' => true,
+                    'constraints' => new Length(
+                        [
+                            'min' => 2,
+                            'minMessage' => 'Minimum 2 caractères',
+                        ]
+                    ),
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Nom de la société'
+                    ],
+                ]
+            )
+            ->add(
+                'ville',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Ville :',
+                    'trim' => true,
+                    'constraints' => new Length(
+                        [
+                            'min' => 2,
+                            'minMessage' => 'Minimum 2 caractères',
+                        ]
+                    ),
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Nom de la ville'
+                    ],
+                ]
+            )
             ->add(
                 'submit',
                 SubmitType::class,
@@ -52,8 +64,10 @@ class SearchClientType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setDefaults(
+            [
+                // Configure your form options here
+            ]
+        );
     }
 }

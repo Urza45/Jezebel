@@ -28,8 +28,9 @@ class ConsigneController extends AbstractController
             ->findAll();
 
         return $this->render(
-            'consigne/index.html.twig', [
-            'consignes' => $consignes,
+            'consigne/index.html.twig',
+            [
+                'consignes' => $consignes,
             ]
         );
     }
@@ -51,9 +52,10 @@ class ConsigneController extends AbstractController
         }
 
         return $this->renderForm(
-            'consigne/new.html.twig', [
-            'consigne' => $consigne,
-            'form' => $form,
+            'consigne/new.html.twig',
+            [
+                'consigne' => $consigne,
+                'form' => $form,
             ]
         );
     }
@@ -64,8 +66,9 @@ class ConsigneController extends AbstractController
     public function show(Consigne $consigne): Response
     {
         return $this->render(
-            'consigne/show.html.twig', [
-            'consigne' => $consigne,
+            'consigne/show.html.twig',
+            [
+                'consigne' => $consigne,
             ]
         );
     }
@@ -82,16 +85,19 @@ class ConsigneController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'app_theme_list_consigne', [
-                'id' => $consigne->getIdTheme()->getId()
-                ], Response::HTTP_SEE_OTHER
+                'app_theme_list_consigne',
+                [
+                    'id' => $consigne->getIdTheme()->getId(),
+                ],
+                Response::HTTP_SEE_OTHER
             );
         }
 
         return $this->renderForm(
-            'consigne/edit.html.twig', [
-            'consigne' => $consigne,
-            'form' => $form,
+            'consigne/edit.html.twig',
+            [
+                'consigne' => $consigne,
+                'form' => $form,
             ]
         );
     }
@@ -119,12 +125,13 @@ class ConsigneController extends AbstractController
             ->findByIdConsigne($consigne);
 
         return $this->render(
-            'critere/index.html.twig', [
-            'categorie' => $consigne->getIdTheme()->getIdCategorie(),
-            'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
-            'theme' => $consigne->getIdTheme(),
-            'consigne' => $consigne,
-            'criteres' => $criteres
+            'critere/index.html.twig',
+            [
+                'categorie' => $consigne->getIdTheme()->getIdCategorie(),
+                'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
+                'theme' => $consigne->getIdTheme(),
+                'consigne' => $consigne,
+                'criteres' => $criteres
             ]
         );
     }
@@ -144,19 +151,22 @@ class ConsigneController extends AbstractController
 
             $this->addFlash('success', 'Critère ajoutée');
             return $this->redirectToRoute(
-                'app_consigne_list_critere', [
-                'id' => $consigne->getId()
-                ], Response::HTTP_SEE_OTHER
+                'app_consigne_list_critere',
+                [
+                    'id' => $consigne->getId()
+                ],
+                Response::HTTP_SEE_OTHER
             );
         }
 
         return $this->renderForm(
-            'critere/new.html.twig', [
-            'form' => $form,
-            'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
-            'categorie' => $consigne->getIdTheme()->getIdCategorie(),
-            'theme' => $consigne->getIdTheme(),
-            'consigne' => $consigne
+            'critere/new.html.twig',
+            [
+                'form' => $form,
+                'norme' => $consigne->getIdTheme()->getIdCategorie()->getIdNorme(),
+                'categorie' => $consigne->getIdTheme()->getIdCategorie(),
+                'theme' => $consigne->getIdTheme(),
+                'consigne' => $consigne
             ]
         );
     }

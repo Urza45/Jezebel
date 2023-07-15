@@ -27,8 +27,9 @@ class NormeController extends AbstractController
         $normes = $normeRepository->findAll();
 
         return $this->render(
-            'norme/index.html.twig', [
-            'normes' => $normes,
+            'norme/index.html.twig',
+            [
+                'normes' => $normes,
             ]
         );
     }
@@ -49,9 +50,10 @@ class NormeController extends AbstractController
         }
 
         return $this->renderForm(
-            'norme/new.html.twig', [
-            'norme' => $norme,
-            'form' => $form,
+            'norme/new.html.twig',
+            [
+                'norme' => $norme,
+                'form' => $form,
             ]
         );
     }
@@ -62,8 +64,9 @@ class NormeController extends AbstractController
     public function show(Norme $norme): Response
     {
         return $this->render(
-            'norme/show.html.twig', [
-            'norme' => $norme,
+            'norme/show.html.twig',
+            [
+                'norme' => $norme,
             ]
         );
     }
@@ -83,9 +86,10 @@ class NormeController extends AbstractController
         }
 
         return $this->renderForm(
-            'norme/edit.html.twig', [
-            'norme' => $norme,
-            'form' => $form,
+            'norme/edit.html.twig',
+            [
+                'norme' => $norme,
+                'form' => $form,
             ]
         );
     }
@@ -102,7 +106,7 @@ class NormeController extends AbstractController
         return $this->redirectToRoute('app_norme_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /** 
+    /**
      * @Route("/{id}/list_categories", name="app_norme_list_categories", methods={"GET", "POST"})
      */
     public function listCategorie(Norme $norme, EntityManagerInterface $entityManager)
@@ -112,9 +116,10 @@ class NormeController extends AbstractController
             ->findByIdNorme($norme);
 
         return $this->render(
-            'categorie/index.html.twig', [
-            'categories' => $categories,
-            'norme' => $norme,
+            'categorie/index.html.twig',
+            [
+                'categories' => $categories,
+                'norme' => $norme,
             ]
         );
     }
@@ -133,14 +138,21 @@ class NormeController extends AbstractController
             $categorieRepository->add($categorie, true);
 
             $this->addFlash('success', 'Catégorie ajoutée');
-            return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_norme_list_categories',
+                [
+                    'id' => $norme->getId()
+                ],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm(
-            'categorie/new.html.twig', [
-            'categorie' => $categorie,
-            'form' => $form,
-            'norme' => $norme,
+            'categorie/new.html.twig',
+            [
+                'categorie' => $categorie,
+                'form' => $form,
+                'norme' => $norme,
             ]
         );
     }

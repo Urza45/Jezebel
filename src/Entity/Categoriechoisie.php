@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Categoriechoisie
  *
- * @ORM\Table(name="categoriechoisie",                                      indexes={@ORM\Index(name="id_candidat", columns={"id_candidat"}), @ORM\Index(name="id_category", columns={"id_category"})})
+ * @ORM\Table(name="categoriechoisie", indexes={
+ * @ORM\Index(name="id_candidat", columns={"id_candidat"}),
+ * @ORM\Index(name="id_category", columns={"id_category"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriechoisieRepository")
  */
 class Categoriechoisie
@@ -15,7 +17,7 @@ class Categoriechoisie
     /**
      * @var int
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,7 +28,7 @@ class Categoriechoisie
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id_category",      referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_category", referencedColumnName="id")
      * })
      */
     private $idCategory;
@@ -36,7 +38,7 @@ class Categoriechoisie
      *
      * @ORM\ManyToOne(targetEntity="Candidat")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id_candidat",     referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_candidat", referencedColumnName="id")
      * })
      */
     private $idCandidat;
@@ -103,6 +105,4 @@ class Categoriechoisie
 
         return $this;
     }
-
-
 }

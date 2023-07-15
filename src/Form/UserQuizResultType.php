@@ -17,10 +17,14 @@ class UserQuizResultType extends AbstractType
     {
         $builder
             ->add('id', HiddenType::class)
-            ->add('dateTest', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
-            ])
+            ->add(
+                'dateTest',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'attr' => ['class' => 'js-datepicker'],
+                ]
+            )
             ->add('result', HiddenType::class)
             // ->add('result', ChoiceType::class, [
             //     'choices'  => [
@@ -36,8 +40,10 @@ class UserQuizResultType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => UserQuizResult::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => UserQuizResult::class,
+            ]
+        );
     }
 }

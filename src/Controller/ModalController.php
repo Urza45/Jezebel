@@ -14,8 +14,9 @@ class ModalController extends AbstractController
     public function index(): Response
     {
         return $this->render(
-            'modal/verif.html.twig', [
-            'controller_name' => 'ModalController',
+            'modal/verif.html.twig',
+            [
+                'controller_name' => 'ModalController',
             ]
         );
     }

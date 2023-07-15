@@ -24,9 +24,12 @@ class TVAController extends AbstractController
             ->getRepository(TVA::class)
             ->findAll();
 
-        return $this->render('factures/tva/index.html.twig', [
-            't_v_as' => $tVAs,
-        ]);
+        return $this->render(
+            'factures/tva/index.html.twig',
+            [
+                't_v_as' => $tVAs,
+            ]
+        );
     }
 
     /**
@@ -45,10 +48,13 @@ class TVAController extends AbstractController
             return $this->redirectToRoute('app_factures_t_v_a_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('factures/tva/new.html.twig', [
-            't_v_a' => $tVA,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'factures/tva/new.html.twig',
+            [
+                't_v_a' => $tVA,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -56,9 +62,12 @@ class TVAController extends AbstractController
      */
     public function show(TVA $tVA): Response
     {
-        return $this->render('factures/tva/show.html.twig', [
-            't_v_a' => $tVA,
-        ]);
+        return $this->render(
+            'factures/tva/show.html.twig',
+            [
+                't_v_a' => $tVA,
+            ]
+        );
     }
 
     /**
@@ -75,10 +84,13 @@ class TVAController extends AbstractController
             return $this->redirectToRoute('app_factures_t_v_a_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('factures/tva/edit.html.twig', [
-            't_v_a' => $tVA,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'factures/tva/edit.html.twig',
+            [
+                't_v_a' => $tVA,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -86,7 +98,7 @@ class TVAController extends AbstractController
      */
     public function delete(Request $request, TVA $tVA, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tVA->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $tVA->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tVA);
             $entityManager->flush();
         }

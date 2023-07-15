@@ -20,8 +20,19 @@ class ClientController extends AbstractController
     /**
      * @Route("/", name="app_client_index", methods={"GET","POST"})
      */
-    public function index(EntityManagerInterface $entityManager, Request $request, ClientRepository $clientRepository): Response
-    {
+    /**
+     * index
+     *
+     * @param  EntityManagerInterface $entityManager
+     * @param  Request $request
+     * @param  ClientRepository $clientRepository
+     * @return Response
+     */
+    public function index(
+        EntityManagerInterface $entityManager,
+        Request $request,
+        ClientRepository $clientRepository
+    ): Response {
         $form = $this->createForm(SearchClientType::class);
         $form->handleRequest($request);
 
@@ -29,7 +40,7 @@ class ClientController extends AbstractController
             $idClient = $form->get('client')->getData();
             $ville = $form->get('ville')->getData();
             // $prenom = $form->get('fieldTwo')->getData();
-            $clients = $clientRepository->SearchByNumClient($idClient, $ville);
+            $clients = $clientRepository->searchByNumClient($idClient, $ville);
         } else {
             if ($this->isGranted('ROLE_ULTRAADMIN')) {
                 $clients = $entityManager

@@ -8,14 +8,15 @@ namespace App\Services;
 
 use FPDF;
 use App\Entity\Norme;
+//use App\Services\PDF;
 use App\Entity\Client;
 use App\Entity\Dossier;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
 use App\Repository\CandidatRepository;
-use App\Repository\CategoriechoisieRepository;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategoriechoisieRepository;
 
 /**
  * Description of PDF
@@ -32,10 +33,10 @@ class PDF extends FPDF
     protected $addFooter = 0;
     protected $addHeader = 0;
 
-    const WITHOUT_HEADER = 0;
-    const WITHOUT_FOOTER = 0;
-    const WITH_HEADER = 1;
-    const WITH_FOOTER = 1;
+    public const WITHOUT_HEADER = 0;
+    public const WITHOUT_FOOTER = 0;
+    public const WITH_HEADER = 1;
+    public const WITH_FOOTER = 1;
 
     /**
      * Set the value of addHeader
@@ -109,7 +110,7 @@ class PDF extends FPDF
      *
      * @return void
      */
-    function Header()
+    public function header()
     {
         if ($this->addHeader == PDF::WITHOUT_HEADER) {
             //Première page
@@ -139,7 +140,7 @@ class PDF extends FPDF
      *
      * @return void
      */
-    function Footer()
+    public function footer()
     {
         if ($this->addFooter == PDF::WITHOUT_FOOTER) {
             //Première page
@@ -200,10 +201,10 @@ class PDF extends FPDF
         $this->SetFont('Arial', 'B', 15);
         $chaine = utf8_decode(
             $dossier->getNumDossier()
-            . ' - ' . $client->getNomClient()
-            . ' - Du ' . date('d/m/Y', $dossier->getDateDebut()->getTimestamp())
-            . ' au ' . date('d/m/Y', $dossier->getDateFin()->getTimestamp())
-            . ' - ' . $dossier->getIdNorme()->getLabel()
+                . ' - ' . $client->getNomClient()
+                . ' - Du ' . date('d/m/Y', $dossier->getDateDebut()->getTimestamp())
+                . ' au ' . date('d/m/Y', $dossier->getDateFin()->getTimestamp())
+                . ' - ' . $dossier->getIdNorme()->getLabel()
         );
         $this->Cell(0, 10, $chaine, 1, 0, 'C');
         $this->Ln(15);
@@ -249,7 +250,8 @@ class PDF extends FPDF
         $this->SetTextColor(0, 0, 255);
         $this->Cell(50, 10, utf8_decode('Adresse intervention :'), 0, 0, 'R');
         $this->SetTextColor(0, 0, 0);
-        $chaine = $dossier->getAdresseIntervention() . ' ' . $dossier->getCpIntervention() . ' ' . $dossier->getVilleIntervention();
+        $chaine = $dossier->getAdresseIntervention()
+            . ' ' . $dossier->getCpIntervention() . ' ' . $dossier->getVilleIntervention();
         $this->Cell(0, 10, utf8_decode($chaine), 0, 1, 'L');
         // return $pdf;
     }
@@ -309,7 +311,7 @@ class PDF extends FPDF
         // }
         // return $pdf;
     }
-    
+
     /**
      * executeDossier
      *
@@ -367,7 +369,7 @@ class PDF extends FPDF
         }
         $pdf->Output('I', 'DoC.pdf', true);
     }
-    
+
     /**
      * processResultat
      *
@@ -384,7 +386,14 @@ class PDF extends FPDF
         $this->Cell(0, 10, utf8_decode('SYNTHESE DE RESULTATS INDIVIDUELS'), 'LTR', 1, 'C');
         $this->SetFont('Arial', '', 12);
         $this->SetTextColor(0, 0, 255);
-        $this->Cell(0, 10, utf8_decode($candidat->getNomCandidat() . ' ' . $candidat->getPrenomCandidat()), 'LBR', 0, 'C');
+        $this->Cell(
+            0,
+            10,
+            utf8_decode($candidat->getNomCandidat() . ' ' . $candidat->getPrenomCandidat()),
+            'LBR',
+            0,
+            'C'
+        );
         $this->Ln();
         $this->Cell(50, 10, utf8_decode('Date du test théorique :'), 0, 0, 'R');
         $this->SetTextColor(0, 0, 0);
@@ -406,7 +415,8 @@ class PDF extends FPDF
         $this->SetTextColor(0, 0, 255);
         $this->Cell(50, 10, utf8_decode('Lieu du test :'), 0, 0, 'R');
         $this->SetTextColor(0, 0, 0);
-        $chaine = $dossier->getAdresseIntervention() . ' -' . $dossier->getCpIntervention() . ' - ' . $dossier->getVilleIntervention();
+        $chaine = $dossier->getAdresseIntervention()
+            . ' -' . $dossier->getCpIntervention() . ' - ' . $dossier->getVilleIntervention();
         $this->Cell(50, 10, utf8_decode($chaine), 0, 1, 'L');
         $this->SetTextColor(0, 0, 255);
         $this->Cell(50, 10, utf8_decode('Statut :'), 0, 0, 'R');
@@ -504,17 +514,15 @@ class PDF extends FPDF
         // foreach ($listIdCategorie as $value) {
         //     if (in_array($value, $listIdCategorieChoisie)) {
         //         $this->Cell(50, 10, utf8_decode($categorieRepository->findById($value)->getLabel()), 1, 0, 'C');
-        //         $this->resultats_categoriePDF($this, $candidat->getId(), $categorie->getId());
+        //         $this->resultatsCategoriePDF($this, $candidat->getId(), $categorie->getId());
         //     }
         // }
-
-
-
 
         // foreach ($listCategory as $category) {
         //     if (in_array($category->getId(), $listChosenCategory)) {
         //         $this->Cell(50, 10, utf8_decode($category['label']), 1, 0, 'C');
-        //         $this = $this->managers->getManagerOf('Candidat')->resultats_categoriePDF($pdf, $candidat['id'], $category['id']);
+        //         $this = $this->managers->getManagerOf('Candidat')->resultatsCategoriePDF(
+        //                $pdf, $candidat['id'], $category['id']);
         //     }
         // }
         // return $pdf;

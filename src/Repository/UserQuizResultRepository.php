@@ -51,10 +51,12 @@ class UserQuizResultRepository extends ServiceEntityRepository
             ';
 
         $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery([
-            'quiz' => $userQuizResult->getId(),
-            'candidat' => $candidat->getId()
-        ]);
+        $resultSet = $stmt->executeQuery(
+            [
+                'quiz' => $userQuizResult->getId(),
+                'candidat' => $candidat->getId()
+            ]
+        );
 
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
@@ -75,10 +77,12 @@ class UserQuizResultRepository extends ServiceEntityRepository
             ';
 
         $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery([
-            'quiz' => $userQuizResult->getId(),
-            'candidat' => $candidat->getId()
-        ]);
+        $resultSet = $stmt->executeQuery(
+            [
+                'quiz' => $userQuizResult->getId(),
+                'candidat' => $candidat->getId()
+            ]
+        );
 
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
@@ -91,17 +95,16 @@ class UserQuizResultRepository extends ServiceEntityRepository
         $noteGlobal = $this->getNoteGlobale($candidat, $userQuizResult)[0]['noteGlobale'];
 
         if ($noteGlobal < 70) {
-             $resultat = 'ECHEC';
+            $resultat = 'ECHEC';
         } else {
             $notesThemes = $this->getNotesThemes($candidat, $userQuizResult);
             foreach ($notesThemes as $tab) {
                 $note = $tab['note'];
                 $noteMax = $tab['pts'];
-                if ($note < ($noteMax/2)) {
+                if ($note < ($noteMax / 2)) {
                     $resultat = 'ECHEC';
                 }
             }
-
         }
         return $resultat;
     }

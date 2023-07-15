@@ -16,13 +16,19 @@ class ClientType extends AbstractType
         $builder
             ->add('nomClient')
             ->add('adresseClient')
-            ->add('cpClient', IntegerType::class, [
-                'constraints' => new Length([
-                    'min' => 5,
-                    'max' => 5,
-                    'exactMessage' => 'Exactement 5 chifres.',
-                ]),
-            ])
+            ->add(
+                'cpClient',
+                IntegerType::class,
+                [
+                    'constraints' => new Length(
+                        [
+                            'min' => 5,
+                            'max' => 5,
+                            'exactMessage' => 'Exactement 5 chifres.',
+                        ]
+                    ),
+                ]
+            )
             ->add('villeClient')
             ->add('codeagence');
     }
@@ -31,7 +37,7 @@ class ClientType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Client::class,
+                'data_class' => Client::class,
             ]
         );
     }

@@ -43,7 +43,7 @@ class ClientRepository extends ServiceEntityRepository
         }
     }
 
-    public function SearchByNumClient($idClient, $ville)
+    public function searchByNumClient($idClient, $ville)
     {
         $user = $this->security;
 
@@ -70,7 +70,7 @@ class ClientRepository extends ServiceEntityRepository
         }
 
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            # code...
+            // code...
         } else {
             $result->andWhere('o.society = :society')
                 ->setParameter('society', $user->getUser()->getSociety());

@@ -17,9 +17,11 @@ class ChoiceCategoriesType extends AbstractType
             ->add('nomCandidat')
             ->add('prenomCandidat')
             ->add(
-                'dateNaissance', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
+                'dateNaissance',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'attr' => ['class' => 'js-datepicker'],
                 ]
             )
             ->add(
@@ -36,9 +38,8 @@ class ChoiceCategoriesType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            // Configure your form options here
+                // Configure your form options here
             ]
         );
     }
 }
- 

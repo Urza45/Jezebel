@@ -21,8 +21,9 @@ class NormesAutoriseesController extends AbstractController
     public function index(NormesAutoriseesRepository $normesAutoriseesRepository): Response
     {
         return $this->render(
-            'normes_autorisees/index.html.twig', [
-            'normes_autorisees' => $normesAutoriseesRepository->findAll(),
+            'normes_autorisees/index.html.twig',
+            [
+                'normes_autorisees' => $normesAutoriseesRepository->findAll(),
             ]
         );
     }
@@ -43,9 +44,10 @@ class NormesAutoriseesController extends AbstractController
         }
 
         return $this->renderForm(
-            'normes_autorisees/new.html.twig', [
-            'normes_autorisee' => $normesAutorisee,
-            'form' => $form,
+            'normes_autorisees/new.html.twig',
+            [
+                'normes_autorisee' => $normesAutorisee,
+                'form' => $form,
             ]
         );
     }
@@ -56,17 +58,28 @@ class NormesAutoriseesController extends AbstractController
     public function show(NormesAutorisees $normesAutorisee): Response
     {
         return $this->render(
-            'normes_autorisees/show.html.twig', [
-            'normes_autorisee' => $normesAutorisee,
+            'normes_autorisees/show.html.twig',
+            [
+                'normes_autorisee' => $normesAutorisee,
             ]
         );
     }
 
     /**
+     * edit
+     *
+     * @param  Request $request
+     * @param  NormesAutorisees $normesAutorisee
+     * @param  NormesAutoriseesRepository $normesAutoriseesRepository
+     * @return Response
+     *
      * @Route("/{id}/edit", name="app_normes_autorisees_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, NormesAutorisees $normesAutorisee, NormesAutoriseesRepository $normesAutoriseesRepository): Response
-    {
+    public function edit(
+        Request $request,
+        NormesAutorisees $normesAutorisee,
+        NormesAutoriseesRepository $normesAutoriseesRepository
+    ): Response {
         $form = $this->createForm(NormesAutoriseesType::class, $normesAutorisee);
         $form->handleRequest($request);
 
@@ -77,19 +90,30 @@ class NormesAutoriseesController extends AbstractController
         }
 
         return $this->renderForm(
-            'normes_autorisees/edit.html.twig', [
-            'normes_autorisee' => $normesAutorisee,
-            'form' => $form,
+            'normes_autorisees/edit.html.twig',
+            [
+                'normes_autorisee' => $normesAutorisee,
+                'form' => $form,
             ]
         );
     }
 
     /**
+     * delete
+     *
+     * @param  Request $request
+     * @param  NormesAutorisees $normesAutorisee
+     * @param  NormesAutoriseesRepository $normesAutoriseesRepository
+     * @return Response
+     *
      * @Route("/{id}", name="app_normes_autorisees_delete", methods={"POST"})
      */
-    public function delete(Request $request, NormesAutorisees $normesAutorisee, NormesAutoriseesRepository $normesAutoriseesRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$normesAutorisee->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        NormesAutorisees $normesAutorisee,
+        NormesAutoriseesRepository $normesAutoriseesRepository
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $normesAutorisee->getId(), $request->request->get('_token'))) {
             $normesAutoriseesRepository->remove($normesAutorisee, true);
         }
 

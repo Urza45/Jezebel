@@ -28,8 +28,9 @@ class ThemeController extends AbstractController
             ->findAll();
 
         return $this->render(
-            'theme/index.html.twig', [
-            'themes' => $themes,
+            'theme/index.html.twig',
+            [
+                'themes' => $themes,
             ]
         );
     }
@@ -51,9 +52,10 @@ class ThemeController extends AbstractController
         }
 
         return $this->renderForm(
-            'theme/new.html.twig', [
-            'theme' => $theme,
-            'form' => $form,
+            'theme/new.html.twig',
+            [
+                'theme' => $theme,
+                'form' => $form,
             ]
         );
     }
@@ -64,10 +66,11 @@ class ThemeController extends AbstractController
     public function show(Theme $theme): Response
     {
         return $this->render(
-            'theme/show.html.twig', [
-            'theme' => $theme,
-            'categorie' => $theme->getIdCategorie(),
-            'norme' => $theme->getIdCategorie()->getIdNorme()
+            'theme/show.html.twig',
+            [
+                'theme' => $theme,
+                'categorie' => $theme->getIdCategorie(),
+                'norme' => $theme->getIdCategorie()->getIdNorme()
             ]
         );
     }
@@ -84,19 +87,22 @@ class ThemeController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute(
-                'app_categorie_list_themes', [
-                'idnorme' => $theme->getIdCategorie()->getIdNorme()->getId(),
-                'id' => $theme->getIdCategorie()->getId()
-                ], Response::HTTP_SEE_OTHER
+                'app_categorie_list_themes',
+                [
+                    'idnorme' => $theme->getIdCategorie()->getIdNorme()->getId(),
+                    'id' => $theme->getIdCategorie()->getId()
+                ],
+                Response::HTTP_SEE_OTHER
             );
         }
 
         return $this->renderForm(
-            'theme/edit.html.twig', [
-            'theme' => $theme,
-            'form' => $form,
-            'categorie' => $theme->getIdCategorie(),
-            'norme' => $theme->getIdCategorie()->getIdNorme()
+            'theme/edit.html.twig',
+            [
+                'theme' => $theme,
+                'form' => $form,
+                'categorie' => $theme->getIdCategorie(),
+                'norme' => $theme->getIdCategorie()->getIdNorme()
             ]
         );
     }
@@ -124,11 +130,12 @@ class ThemeController extends AbstractController
             ->findByIdTheme($theme);
 
         return $this->render(
-            'consigne/index.html.twig', [
-            'categorie' => $theme->getIdCategorie(),
-            'norme' => $theme->getIdCategorie()->getIdNorme(),
-            'theme' => $theme,
-            'consignes' => $consignes
+            'consigne/index.html.twig',
+            [
+                'categorie' => $theme->getIdCategorie(),
+                'norme' => $theme->getIdCategorie()->getIdNorme(),
+                'theme' => $theme,
+                'consignes' => $consignes
             ]
         );
     }
@@ -149,19 +156,22 @@ class ThemeController extends AbstractController
 
             $this->addFlash('success', 'Consigne ajoutée');
             return $this->redirectToRoute(
-                'app_theme_list_consigne', [
-                'id' => $theme->getId()
-                ], Response::HTTP_SEE_OTHER
+                'app_theme_list_consigne',
+                [
+                    'id' => $theme->getId()
+                ],
+                Response::HTTP_SEE_OTHER
             );
         }
 
         return $this->renderForm(
-            'consigne/new.html.twig', [
-            'theme' => $theme,
-            'form' => $form,
-            'norme' => $norme,
-            'categorie' => $theme->getIdCategorie(),
-            'consigne' => $consigne
+            'consigne/new.html.twig',
+            [
+                'theme' => $theme,
+                'form' => $form,
+                'norme' => $norme,
+                'categorie' => $theme->getIdCategorie(),
+                'consigne' => $consigne
             ]
         );
     }

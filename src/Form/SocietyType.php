@@ -15,13 +15,19 @@ class SocietyType extends AbstractType
         $builder
             ->add('name')
             ->add('address')
-            ->add('cp', IntegerType::class, [
-                'constraints' => new Length([
-                    'min' => 5,
-                    'max' => 5,
-                    'exactMessage' => 'Exactement 5 chifres.',
-                ])
-            ])
+            ->add(
+                'cp',
+                IntegerType::class,
+                [
+                    'constraints' => new Length(
+                        [
+                            'min' => 5,
+                            'max' => 5,
+                            'exactMessage' => 'Exactement 5 chifres.',
+                        ]
+                    )
+                ]
+            )
             ->add('town')
             ->add('logo');
     }

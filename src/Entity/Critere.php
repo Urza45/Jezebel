@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Critere
  *
- * @ORM\Table(name="critere",                                      indexes={@ORM\Index(name="id_consigne", columns={"id_consigne"})})
+ * @ORM\Table(name="critere", indexes={@ORM\Index(name="id_consigne", columns={"id_consigne"})})
  * @ORM\Entity(repositoryClass="App\Repository\CritereRepository")
  */
 class Critere
@@ -16,7 +16,7 @@ class Critere
     /**
      * @var int
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

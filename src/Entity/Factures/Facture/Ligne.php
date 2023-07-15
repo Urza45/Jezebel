@@ -198,10 +198,10 @@ class Ligne
     /**
      * Set the value of id
      *
-     * @param  int  $id
+     * @param int $id
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setId(int $id)
     {
         $this->id = $id;

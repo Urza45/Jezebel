@@ -24,9 +24,12 @@ class FactureController extends AbstractController
             ->getRepository(Facture::class)
             ->findAll();
 
-        return $this->render('factures/facture/index.html.twig', [
-            'factures' => $factures,
-        ]);
+        return $this->render(
+            'factures/facture/index.html.twig',
+            [
+                'factures' => $factures,
+            ]
+        );
     }
 
     /**
@@ -38,6 +41,8 @@ class FactureController extends AbstractController
         $form = $this->createForm(FactureType::class, $facture);
         $form->handleRequest($request);
 
+        dump($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($facture);
             $entityManager->flush();
@@ -45,10 +50,13 @@ class FactureController extends AbstractController
             return $this->redirectToRoute('app_factures_facture_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('factures/facture/new.html.twig', [
-            'facture' => $facture,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'factures/facture/new.html.twig',
+            [
+                'facture' => $facture,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -56,9 +64,12 @@ class FactureController extends AbstractController
      */
     public function show(Facture $facture): Response
     {
-        return $this->render('factures/facture/show.html.twig', [
-            'facture' => $facture,
-        ]);
+        return $this->render(
+            'factures/facture/show.html.twig',
+            [
+                'facture' => $facture,
+            ]
+        );
     }
 
     /**
@@ -75,10 +86,13 @@ class FactureController extends AbstractController
             return $this->redirectToRoute('app_factures_facture_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('factures/facture/edit.html.twig', [
-            'facture' => $facture,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'factures/facture/edit.html.twig',
+            [
+                'facture' => $facture,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -86,7 +100,7 @@ class FactureController extends AbstractController
      */
     public function delete(Request $request, Facture $facture, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$facture->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $facture->getId(), $request->request->get('_token'))) {
             $entityManager->remove($facture);
             $entityManager->flush();
         }

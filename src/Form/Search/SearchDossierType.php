@@ -26,15 +26,19 @@ class SearchDossierType extends AbstractType
         $user = $this->security;
 
         $builder
-            ->add('numDossier', TextType::class, [
-                'required' => false,
-                'label' => 'N° Dossier :',
-                'trim' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'N° Dossier'
-                ],
-            ]);
+            ->add(
+                'numDossier',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'N° Dossier :',
+                    'trim' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'N° Dossier'
+                    ],
+                ]
+            );
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
             $builder->add(
                 'idClient',
@@ -62,7 +66,7 @@ class SearchDossierType extends AbstractType
                         'placeholder' => 'Société cliente'
                     ],
                     'class' => Client::class,
-                    'query_builder' => function (EntityRepository  $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('qq')
                             ->select('u') // string 'u' is converted to array internally
                             ->from('App\Entity\Client', 'u')
@@ -88,8 +92,10 @@ class SearchDossierType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setDefaults(
+            [
+                // Configure your form options here
+            ]
+        );
     }
 }

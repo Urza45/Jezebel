@@ -90,7 +90,7 @@ class DossierType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Client::class,
-                    'query_builder' => function (EntityRepository  $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('qq')
                             ->select('u') // string 'u' is converted to array internally
                             ->from('App\Entity\Client', 'u')
@@ -112,7 +112,7 @@ class DossierType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Users::class,
-                    'query_builder' => function (EntityRepository  $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('qq')
                             ->select('u') // string 'u' is converted to array internally
                             ->from('App\Entity\Users', 'u')
@@ -134,7 +134,7 @@ class DossierType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Norme::class,
-                    'query_builder' => function (EntityRepository  $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('qq')
                             ->select('u') // string 'u' is converted to array internally
                             ->from('App\Entity\Norme', 'u')
@@ -156,7 +156,7 @@ class DossierType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Users::class,
-                    'query_builder' => function (EntityRepository  $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('qq')
                             ->select('u') // string 'u' is converted to array internally
                             ->from('App\Entity\Users', 'u')

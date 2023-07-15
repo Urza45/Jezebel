@@ -2,10 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\SocietyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Quiz;
+use App\Entity\Admin;
+use App\Entity\Users;
+use App\Entity\Client;
+use App\Entity\Contact;
+use App\Entity\Dossier;
+use App\Entity\Candidat;
+use App\Entity\NormesAutorisees;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ParametersSociety;
+use App\Repository\SocietyRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=SocietyRepository::class)
@@ -400,11 +409,9 @@ class Society
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
             $user->setSociety($this);
-        
         }
 
         return $this;
-    
     }
 
     public function removeUser(Users $user): self
@@ -413,13 +420,10 @@ class Society
             // set the owning side to null (unless already changed)
             if ($user->getSociety() === $this) {
                 $user->setSociety(null);
-            
             }
-        
         }
 
         return $this;
-    
     }
 
     /**

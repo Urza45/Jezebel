@@ -13,14 +13,15 @@ class TVAType extends AbstractType
     {
         $builder
             ->add('tva')
-            ->add('libelle')
-        ;
+            ->add('libelle');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => TVA::class,
-        ]);
+            ]
+        );
     }
 }

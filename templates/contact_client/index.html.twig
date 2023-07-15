@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ContactClient index{% endblock %}
+
+{% block body %}
+    <h1>ContactClient index</h1>
+
+    <table id="formatedTable" class="table-bordered table-hover table-responsive">
+    {# <table class="table"> #}
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Adresse</th>
+                <th>Adresse2</th>
+                <th>CodePostal</th>
+                <th>Ville</th>
+                <th>Telephone1</th>
+                <th>Telephone2</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact_client in contact_clients %}
+            <tr>
+                <td>{{ contact_client.id }}</td>
+                <td>{{ contact_client.nom }}</td>
+                <td>{{ contact_client.prenom }}</td>
+                <td>{{ contact_client.adresse }}</td>
+                <td>{{ contact_client.adresse2 }}</td>
+                <td>{{ contact_client.codePostal }}</td>
+                <td>{{ contact_client.ville }}</td>
+                <td>{{ contact_client.telephone1 }}</td>
+                <td>{{ contact_client.telephone2 }}</td>
+                <td>{{ contact_client.email }}</td>
+                <td>
+                    <a href="{{ path('app_contact_client_show', {'id': contact_client.id}) }}">show</a>
+                    <a href="{{ path('app_contact_client_edit', {'id': contact_client.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contact_client_new') }}">Create new</a>
+{% endblock %}

@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      * @param EntityManagerInterface $entityManager
      *
      * @Route("/", name="app_home")
-     * 
+     *
      * @return Response
      */
     public function index(EntityManagerInterface $entityManager): Response
@@ -63,7 +63,7 @@ class HomeController extends AbstractController
     /**
      * sendMailTestPDF
      *
-     * @param  mixed $sendEmail
+     * @param mixed $sendEmail
      *
      * @Route("/testMail", name="app_test_mail")
      *

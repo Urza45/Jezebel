@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Notetheme
  *
- * @ORM\Table(name="notetheme", indexes={@ORM\Index(name="id_candidat", columns={"id_candidat"}), @ORM\Index(name="id_theme", columns={"id_theme"})})
+ * @ORM\Table(name="notetheme", indexes={
+ * @ORM\Index(name="id_candidat", columns={"id_candidat"}),
+ * @ORM\Index(name="id_theme", columns={"id_theme"})})
  * @ORM\Entity
  */
 class Notetheme
@@ -15,7 +17,7 @@ class Notetheme
     /**
      * @var int
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -107,6 +109,4 @@ class Notetheme
 
         return $this;
     }
-
-
 }

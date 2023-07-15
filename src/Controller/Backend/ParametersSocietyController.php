@@ -26,11 +26,11 @@ class ParametersSocietyController extends AbstractController
         } else {
             $params = $parametersSocietyRepository->findByIdSociety($this->getUser()->getSociety()->getId());
         }
-        
-        
+
         return $this->render(
-            'parameters_society/index.html.twig', [
-            'parameters_societies' => $params,
+            'parameters_society/index.html.twig',
+            [
+                'parameters_societies' => $params,
             ]
         );
     }
@@ -51,9 +51,10 @@ class ParametersSocietyController extends AbstractController
         }
 
         return $this->renderForm(
-            'parameters_society/new.html.twig', [
-            'parameters_society' => $parametersSociety,
-            'form' => $form,
+            'parameters_society/new.html.twig',
+            [
+                'parameters_society' => $parametersSociety,
+                'form' => $form,
             ]
         );
     }
@@ -64,17 +65,28 @@ class ParametersSocietyController extends AbstractController
     public function show(ParametersSociety $parametersSociety): Response
     {
         return $this->render(
-            'parameters_society/show.html.twig', [
-            'parameters_society' => $parametersSociety,
+            'parameters_society/show.html.twig',
+            [
+                'parameters_society' => $parametersSociety,
             ]
         );
     }
 
     /**
+     * edit
+     *
+     * @param  Request $request
+     * @param  ParametersSociety $parametersSociety
+     * @param  ParametersSocietyRepository $parametersSocietyRepository
+     * @return Response
+     *
      * @Route("/{id}/edit", name="app_parameters_society_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, ParametersSociety $parametersSociety, ParametersSocietyRepository $parametersSocietyRepository): Response
-    {
+    public function edit(
+        Request $request,
+        ParametersSociety $parametersSociety,
+        ParametersSocietyRepository $parametersSocietyRepository
+    ): Response {
         $form = $this->createForm(ParametersSocietyType::class, $parametersSociety);
         $form->handleRequest($request);
 
@@ -85,19 +97,30 @@ class ParametersSocietyController extends AbstractController
         }
 
         return $this->renderForm(
-            'parameters_society/edit.html.twig', [
-            'parameters_society' => $parametersSociety,
-            'form' => $form,
+            'parameters_society/edit.html.twig',
+            [
+                'parameters_society' => $parametersSociety,
+                'form' => $form,
             ]
         );
     }
 
     /**
+     * delete
+     *
+     * @param  Request $request
+     * @param  ParametersSociety $parametersSociety
+     * @param  ParametersSocietyRepository $parametersSocietyRepository
+     * @return Response
+     *
      * @Route("/{id}", name="app_parameters_society_delete", methods={"POST"})
      */
-    public function delete(Request $request, ParametersSociety $parametersSociety, ParametersSocietyRepository $parametersSocietyRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$parametersSociety->getId(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        ParametersSociety $parametersSociety,
+        ParametersSocietyRepository $parametersSocietyRepository
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $parametersSociety->getId(), $request->request->get('_token'))) {
             $parametersSocietyRepository->remove($parametersSociety, true);
         }
 

@@ -63,14 +63,29 @@ class NormeRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-
-
-    public function getQuestionnaire($id_norme, $id_categorie, $id_candidat, array $tabNote1 = null, array $tabNote2 = null)
-    {
+    /**
+     * getQuestionnaire
+     *
+     * @param  mixed $id_norme
+     * @param  mixed $id_categorie
+     * @param  mixed $id_candidat
+     * @param  mixed $tabNote1
+     * @param  mixed $tabNote2
+     * @return void
+     */
+    public function getQuestionnaire(
+        $id_norme,
+        $id_categorie,
+        $id_candidat,
+        array $tabNote1 = null,
+        array $tabNote2 = null
+    ) {
         $conn = $this->getEntityManager()->getConnection();
         $content = '';
         // Récupération des thèmes
-        $requete = $conn->prepare('SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie');
+        $requete = $conn->prepare(
+            'SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie'
+        );
         $requete->bindValue(':id_categorie', (int) $id_categorie);
         $resultSet = $requete->execute();
 
@@ -104,7 +119,9 @@ class NormeRepository extends ServiceEntityRepository
                 }
                 $content .= $consigne['label'] . '</B>';
                 // Récupération des critères
-                $requete3 = $conn->prepare('SELECT id, id_consigne, label, ptse1, ptse2 FROM critere WHERE id_consigne= :id_consigne');
+                $requete3 = $conn->prepare(
+                    'SELECT id, id_consigne, label, ptse1, ptse2 FROM critere WHERE id_consigne= :id_consigne'
+                );
                 $requete3->bindValue(':id_consigne', (int) $consigne['id']);
                 $resultSet3 = $requete3->execute();
 
@@ -120,10 +137,12 @@ class NormeRepository extends ServiceEntityRepository
                         if ($tabNote1 !== null) {
                             $content .= $tabNote1[$increment];
                         }
-                        $content .= '" size="3" min="0" max="' . $critere['ptse1'] . '" required /> / ' . $critere['ptse1'] . "\n";
+                        $content .= '" size="3" min="0" max="'
+                            . $critere['ptse1'] . '" required /> / ' . $critere['ptse1'] . "\n";
                         $content .= ' - ';
                     } else {
-                        $content .= '<input type="number" name="note_1[' . $increment . ']" value="" size="1" hidden />/';
+                        $content .= '<input type="number" name="note_1['
+                            . $increment . ']" value="" size="1" hidden />/';
                     }
                     // $content .= ' - ';
                     if ($critere['ptse2'] > 0) {
@@ -131,13 +150,16 @@ class NormeRepository extends ServiceEntityRepository
                         if ($tabNote2 !== null) {
                             $content .= $tabNote2[$increment];
                         }
-                        $content .= '" size="3" min="0" max="' . $critere['ptse2'] . '" required />' . $critere['ptse2'] . "\n";
+                        $content .= '" size="3" min="0" max="'
+                            . $critere['ptse2'] . '" required />' . $critere['ptse2'] . "\n";
                         $content .= ' - ';
                     } else {
-                        $content .= '<input type="number" name="note_2[' . $increment . ']" value="" size="1" hidden />';
+                        $content .= '<input type="number" name="note_2['
+                            . $increment . ']" value="" size="1" hidden />';
                     }
                     $content .= ' ' . str_replace("'", "&acute;", $critere['label']) . "\n";
-                    $content .= '<input type="hidden" name="critere_id[' . $increment . ']" value="' . $critere['id'] . '"/>' . "\n";
+                    $content .= '<input type="hidden" name="critere_id['
+                        . $increment . ']" value="' . $critere['id'] . '"/>' . "\n";
                     $increment++;
                 }
                 $content .= '</td></tr>' . "\n";
@@ -164,7 +186,9 @@ class NormeRepository extends ServiceEntityRepository
     public function getQuestionnairePDF($pdf, $id_norme, $id_categorie, array $tabNote1 = null, array $tabNote2 = null)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $requete = $conn->prepare('SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie');
+        $requete = $conn->prepare(
+            'SELECT id, id_categorie, ordre, label, pts1, pts2 FROM theme WHERE id_categorie= :id_categorie'
+        );
         $requete->bindValue(':id_categorie', (int) $id_categorie);
         $listeTheme = $requete->execute()->fetchAll();
         $increment = 0; // Nombre de questions
@@ -205,7 +229,9 @@ class NormeRepository extends ServiceEntityRepository
                 $pdf->Ln(1);
                 $Y = $pdf->GetY();
                 // Récupération des critères
-                $requete3 = $conn->prepare('SELECT id, id_consigne, label, ptse1, ptse2 FROM critere WHERE id_consigne= :id_consigne');
+                $requete3 = $conn->prepare(
+                    'SELECT id, id_consigne, label, ptse1, ptse2 FROM critere WHERE id_consigne= :id_consigne'
+                );
                 $requete3->bindValue(':id_consigne', (int) $consigne['id']);
 
                 $listeCritere = $requete3->execute()->fetchAll();
@@ -214,7 +240,8 @@ class NormeRepository extends ServiceEntityRepository
                     if ($Y > 263) {
                         $pdf->AddPage();
                         $pdf->Rect(10, 40, 190, 240);
-                        $pdf->Rect(10, 40, 50, 240); //$pdf->GetX().' '.$pdf->GetY().' '.$pdf->GetPageWidth().' '.$pdf->GetPageHeight()
+                        $pdf->Rect(10, 40, 50, 240);
+                        //$pdf->GetX().' '.$pdf->GetY().' '.$pdf->GetPageWidth().' '.$pdf->GetPageHeight()
                         $pdf->Cell(50, 10, utf8_decode('Thèmes'), '1', 0, 'C');
                         $pdf->Cell(0, 10, utf8_decode('Questions'), '1', 0, 'C');
                         $pdf->Ln(11);

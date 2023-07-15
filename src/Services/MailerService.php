@@ -28,8 +28,8 @@ class MailerService extends AbstractController
     /**
      * __construct
      *
-     * @param  string          $mailFrom
-     * @param  Environment     $twig
+     * @param  string      $mailFrom
+     * @param  Environment $twig
      * @return void
      */
     public function __construct($mailFrom, Environment $twig)

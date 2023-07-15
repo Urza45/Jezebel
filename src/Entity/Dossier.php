@@ -11,7 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Dossier
  *
- * @ORM\Table(name="dossier", indexes={@ORM\Index(name="id_formateur", columns={"id_formateur"}), @ORM\Index(name="id_norme", columns={"id_norme"}), @ORM\Index(name="id_client", columns={"id_client"}), @ORM\Index(name="id_testeur", columns={"id_testeur"})})
+ * @ORM\Table(name="dossier", indexes={@ORM\Index(name="id_formateur", columns={"id_formateur"}),
+ * @ORM\Index(name="id_norme", columns={"id_norme"}),
+ * @ORM\Index(name="id_client", columns={"id_client"}),
+ * @ORM\Index(name="id_testeur", columns={"id_testeur"})})
  * @ORM\Entity(repositoryClass="App\Repository\DossierRepository")
  */
 class Dossier

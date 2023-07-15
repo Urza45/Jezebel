@@ -15,16 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TVA
 {
-
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id",               type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
     protected $id;
-
 
     /**
      * @var float
@@ -42,7 +40,7 @@ class TVA
      */
     protected $libelle;
 
-        /**
+    /**
      * Get tva.
      *
      * @return float

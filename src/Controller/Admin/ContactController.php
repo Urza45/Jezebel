@@ -21,8 +21,9 @@ class ContactController extends AbstractController
     public function index(ContactRepository $contactRepository): Response
     {
         return $this->render(
-            'contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
+            'contact/index.html.twig',
+            [
+                'contacts' => $contactRepository->findAll(),
             ]
         );
     }
@@ -43,9 +44,10 @@ class ContactController extends AbstractController
         }
 
         return $this->renderForm(
-            'contact/new.html.twig', [
-            'contact' => $contact,
-            'form' => $form,
+            'contact/new.html.twig',
+            [
+                'contact' => $contact,
+                'form' => $form,
             ]
         );
     }
@@ -56,8 +58,9 @@ class ContactController extends AbstractController
     public function show(Contact $contact): Response
     {
         return $this->render(
-            'contact/show.html.twig', [
-            'contact' => $contact,
+            'contact/show.html.twig',
+            [
+                'contact' => $contact,
             ]
         );
     }
@@ -77,9 +80,10 @@ class ContactController extends AbstractController
         }
 
         return $this->renderForm(
-            'contact/edit.html.twig', [
-            'contact' => $contact,
-            'form' => $form,
+            'contact/edit.html.twig',
+            [
+                'contact' => $contact,
+                'form' => $form,
             ]
         );
     }
@@ -89,7 +93,7 @@ class ContactController extends AbstractController
      */
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $contactRepository->remove($contact, true);
         }
 

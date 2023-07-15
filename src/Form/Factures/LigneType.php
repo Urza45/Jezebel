@@ -19,18 +19,24 @@ class LigneType extends AbstractType
             ->add('description')
             ->add('quantite')
             ->add('prix', MoneyType::class)
-            ->add('tva', EntityType::class , [
-                'class' => TVA::class,
-                'choice_label' => 'libelle'
-            ])
+            ->add(
+                'tva',
+                EntityType::class,
+                [
+                    'class' => TVA::class,
+                    'choice_label' => 'libelle'
+                ]
+            )
             // ->add('facture')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Ligne::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Ligne::class,
+            ]
+        );
     }
 }

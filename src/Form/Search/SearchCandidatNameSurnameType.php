@@ -14,32 +14,44 @@ class SearchCandidatNameSurnameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'required' => false,
-                'label' => 'Nom :',
-                'trim' => true,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'minMessage' => 'Minimum 2 caractères',
-                ]),
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Nom du candidat'
-                ],
-            ])
-            ->add('surname', TextType::class, [
-                'required' => false,
-                'label' => 'Prénom :',
-                'trim' => true,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'minMessage' => 'Minimum 2 caractères',
-                ]),
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Prénom du candidat'
-                ],
-            ])
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Nom :',
+                    'trim' => true,
+                    'constraints' => new Length(
+                        [
+                            'min' => 2,
+                            'minMessage' => 'Minimum 2 caractères',
+                        ]
+                    ),
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Nom du candidat'
+                    ],
+                ]
+            )
+            ->add(
+                'surname',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Prénom :',
+                    'trim' => true,
+                    'constraints' => new Length(
+                        [
+                            'min' => 2,
+                            'minMessage' => 'Minimum 2 caractères',
+                        ]
+                    ),
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Prénom du candidat'
+                    ],
+                ]
+            )
             ->add(
                 'submit',
                 SubmitType::class,
@@ -52,8 +64,10 @@ class SearchCandidatNameSurnameType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setDefaults(
+            [
+                // Configure your form options here
+            ]
+        );
     }
 }

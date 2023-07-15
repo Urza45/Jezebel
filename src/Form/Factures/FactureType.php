@@ -30,21 +30,27 @@ class FactureType extends AbstractType
             ->add('code_postal')
             ->add('ville')
             ->add('telephone')
-            ->add('lignes', CollectionType::class, [
-                'label' => 'Prestations',
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                // 'prototype' => true,
-                'entry_type' => LigneType::class,
-                'entry_options' => ['label' => false],
-            ]);
+            ->add(
+                'lignes',
+                CollectionType::class,
+                [
+                    'label' => 'Prestations',
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    // 'prototype' => true,
+                    'entry_type' => LigneType::class,
+                    'entry_options' => ['label' => false],
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Facture::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Facture::class,
+            ]
+        );
     }
 }

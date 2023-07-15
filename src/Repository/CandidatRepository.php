@@ -43,10 +43,10 @@ class CandidatRepository extends ServiceEntityRepository
         }
     }
 
-    public function SearchByNameSurname($nom, $prenom)
+    public function searchByNameSurname($nom, $prenom)
     {
-        $user = $this->security;        
-        
+        $user = $this->security;
+
         if ($nom == null && $prenom == null) {
             return 'false';
         }
@@ -72,8 +72,7 @@ class CandidatRepository extends ServiceEntityRepository
         if (!$user->isGranted('ROLE_ULTRAADMIN')) {
             $result->andWhere('o.society = :society')
                 ->setParameter('society', $user->getUser()->getSociety());
-        // } else {
-            
+            // } else {
         }
         return $result->getQuery()->getResult();
     }
@@ -103,8 +102,25 @@ class CandidatRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function saveNotes($id_candidat, $id_categorie, $increment, array $tabCriteres, array $tabNotes1, array $tabNotes2 = null)
-    {
+    /**
+     * saveNotes
+     *
+     * @param  mixed $id_candidat
+     * @param  mixed $id_categorie
+     * @param  mixed $increment
+     * @param  mixed $tabCriteres
+     * @param  mixed $tabNotes1
+     * @param  mixed $tabNotes2
+     * @return void
+     */
+    public function saveNotes(
+        $id_candidat,
+        $id_categorie,
+        $increment,
+        array $tabCriteres,
+        array $tabNotes1,
+        array $tabNotes2 = null
+    ) {
         $conn = $this->getEntityManager()->getConnection();
         for ($i = 0; $i < $increment; $i++) {
             /* Vérification de l'existance d'une note sur le critère en cours */
@@ -116,7 +132,8 @@ class CandidatRepository extends ServiceEntityRepository
                 . 'note1 = :note1, '
                 . 'note2 = :note2 ';
 
-            $nbLigne = $conn->query('SELECT COUNT(*) FROM notecritere WHERE id_candidat=' . $id_candidat . ' AND id_critere=' . $tabCriteres[$i])->fetchFirstColumn();
+            $nbLigne = $conn->query('SELECT COUNT(*) FROM notecritere WHERE id_candidat='
+                . $id_candidat . ' AND id_critere=' . $tabCriteres[$i])->fetchFirstColumn();
             $nb = (int) $nbLigne[0];
             if ($nb > 0) {
                 $sql = 'UPDATE notecritere SET '
@@ -158,7 +175,8 @@ class CandidatRepository extends ServiceEntityRepository
     public function loadNotes1($id_candidat, $id_categorie)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT note1 FROM notecritere WHERE id_candidat=' . $id_candidat . ' AND id_categorie=' . $id_categorie . ' ORDER BY id_critere';
+        $sql = 'SELECT note1 FROM notecritere WHERE id_candidat='
+            . $id_candidat . ' AND id_categorie=' . $id_categorie . ' ORDER BY id_critere';
         $requete = $conn->query($sql);
         $Note1 = $requete->fetchall();
         $listNote1 = null;
@@ -171,7 +189,8 @@ class CandidatRepository extends ServiceEntityRepository
     public function loadNotes2($id_candidat, $id_categorie)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $sql = 'SELECT note2 FROM notecritere WHERE id_candidat=' . $id_candidat . ' AND id_categorie=' . $id_categorie . ' ORDER BY id_critere';
+        $sql = 'SELECT note2 FROM notecritere WHERE id_candidat='
+            . $id_candidat . ' AND id_categorie=' . $id_categorie . ' ORDER BY id_critere';
         $requete = $conn->query($sql);
         $Note2 = $requete->fetchall();
         $listNote2 = null;
@@ -181,7 +200,7 @@ class CandidatRepository extends ServiceEntityRepository
         return $listNote2;
     }
 
-    public function resultats_categorie($id_candidat, $id_categorie)
+    public function resultatsCategorie($id_candidat, $id_categorie)
     {
         $conn = $this->getEntityManager()->getConnection();
         $condition = 'RECU';
@@ -299,7 +318,6 @@ class CandidatRepository extends ServiceEntityRepository
         $stmt = $conn->prepare('CALL notetheme(' . $id_candidat . ',' . $id_categorie . ')');
         $return_value = $stmt->execute()->fetchAll();
         foreach ($return_value as $key => $value) {
-
             if (($value['note1'] != null) && ($value['pts1'] != null)) {
                 if ($value['note1'] >= ($value['pts1'] / 2)) {
                 } else {
@@ -333,7 +351,7 @@ class CandidatRepository extends ServiceEntityRepository
         return $condition;
     }
 
-    public function resultats_categoriePDF($pdf, $id_candidat, $id_categorie)
+    public function resultatsCategoriePDF($pdf, $id_candidat, $id_categorie)
     {
         $conn = $this->getEntityManager()->getConnection();
         $condition = 'RECU';

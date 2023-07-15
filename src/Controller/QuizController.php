@@ -20,9 +20,12 @@ class QuizController extends AbstractController
      */
     public function index(QuizRepository $quizRepository): Response
     {
-        return $this->render('quiz/index.html.twig', [
-            'quizzes' => $quizRepository->findAll(),
-        ]);
+        return $this->render(
+            'quiz/index.html.twig',
+            [
+                'quizzes' => $quizRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -40,10 +43,13 @@ class QuizController extends AbstractController
             return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('quiz/new.html.twig', [
-            'quiz' => $quiz,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'quiz/new.html.twig',
+            [
+                'quiz' => $quiz,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -51,9 +57,12 @@ class QuizController extends AbstractController
      */
     public function show(Quiz $quiz): Response
     {
-        return $this->render('quiz/show.html.twig', [
-            'quiz' => $quiz,
-        ]);
+        return $this->render(
+            'quiz/show.html.twig',
+            [
+                'quiz' => $quiz,
+            ]
+        );
     }
 
     /**
@@ -70,10 +79,13 @@ class QuizController extends AbstractController
             return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('quiz/edit.html.twig', [
-            'quiz' => $quiz,
-            'form' => $form,
-        ]);
+        return $this->renderForm(
+            'quiz/edit.html.twig',
+            [
+                'quiz' => $quiz,
+                'form' => $form,
+            ]
+        );
     }
 
     /**
@@ -81,7 +93,7 @@ class QuizController extends AbstractController
      */
     public function delete(Request $request, Quiz $quiz, QuizRepository $quizRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$quiz->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $quiz->getId(), $request->request->get('_token'))) {
             $quizRepository->remove($quiz, true);
         }
 

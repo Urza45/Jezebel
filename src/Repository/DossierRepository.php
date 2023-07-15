@@ -18,7 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class DossierRepository extends ServiceEntityRepository
 {
     private $security;
-    
+
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Dossier::class);
@@ -43,10 +43,10 @@ class DossierRepository extends ServiceEntityRepository
         }
     }
 
-    public function SearchByNumClient($numDossier, $client)
+    public function searchByNumClient($numDossier, $client)
     {
-        $user = $this->security;        
-        
+        $user = $this->security;
+
         if ($numDossier == null && $client == null) {
             return 'false';
         }
@@ -70,35 +70,35 @@ class DossierRepository extends ServiceEntityRepository
         }
 
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            # code...
+            // code...
         } else {
             $result->andWhere('o.society = :society')
                 ->setParameter('society', $user->getUser()->getSociety());
         }
         return $result->getQuery()->getResult();
     }
-//    /**
-//     * @return Dossier[] Returns an array of Dossier objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Dossier[] Returns an array of Dossier objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('d')
+    //            ->andWhere('d.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('d.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Dossier
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Dossier
+    //    {
+    //        return $this->createQueryBuilder('d')
+    //            ->andWhere('d.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

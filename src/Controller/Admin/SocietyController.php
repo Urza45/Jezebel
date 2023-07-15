@@ -21,8 +21,9 @@ class SocietyController extends AbstractController
     public function index(SocietyRepository $societyRepository): Response
     {
         return $this->render(
-            'society/index.html.twig', [
-            'societies' => $societyRepository->findAll(),
+            'society/index.html.twig',
+            [
+                'societies' => $societyRepository->findAll(),
             ]
         );
     }
@@ -43,9 +44,10 @@ class SocietyController extends AbstractController
         }
 
         return $this->renderForm(
-            'society/new.html.twig', [
-            'society' => $society,
-            'form' => $form,
+            'society/new.html.twig',
+            [
+                'society' => $society,
+                'form' => $form,
             ]
         );
     }
@@ -56,8 +58,9 @@ class SocietyController extends AbstractController
     public function show(Society $society): Response
     {
         return $this->render(
-            'society/show.html.twig', [
-            'society' => $society,
+            'society/show.html.twig',
+            [
+                'society' => $society,
             ]
         );
     }
@@ -77,9 +80,10 @@ class SocietyController extends AbstractController
         }
 
         return $this->renderForm(
-            'society/edit.html.twig', [
-            'society' => $society,
-            'form' => $form,
+            'society/edit.html.twig',
+            [
+                'society' => $society,
+                'form' => $form,
             ]
         );
     }
@@ -89,7 +93,7 @@ class SocietyController extends AbstractController
      */
     public function delete(Request $request, Society $society, SocietyRepository $societyRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$society->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $society->getId(), $request->request->get('_token'))) {
             $societyRepository->remove($society, true);
         }
 

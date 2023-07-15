@@ -115,7 +115,7 @@ class Contact
 
     public function __toString()
     {
-        return $this->getLastName().' '.$this->getFirstName();
+        return $this->getLastName() . ' ' . $this->getFirstName();
     }
 
     public function getIncaticatif(): ?int

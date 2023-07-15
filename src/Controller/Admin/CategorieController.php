@@ -63,18 +63,36 @@ class CategorieController extends AbstractController
     }
 
     /**
+     * edit
+     *
+     * @param  Norme                  $norme
+     * @param  Categorie              $categorie
+     * @param  Request                $request
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/edit/{idnorme}/{id}", name="app_categorie_edit", methods={"GET", "POST"})
      * @ParamConverter("norme",       options={"id" = "idnorme"})
      */
-    public function edit(Norme $norme, Categorie $categorie, Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Norme $norme,
+        Categorie $categorie,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_norme_list_categories', ['id' => $norme->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_norme_list_categories',
+                [
+                    'id' => $norme->getId()
+                ],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm(
@@ -88,10 +106,20 @@ class CategorieController extends AbstractController
     }
 
     /**
+     * delete
+     *
+     * @param  Request                $request
+     * @param  Categorie              $categorie
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/{id}", name="app_categorie_delete", methods={"POST"})
      */
-    public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Categorie $categorie,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid('delete' . $categorie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categorie);
             $entityManager->flush();

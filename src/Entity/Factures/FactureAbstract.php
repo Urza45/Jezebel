@@ -20,7 +20,7 @@ abstract class FactureAbstract
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id",               type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
@@ -65,7 +65,7 @@ abstract class FactureAbstract
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Factures\Facture\Ligne", mappedBy="facture")
+     * @ORM\OneToMany(targetEntity="App\Entity\Factures\Facture\Ligne", mappedBy="facture", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     protected $lignes;
@@ -87,7 +87,7 @@ abstract class FactureAbstract
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -268,10 +268,10 @@ abstract class FactureAbstract
     /**
      * Set the value of id
      *
-     * @param  int  $id
+     * @param int $id
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setId(int $id)
     {
         $this->id = $id;

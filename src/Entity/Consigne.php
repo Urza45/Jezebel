@@ -8,7 +8,7 @@ use App\Entity\Theme;
 /**
  * Consigne
  *
- * @ORM\Table(name="consigne",                                      indexes={@ORM\Index(name="id_theme", columns={"id_theme"})})
+ * @ORM\Table(name="consigne", indexes={@ORM\Index(name="id_theme", columns={"id_theme"})})
  * @ORM\Entity(repositoryClass="App\Repository\ConsigneRepository")
  */
 class Consigne

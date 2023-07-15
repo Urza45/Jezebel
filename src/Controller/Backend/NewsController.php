@@ -25,8 +25,9 @@ class NewsController extends AbstractController
             ->findAll();
 
         return $this->render(
-            'news/index.html.twig', [
-            'news' => $news,
+            'news/index.html.twig',
+            [
+                'news' => $news,
             ]
         );
     }
@@ -48,9 +49,10 @@ class NewsController extends AbstractController
         }
 
         return $this->renderForm(
-            'news/new.html.twig', [
-            'news' => $news,
-            'form' => $form,
+            'news/new.html.twig',
+            [
+                'news' => $news,
+                'form' => $form,
             ]
         );
     }
@@ -61,8 +63,9 @@ class NewsController extends AbstractController
     public function show(News $news): Response
     {
         return $this->render(
-            'news/show.html.twig', [
-            'news' => $news,
+            'news/show.html.twig',
+            [
+                'news' => $news,
             ]
         );
     }
@@ -82,9 +85,10 @@ class NewsController extends AbstractController
         }
 
         return $this->renderForm(
-            'news/edit.html.twig', [
-            'news' => $news,
-            'form' => $form,
+            'news/edit.html.twig',
+            [
+                'news' => $news,
+                'form' => $form,
             ]
         );
     }
@@ -94,7 +98,7 @@ class NewsController extends AbstractController
      */
     public function delete(Request $request, News $news, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$news->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $news->getId(), $request->request->get('_token'))) {
             $entityManager->remove($news);
             $entityManager->flush();
         }

@@ -89,7 +89,7 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute(
                 'app_norme_list_categories',
                 [
-                    'id' => $norme->getId()
+                    'id' => $norme->getId(),
                 ],
                 Response::HTTP_SEE_OTHER
             );
@@ -100,7 +100,7 @@ class CategorieController extends AbstractController
             [
                 'categorie' => $categorie,
                 'form' => $form,
-                'norme' => $norme
+                'norme' => $norme,
             ]
         );
     }
@@ -130,7 +130,7 @@ class CategorieController extends AbstractController
 
     /**
      * @Route("/{idnorme}/{id}/list_theme", name="app_categorie_list_themes", methods={"GET", "POST"})
-     * @ParamConverter("norme",             options={"id" = "idnorme"})
+     * @ParamConverter("norme", options={"id" = "idnorme"})
      */
     public function listTheme(Norme $norme, Categorie $categorie, EntityManagerInterface $entityManager)
     {

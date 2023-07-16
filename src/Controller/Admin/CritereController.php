@@ -66,7 +66,7 @@ class CritereController extends AbstractController
             'critere/show.html.twig',
             [
                 'critere' => $critere,
-                'consigne' => $critere->getIdConsigne()
+                'consigne' => $critere->getIdConsigne(),
             ]
         );
     }
@@ -86,7 +86,7 @@ class CritereController extends AbstractController
             return $this->redirectToRoute(
                 'app_consigne_list_critere',
                 [
-                    'id' => $critere->getIdConsigne()->getId()
+                    'id' => $critere->getIdConsigne()->getId(),
                 ],
                 Response::HTTP_SEE_OTHER
             );
@@ -97,7 +97,7 @@ class CritereController extends AbstractController
             [
                 'critere' => $critere,
                 'form' => $form,
-                'consigne' => $critere->getIdConsigne()
+                'consigne' => $critere->getIdConsigne(),
             ]
         );
     }

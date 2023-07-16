@@ -20,8 +20,10 @@ class ThemeController extends AbstractController
 {
     /**
      * index
+     * 
+     * Affiche la liste des thèmes
      *
-     * @param  EntityManagerInterface $entityManager
+     * @param  EntityManagerInterface $entityManager Gestion des entités
      * @return Response
      *
      * @Route("/", name="app_theme_index", methods={"GET"})
@@ -42,6 +44,8 @@ class ThemeController extends AbstractController
 
     /**
      * new
+     * 
+     * Création d'un nouveau thèms
      *
      * @param  Request $request
      * @param  EntityManagerInterface $entityManager
@@ -73,6 +77,8 @@ class ThemeController extends AbstractController
 
     /**
      * show
+     * 
+     * Montre un thème
      *
      * @param  Theme $theme
      * @return Response
@@ -93,6 +99,8 @@ class ThemeController extends AbstractController
 
     /**
      * edit
+     * 
+     * Modifie un thème
      *
      * @param  Request $request
      * @param  Theme $theme
@@ -132,6 +140,8 @@ class ThemeController extends AbstractController
 
     /**
      * delete
+     * 
+     * Supprime un thèms
      *
      * @param  Request $request
      * @param  Theme $theme
@@ -152,6 +162,8 @@ class ThemeController extends AbstractController
 
     /**
      * listConsigne
+     * 
+     * Récupère la liste des consignes d'un thème
      *
      * @param  Theme $theme
      * @param  EntityManagerInterface $entityManager
@@ -178,6 +190,8 @@ class ThemeController extends AbstractController
 
     /**
      * addConsigne
+     * 
+     * Ajoute une consigne à un thème précis
      *
      * @param  Theme $theme
      * @param  Request $request

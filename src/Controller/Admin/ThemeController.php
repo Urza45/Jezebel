@@ -19,6 +19,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ThemeController extends AbstractController
 {
     /**
+     * index
+     *
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/", name="app_theme_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager): Response
@@ -36,6 +41,12 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * new
+     *
+     * @param  Request $request
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/new", name="app_theme_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -61,6 +72,11 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * show
+     *
+     * @param  Theme $theme
+     * @return Response
+     *
      * @Route("/{id}", name="app_theme_show", methods={"GET"})
      */
     public function show(Theme $theme): Response
@@ -76,6 +92,13 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * edit
+     *
+     * @param  Request $request
+     * @param  Theme $theme
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/{id}/edit", name="app_theme_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Theme $theme, EntityManagerInterface $entityManager): Response
@@ -108,6 +131,13 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * delete
+     *
+     * @param  Request $request
+     * @param  Theme $theme
+     * @param  EntityManagerInterface $entityManager
+     * @return Response
+     *
      * @Route("/{id}", name="app_theme_delete", methods={"POST"})
      */
     public function delete(Request $request, Theme $theme, EntityManagerInterface $entityManager): Response
@@ -121,6 +151,12 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * listConsigne
+     *
+     * @param  Theme $theme
+     * @param  EntityManagerInterface $entityManager
+     * @return void
+     *
      * @Route("/list_consigne/{id}", name="app_theme_list_consigne", methods={"GET", "POST"})
      */
     public function listConsigne(Theme $theme, EntityManagerInterface $entityManager)
@@ -141,6 +177,13 @@ class ThemeController extends AbstractController
     }
 
     /**
+     * addConsigne
+     *
+     * @param  Theme $theme
+     * @param  Request $request
+     * @param  ConsigneRepository $consigneRepository
+     * @return void
+     *
      * @Route("/add_consigne/{id}", name="app_theme_add_consigne", methods={"GET", "POST"})
      */
     public function addConsigne(Theme $theme, Request $request, ConsigneRepository $consigneRepository)

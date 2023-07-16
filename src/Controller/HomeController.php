@@ -7,6 +7,7 @@ use App\Entity\News;
 use App\Services\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -21,11 +22,18 @@ class HomeController extends AbstractController
      *
      * @return Response
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Session $session): Response
     {
         $news = $entityManager
             ->getRepository(News::class)
             ->findAll();
+
+        if ($this->getUser()) {
+            $session->set('SOCIETE', $this->getUser()->getSociety());
+            $session->set('USER', $this->getUser());
+        }
+
+        //dump(' => ' . $session->get('USER')->getSociety()->getId());
 
         return $this->render(
             'home/index.html.twig',

@@ -18,15 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/", name="app_client_index", methods={"GET","POST"})
-     */
-    /**
      * index
      *
      * @param  EntityManagerInterface $entityManager
      * @param  Request $request
      * @param  ClientRepository $clientRepository
      * @return Response
+     * 
+     * @Route("/", name="app_client_index", methods={"GET","POST"})
      */
     public function index(
         EntityManagerInterface $entityManager,

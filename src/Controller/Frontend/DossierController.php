@@ -9,14 +9,15 @@ use App\Entity\Categorie;
 use App\Form\DossierType;
 use App\Entity\Categoriechoisie;
 use App\Form\ChoiceCategoriesType;
-use App\Form\Search\SearchDossierType;
-use App\Repository\CandidatRepository;
 use App\Repository\DossierRepository;
 use App\Repository\SocietyRepository;
+use App\Form\Search\SearchDossierType;
+use App\Repository\CandidatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -29,13 +30,17 @@ class DossierController extends AbstractController
      *
      * @param Request           $request
      * @param DossierRepository $dossierRepository
+     * @param Session $session
      *
      * @Route("/", name="app_dossier_index", methods={"GET","POST"})
      *
      * @return Response
      */
-    public function index(Request $request, DossierRepository $dossierRepository): Response
-    {
+    public function index(
+        Request $request,
+        DossierRepository $dossierRepository,
+        Session $session
+    ): Response {
         $form = $this->createForm(SearchDossierType::class);
         $form->handleRequest($request);
 
@@ -48,7 +53,7 @@ class DossierController extends AbstractController
             if ($this->isGranted('ROLE_ULTRAADMIN')) {
                 $dossiers = $dossierRepository->findAll();
             } else {
-                $dossiers = $dossierRepository->findBySociety($this->getUser()->getSociety()->getId());
+                $dossiers = $dossierRepository->findBySociety($session->get('SOCIETE')->getId());
             }
         }
 
@@ -67,6 +72,7 @@ class DossierController extends AbstractController
      * @param Request                $request
      * @param EntityManagerInterface $entityManager
      * @param SocietyRepository      $societyRepository
+     * @param Session $session
      *
      * @Route("/new", name="app_dossier_new", methods={"GET", "POST"})
      *
@@ -75,19 +81,19 @@ class DossierController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
-        SocietyRepository $societyRepository
+        SocietyRepository $societyRepository,
+        Session $session
     ): Response {
         $dossier = new Dossier();
 
         $societeEnCours = new Society();
-        $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
 
         $form = $this->createForm(DossierType::class, $dossier);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $societeEnCours = $societyRepository->findOneById($this->getUser()->getSociety()->getId());
+            $societeEnCours = $societyRepository->findOneById($session->get('SOCIETE')->getId());
             $dossier->setSociety($societeEnCours);
             $entityManager->persist($dossier);
             $entityManager->flush();

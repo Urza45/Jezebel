@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ContactClient index{% endblock %}
+{% block title %}Liste des contacts{% endblock %}
 
 {% block body %}
-    <h1>ContactClient index</h1>
+    <h1>Liste des contacts</h1>
+
+    <center>
+		Il y a actuellement
+		{{ contact_clients|length }}
+		contacts.<br/>
+		<a href="{{ path('app_contact_client_new') }}" class="btn btn-success link-dark">Saisir un nouveau contact</a>
+	</center>
 
     <table id="formatedTable" class="table-bordered table-hover table-responsive">
     {# <table class="table"> #}
@@ -36,8 +43,12 @@
                 <td>{{ contact_client.telephone2 }}</td>
                 <td>{{ contact_client.email }}</td>
                 <td>
-                    <a href="{{ path('app_contact_client_show', {'id': contact_client.id}) }}">show</a>
-                    <a href="{{ path('app_contact_client_edit', {'id': contact_client.id}) }}">edit</a>
+                    <a href="{{ path('app_contact_client_show', {'id': contact_client.id}) }}">
+							<i class="fa-regular fa-eye"></i>
+						</a>
+						<a href="{{ path('app_contact_client_edit', {'id': contact_client.id}) }}">
+							<i class="fa-solid fa-pen-to-square"></i>
+						</a>
                 </td>
             </tr>
         {% else %}
@@ -48,5 +59,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_contact_client_new') }}">Create new</a>
 {% endblock %}

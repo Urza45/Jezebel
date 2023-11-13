@@ -67,9 +67,9 @@ class TestPratiqueController extends AbstractController
         //     }
         // }
 
-        $test = $normeRepository->getQuestionnaire(1, 1, 1);
+        //$test = $normeRepository->getQuestionnaire(1, 1, 1);
 
-        $test2 = $candidatRepository->resultatsCategorie(5, 6);
+        //$test2 = $candidatRepository->resultatsCategorie(5, 6);
 
         return $this->render(
             'test_pratique/index.html.twig',
@@ -77,9 +77,9 @@ class TestPratiqueController extends AbstractController
                 'controller_name' => 'TestPratiqueController',
                 'dossiers' => $dossiers,
                 'candidats' => $candidats,
-                'test' => utf8_decode($test),
+                //'test' => utf8_decode($test),
                 'categorieChoisies' => $categorieChoisies,
-                'test2' => $test2
+                //'test2' => $test2
             ]
         );
     }

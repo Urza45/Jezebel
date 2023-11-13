@@ -10,10 +10,10 @@
 		Il y a actuellement
 		{{ dossiers|length }}
 		dossiers.<br/>
-		<a href="{{ path('app_dossier_new') }}">Ajouter un dossier</a>
+		<a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark">Ajouter un dossier</a>
 	</center>
 	{# Moteur de recherche #}
-	<hr>
+	{# <hr>
 	<div class="container container-fluid">
 		<div class="row justify-content-evenly">
 			<div class="col-lg-12">
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</div>
-	<hr>
+	<hr> #}
 	{# Fin moteur de recherche #}
 
 	<table id="formatedTable" class="table-bordered table-hover table-responsive">
@@ -49,8 +49,8 @@
 				<th>Dossier</th>
 				<th>Client</th>
 				{# <th>Facture</th> #}
-				{# <th>Début</th>
-																																																											<th>Fin</th> #}
+				{# <th>Début</th> #}
+				{# <th>Fin</th> #}
 				<th>Contact(s)</th>
 				<th>Type</th>
 				{# <th>Adresse Intervention</th> #}

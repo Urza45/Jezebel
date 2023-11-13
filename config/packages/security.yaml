@@ -40,7 +40,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/documentation, roles: ROLE_USER }
-        - { path: ^/files, roles: ROLE_USER}
+        - { path: ^/files, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/candidat, roles: ROLE_ADMIN }
         - { path: ^/client, roles: ROLE_USER }
@@ -53,6 +53,7 @@ security:
         - { path: ^/theme, roles: ROLE_ULTRAADMIN }
         - { path: ^/consigne, roles: ROLE_ULTRAADMIN }
         - { path: ^/critere, roles: ROLE_ULTRAADMIN }
+        - { path: ^/contacts, roles: ROLE_ADMIN }
         #- { path: ^/profile, roles: ROLE_USER }
         
 when@test:

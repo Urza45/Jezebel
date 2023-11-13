@@ -92,7 +92,7 @@ class Dossier
     private $codeagence = 78;
 
     /**
-     * @var \Client
+     * @var \Client|null
      *
      * @ORM\ManyToOne(targetEntity="Client")
      * @ORM\JoinColumns({
@@ -102,7 +102,7 @@ class Dossier
     private $idClient;
 
     /**
-     * @var \Users
+     * @var \Users|null
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
@@ -112,7 +112,7 @@ class Dossier
     private $idTesteur;
 
     /**
-     * @var \Norme
+     * @var \Norme|null
      *
      * @ORM\ManyToOne(targetEntity="Norme")
      * @ORM\JoinColumns({
@@ -122,7 +122,7 @@ class Dossier
     private $idNorme;
 
     /**
-     * @var \Users
+     * @var \Users|null
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({

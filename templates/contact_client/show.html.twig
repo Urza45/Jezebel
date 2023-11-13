@@ -1,58 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ContactClient{% endblock %}
+{% block title %}Contact
+	{{ contact_client.nom|upper }}
+{% endblock %}
 
 {% block body %}
-    <h1>ContactClient</h1>
+	<h1>Contact
+		{{ contact_client.nom|upper }}
+		<a href="{{ path('app_contact_client_edit', {'id': contact_client.id}) }}">
+			<i class="fa-solid fa-pen-to-square"></i>
+		</a>
+	</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contact_client.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ contact_client.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ contact_client.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ contact_client.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Adresse2</th>
-                <td>{{ contact_client.adresse2 }}</td>
-            </tr>
-            <tr>
-                <th>CodePostal</th>
-                <td>{{ contact_client.codePostal }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ contact_client.ville }}</td>
-            </tr>
-            <tr>
-                <th>Telephone1</th>
-                <td>{{ contact_client.telephone1 }}</td>
-            </tr>
-            <tr>
-                <th>Telephone2</th>
-                <td>{{ contact_client.telephone2 }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ contact_client.email }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table>
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ contact_client.id }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ contact_client.nom }}</td>
+			</tr>
+			<tr>
+				<th>Prenom</th>
+				<td>{{ contact_client.prenom }}</td>
+			</tr>
+			<tr>
+				<th>Adresse</th>
+				<td>{{ contact_client.adresse }}</td>
+			</tr>
+			<tr>
+				<th>Adresse2</th>
+				<td>{{ contact_client.adresse2 }}</td>
+			</tr>
+			<tr>
+				<th>CodePostal</th>
+				<td>{{ contact_client.codePostal }}</td>
+			</tr>
+			<tr>
+				<th>Ville</th>
+				<td>{{ contact_client.ville }}</td>
+			</tr>
+			<tr>
+				<th>Telephone1</th>
+				<td>{{ contact_client.telephone1 }}</td>
+			</tr>
+			<tr>
+				<th>Telephone2</th>
+				<td>{{ contact_client.telephone2 }}</td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td>{{ contact_client.email }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_contact_client_index') }}">back to list</a>
+	<a href="{{ path('app_contact_client_index') }}">Retour à la liste des contacts</a>
 
-    <a href="{{ path('app_contact_client_edit', {'id': contact_client.id}) }}">edit</a>
-
-    {{ include('contact_client/_delete_form.html.twig') }}
+	{{ include('contact_client/_delete_form.html.twig') }}
 {% endblock %}

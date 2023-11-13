@@ -13,6 +13,33 @@
 		</a>
 	</h1>
 	<div class="row">
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" disabled>Devis</a>
+		</div>
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" >Convention</a>
+		</div>
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" >Convocation</a>
+		</div>
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" >Facture</a>
+		</div>
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" >Résultats</a>
+
+			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Devis</a><br> #}
+			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Convention</a><br> #}
+			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Convocation</a><br> #}
+			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Facture</a><br> #}
+			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Résultats</a> #}
+		</div>
+		<div class="col-lg-2 col-12">
+			<a class="btn btn-success link-dark w-75 disabled" >Cartes</a>
+		</div>
+		<hr>
+	</div>
+	<div class="row">
 		<div class="col">
 			<table class="table-bordered table-hover table-responsive">
 				<tr>
@@ -55,31 +82,52 @@
 					<th>Codeagence</th>
 					<td>{{ dossier.codeagence }}</td>
 				</tr>
-			</tbody>
-		</table>
+			</table>
+		</div>
 	</div>
-	<div class="col">
-		Liste des candidats
-		<table class="table-bordered table-hover table-responsive">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Prénom</th>
-					<th>Date de naissance</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for candidat in candidats %}
-
+	<br>
+	<div class="row">
+		<div class="col">
+			Liste des candidats
+			<a href="{{ path('app_dossier_add_candidat', {'id': dossier.id}) }}">
+				<i class="fa-solid fa-user-plus"></i>
+			</a>
+			<br>
+			<small>Il y a actuellement
+				{{ candidats|length}}
+				candidats</small>
+			<table class="table-bordered table-hover table-responsive">
+				<thead>
 					<tr>
-						<td>{{ candidat.nomCandidat}}</td>
-						<td>{{ candidat.prenomCandidat }}</td>
-						<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('d/m/Y') : '' }}</td>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Date de naissance</th>
+						<th>Actions</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{% for candidat in candidats %}
+
+						<tr>
+							<td>{{ candidat.nomCandidat}}</td>
+							<td>{{ candidat.prenomCandidat }}</td>
+							<td>{{ candidat.dateNaissance ? candidat.dateNaissance|date('d/m/Y') : '' }}</td>
+							<td>
+								<a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">
+									<i class="fa-regular fa-eye"></i>
+								</a>
+								<a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" alt="Editer">
+									<i class="fa-solid fa-user-pen"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
-<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
-{{ include('dossier/_delete_form.html.twig') }}{% endblock %}
+
+	<a href="{{ path('app_dossier_index') }}">Retour à la liste des dossiers</a>
+	{{ include('dossier/_delete_form.html.twig') }}
+
+</div>{% endblock %}

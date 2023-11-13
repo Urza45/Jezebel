@@ -20,7 +20,7 @@ class ThemeController extends AbstractController
 {
     /**
      * index
-     * 
+     *
      * Affiche la liste des thèmes
      *
      * @param  EntityManagerInterface $entityManager Gestion des entités

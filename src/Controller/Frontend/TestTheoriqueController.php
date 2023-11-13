@@ -59,7 +59,6 @@ class TestTheoriqueController extends AbstractController
                 ->getRepository(Candidat::class)
                 ->findBySociety($this->getUser()->getSociety()->getId());
         }
-
         $tab = $request->request->get('user_quiz_result');
 
         if ($tab) {
@@ -107,9 +106,6 @@ class TestTheoriqueController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $answers = $userQuizResult->getUserQuizAnswers();
-
-
-
         foreach ($answers as $answer) {
             $entityManager->remove($answer);
             $entityManager->flush();

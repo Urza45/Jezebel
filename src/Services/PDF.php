@@ -7,7 +7,7 @@
 namespace App\Services;
 
 use FPDF;
-use App\Services\Templates_FPDF;
+use App\Services\templates_fpdf;
 use App\Entity\Norme;
 //use App\Services\PDF;
 use App\Entity\Client;
@@ -24,7 +24,7 @@ use App\Repository\CategoriechoisieRepository;
  *
  * @author Serge
  */
-class PDF extends Templates_FPDF
+class PDF extends templates_fpdf
 {
     protected $titre = '';
     protected $sousTitre = '';

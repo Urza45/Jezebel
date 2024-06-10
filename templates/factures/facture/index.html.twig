@@ -1,55 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Facture index{% endblock %}
+{% block title %}Facture index
+{% endblock %}
 
 {% block body %}
-    <h1>Facture index</h1>
+	<h1>Facture index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Numero</th>
-                <th>Date</th>
-                <th>Tva</th>
-                <th>Acompte</th>
-                <th>Reference</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Adresse2</th>
-                <th>Code_postal</th>
-                <th>Ville</th>
-                <th>Telephone</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for facture in factures %}
-            <tr>
-                <td>{{ facture.id }}</td>
-                <td>{{ facture.numero }}</td>
-                <td>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</td>
-                <td>{{ facture.tva }}</td>
-                <td>{{ facture.acompte }}</td>
-                <td>{{ facture.reference }}</td>
-                <td>{{ facture.nom }}</td>
-                <td>{{ facture.adresse }}</td>
-                <td>{{ facture.adresse2 }}</td>
-                <td>{{ facture.codePostal }}</td>
-                <td>{{ facture.ville }}</td>
-                <td>{{ facture.telephone }}</td>
-                <td>
-                    <a href="{{ path('app_factures_facture_show', {'id': facture.id}) }}">show</a>
-                    <a href="{{ path('app_factures_facture_edit', {'id': facture.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="13">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Numero</th>
+				<th>Date</th>
+				<th>Tva</th>
+				<th>Acompte</th>
+				<th>Reference</th>
+				<th>Nom</th>
+				<th>Adresse</th>
+				<th>Adresse2</th>
+				<th>Code_postal</th>
+				<th>Ville</th>
+				<th>Telephone</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<pre>
+            {{ dump(factures) }}
+        </pre>
+			{% for facture in factures %}
+				{% if facture not in devis %}
+					<tr>
+						<td>{{ facture.id }}</td>
+						<td>{{ facture.numero }}</td>
+						<td>{{ facture.date ? facture.date|date('Y-m-d') : '' }}</td>
+						<td>{{ facture.tva }}</td>
+						<td>{{ facture.acompte }}</td>
+						<td>{{ facture.reference }}</td>
+						<td>{{ facture.nom }}</td>
+						<td>{{ facture.adresse }}</td>
+						<td>{{ facture.adresse2 }}</td>
+						<td>{{ facture.codePostal }}</td>
+						<td>{{ facture.ville }}</td>
+						<td>{{ facture.telephone }}</td>
+						<td>
+							<a href="{{ path('app_factures_facture_show', {'id': facture.id}) }}">show</a>
+							<a href="{{ path('app_factures_facture_edit', {'id': facture.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% endif %}
+			{% else %}
+				<tr>
+					<td colspan="13">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_factures_facture_new') }}">Create new</a>
+	<a href="{{ path('app_factures_facture_new') }}">Create new</a>
 {% endblock %}

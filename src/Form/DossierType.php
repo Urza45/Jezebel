@@ -14,6 +14,7 @@ use App\Repository\NormeRepository;
 use App\Repository\SocietyRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\AdminRepository;
 use App\Repository\NormesAutoriseesRepository;
 use PhpParser\Node\Expr\AssignOp\Concat;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,24 +31,27 @@ class DossierType extends AbstractType
     private $societyRepository;
     private $normeRepository;
     private $normesAutoriseesRepository;
+    private $repoUsers;
 
     public function __construct(
         Security $security,
         NormeRepository $repoNorme,
         NormesAutoriseesRepository $normesAutoriseesRepository,
-        SocietyRepository $repoSociety
+        SocietyRepository $repoSociety,
+        AdminRepository $repoUsers
     ) {
         $this->security = $security;
         $this->normeRepository = $repoNorme;
         $this->normesAutoriseesRepository = $normesAutoriseesRepository;
         $this->societyRepository = $repoSociety;
+        $this->repoUsers = $repoUsers;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $user = $this->security;
-
+        dump($this->security->getUser()->getSociety()->getId());
         $builder
             ->add(
                 'dateDebut',
@@ -83,7 +87,11 @@ class DossierType extends AbstractType
             ->add('commentaires')
             ->add('codeagence');
         if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add('idClient');
+            $builder
+                ->add('idClient')
+                ->add('idTesteur')
+                ->add('idNorme')
+                ->add('idFormateur');
         } else {
             $builder->add(
                 'idClient',
@@ -103,32 +111,13 @@ class DossierType extends AbstractType
                     'choice_label' => 'nomClient',
                 ]
             );
-        }
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add('idTesteur');
-        } else {
-            $builder->add(
-                'idTesteur',
-                EntityType::class,
-                [
-                    'class' => Users::class,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('qq')
-                            ->select('u') // string 'u' is converted to array internally
-                            ->from('App\Entity\Users', 'u')
-                            // ->from('App\Entity\NormesAutorisees', 'v')
-                            // ->where('u.id = v.normes')
-                            ->Where('u.society = :idSociety')
-                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                            ->orderBy('u.name', 'ASC');
-                    },
-                    'choice_label' => 'login',
-                ]
-            );
-        }
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add('idNorme');
-        } else {
+            $builder
+                ->add('idTesteur', EntityType::class, [
+                    'class' => Admin::class,
+                    'choice_label' => 'username',
+                    'placeholder' => 'Chosissez une personne',
+                    'choices' => $this->repoUsers->findBySociety($this->security->getUser()->getSociety())
+                ]);
             $builder->add(
                 'idNorme',
                 EntityType::class,
@@ -147,28 +136,13 @@ class DossierType extends AbstractType
                     'choice_label' => 'label',
                 ]
             );
-        }
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add('idFormateur');
-        } else {
-            $builder->add(
-                'idFormateur',
-                EntityType::class,
-                [
-                    'class' => Users::class,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('qq')
-                            ->select('u') // string 'u' is converted to array internally
-                            ->from('App\Entity\Users', 'u')
-                            // ->from('App\Entity\NormesAutorisees', 'v')
-                            // ->where('u.id = v.normes')
-                            ->where('u.society = :idSociety')
-                            ->setParameter('idSociety', $this->security->getUser()->getSociety())
-                            ->orderBy('u.name', 'ASC');
-                    },
-                    'choice_label' => 'login',
-                ]
-            );
+            $builder
+                ->add('idFormateur', EntityType::class, [
+                    'class' => Admin::class,
+                    'choice_label' => 'username',
+                    'placeholder' => 'Chosissez une personne',
+                    'choices' => $this->repoUsers->findBySociety($this->security->getUser()->getSociety())
+                ]);
         }
     }
 

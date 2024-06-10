@@ -20,7 +20,7 @@ abstract class FactureAbstract
     /**
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
@@ -61,6 +61,8 @@ abstract class FactureAbstract
      * @ORM\Column(name="reference", type="string", length=40, nullable=false)
      */
     protected $reference;
+
+    
 
     /**
      * @var Collection

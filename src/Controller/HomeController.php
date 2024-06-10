@@ -54,10 +54,14 @@ class HomeController extends AbstractController
     public function showPDF()
     {
         $fpdf = new PDF();
-
+        $fpdf->setLogo('./images/logo/' . $this->getUser()->getSociety()->getId() . '.jpg');
+        $fpdf->setAddHeader(1);
+        
         $fpdf->AddPage();
         $fpdf->SetFont('Arial', 'B', 16);
         $fpdf->Cell(40, 10, 'Hello World !');
+
+        $fpdf->AddPage();
 
         return new Response(
             $fpdf->Output(),

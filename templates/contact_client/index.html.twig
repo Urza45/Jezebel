@@ -26,6 +26,7 @@
                 <th>Telephone1</th>
                 <th>Telephone2</th>
                 <th>Email</th>
+                <th>Société</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -42,6 +43,8 @@
                 <td>{{ contact_client.telephone1 }}</td>
                 <td>{{ contact_client.telephone2 }}</td>
                 <td>{{ contact_client.email }}</td>
+                <td>{{ contact_client.client }}</td>
+
                 <td>
                     <a href="{{ path('app_contact_client_show', {'id': contact_client.id}) }}">
 							<i class="fa-regular fa-eye"></i>

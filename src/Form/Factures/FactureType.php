@@ -18,10 +18,7 @@ class FactureType extends AbstractType
         $builder
             ->add('numero')
             ->add('date')
-            // ->add('tva', EntityType::class, [
-            //     'class' => TVA::class,
-            //     'choice_label' => 'libelle'
-            // ])
+            ->add('tva')
             ->add('acompte')
             ->add('reference')
             ->add('nom')
@@ -41,6 +38,7 @@ class FactureType extends AbstractType
                     // 'prototype' => true,
                     'entry_type' => LigneType::class,
                     'entry_options' => ['label' => false],
+                    'by_reference' => false,
                 ]
             );
     }

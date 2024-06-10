@@ -20,6 +20,7 @@ class Ligne
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
     protected $id;

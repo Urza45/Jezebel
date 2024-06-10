@@ -3,7 +3,7 @@ namespace App\Services;
 
 use FPDF;
 
-class templates_fpdf extends FPDF
+class Templates_FPDF extends FPDF
 {
 	protected $columnss			=	array();	// array of columns anchors
 	protected $max_cols			=	20;			// maximum number of columns width for a column anchor

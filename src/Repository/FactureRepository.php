@@ -42,10 +42,10 @@ class FactureRepository extends ServiceEntityRepository
     //    /**
     //     * @return Facture[] Returns an array of Facture objects
     //     */
-    //    public function findByExampleField($value): array
+    //    public function findByType($value): array
     //    {
     //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
+    //            ->andWhere('f.type = :val')
     //            ->setParameter('val', $value)
     //            ->orderBy('f.id', 'ASC')
     //            ->setMaxResults(10)

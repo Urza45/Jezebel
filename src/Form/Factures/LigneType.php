@@ -24,7 +24,8 @@ class LigneType extends AbstractType
                 EntityType::class,
                 [
                     'class' => TVA::class,
-                    'choice_label' => 'libelle'
+                    'choice_label' => 'libelle',
+                    'choice_value' => 'tva'
                 ]
             )
             // ->add('facture')

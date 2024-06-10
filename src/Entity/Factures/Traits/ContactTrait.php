@@ -74,7 +74,7 @@ trait ContactTrait
      */
     public function getTelephone(): string
     {
-        return $this->telephone;
+        return $this;
     }
 
     /**

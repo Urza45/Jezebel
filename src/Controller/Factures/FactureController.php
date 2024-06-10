@@ -2,13 +2,15 @@
 
 namespace App\Controller\Factures;
 
+use App\Entity\Factures\Devis;
 use App\Entity\Factures\Facture;
 use App\Form\Factures\FactureType;
+use App\Entity\Factures\Facture\Ligne;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/factures/facture")
@@ -16,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FactureController extends AbstractController
 {
     /**
-     * @Route("/", name="app_factures_facture_index", methods={"GET"})
+     * @Route("/", name="app_factures_facture_index", methods={"GET", "POST"})
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -24,10 +26,15 @@ class FactureController extends AbstractController
             ->getRepository(Facture::class)
             ->findAll();
 
+        $devis = $entityManager
+        ->getRepository(Devis::class)
+        ->findAll();
+
         return $this->render(
             'factures/facture/index.html.twig',
             [
                 'factures' => $factures,
+                'devis' => $devis,
             ]
         );
     }
@@ -41,10 +48,13 @@ class FactureController extends AbstractController
         $form = $this->createForm(FactureType::class, $facture);
         $form->handleRequest($request);
 
-        dump($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($facture);
+            dump($request);
+            dump($facture);
+            dump($facture->getLignes());
+            // die();
+
+            $entityManager->persist($facture);   
             $entityManager->flush();
 
             return $this->redirectToRoute('app_factures_facture_index', [], Response::HTTP_SEE_OTHER);

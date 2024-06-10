@@ -65,7 +65,7 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
             ->andWhere('a.society = :val')
             ->setParameter('val', $value)
             ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            //->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

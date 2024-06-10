@@ -14,28 +14,42 @@
 	</h1>
 	<div class="row">
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" disabled>Devis</a>
+			<form action="{{path('app_factures_devis_index', {'id': dossier.id}) }}" method="post">
+				<input type="hidden" name="dossier" value="{{ dossier.id }}">
+				<button type="submit" class="btn btn-success link-white w-75">Devis</a>
+			</form>
 		</div>
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" >Convention</a>
+			<form action="{{path('app_dossier_edit', {'id': dossier.id}) }}" method="post">
+				<input type="hidden" name="dossier" value="{{ dossier.id }}">
+				<button type="submit" class="btn btn-success link-white w-75 disabled" >Convention</a>
+			</form>
 		</div>
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" >Convocation</a>
+			<form action="{{path('app_dossier_edit', {'id': dossier.id}) }}" method="post">
+				<input type="hidden" name="dossier" value="{{ dossier.id }}">
+				<button type="submit" class="btn btn-success link-white w-75 disabled">Convocation</a>
+			</form>
 		</div>
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" >Facture</a>
+			<form action="{{path('app_factures_facture_index', {'id': dossier.id}) }}" method="post">
+				<input type="hidden" name="dossier" value="{{ dossier.id }}">
+				<button type="submit" class="btn btn-success link-white w-75">Facture</a>
+			</form>
 		</div>
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" >Résultats</a>
-
+		    <form action="{{path('app_dossier_edit', {'id': dossier.id}) }}" method="post">
+				<input type="hidden" name="dossier" value="{{ dossier.id }}">
+				<button type="submit" class="btn btn-success link-white w-75 disabled">Résultats</a>
+			</form>
 			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Devis</a><br> #}
-			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Convention</a><br> #}
+		{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Convention</a><br> #}
 			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Convocation</a><br> #}
 			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Facture</a><br> #}
 			{# <a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark w-100">Résultats</a> #}
 		</div>
 		<div class="col-lg-2 col-12">
-			<a class="btn btn-success link-dark w-75 disabled" >Cartes</a>
+			<a class="btn btn-success link-dark w-75 disabled">Cartes</a>
 		</div>
 		<hr>
 	</div>
@@ -57,6 +71,10 @@
 				<tr>
 					<th>Type</th>
 					<td>{{ dossier.type }}</td>
+				</tr>
+				<tr>
+					<th>Norme</th>
+					<td>{{ dossier.idNorme }}</td>
 				</tr>
 				<tr>
 					<th>Adresse Intervention</th>

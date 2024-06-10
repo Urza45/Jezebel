@@ -27,6 +27,21 @@ class NormesAutorisees
      */
     private $normes;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $pricePerCandidate;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $pricePerGroup;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $pricePerMonitor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,5 +74,41 @@ class NormesAutorisees
     public function __toString()
     {
         return $this->getNormes()->getLabel();
+    }
+
+    public function getPricePerCandidate(): ?float
+    {
+        return $this->pricePerCandidate;
+    }
+
+    public function setPricePerCandidate(float $pricePerCandidate): self
+    {
+        $this->pricePerCandidate = $pricePerCandidate;
+
+        return $this;
+    }
+
+    public function getPricePerGroup(): ?float
+    {
+        return $this->pricePerGroup;
+    }
+
+    public function setPricePerGroup(float $pricePerGroup): self
+    {
+        $this->pricePerGroup = $pricePerGroup;
+
+        return $this;
+    }
+
+    public function getPricePerMonitor(): ?float
+    {
+        return $this->pricePerMonitor;
+    }
+
+    public function setPricePerMonitor(float $pricePerMonitor): self
+    {
+        $this->pricePerMonitor = $pricePerMonitor;
+
+        return $this;
     }
 }

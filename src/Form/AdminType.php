@@ -27,36 +27,37 @@ class AdminType extends AbstractType
         $builder
             ->add('username');
         //->add('roles')
-        if ($user->isGranted('ROLE_ULTRAADMIN')) {
-            $builder->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'required' => true,
-                    'multiple' => false,
-                    'expanded' => false,
-                    'choices'  => [
-                        'Moniteur' => 'ROLE_MOD',
-                        'Administrateur' => 'ROLE_ADMIN',
-                        'Superadministrateur' => 'ROLE_SUPERADMIN',
-                    ],
-                ]
-            );
-        } else {
-            $builder->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'required' => true,
-                    'multiple' => false,
-                    'expanded' => false,
-                    'choices'  => [
-                        'Moniteur' => 'ROLE_MOD',
-                        'Administrateur' => 'ROLE_ADMIN',
-                    ],
-                ]
-            );
-        }
+        // if ($user->isGranted('ROLE_ULTRAADMIN')) {
+        $builder->add(
+            'roles',
+            ChoiceType::class,
+            [
+                'required' => true,
+                'multiple' => false,
+                'expanded' => false,
+                'choices'  => [
+                    'Moniteur' => 'ROLE_MOD',
+                    'Administrateur' => 'ROLE_ADMIN',
+                    'Superadministrateur' => 'ROLE_SUPERADMIN',
+                ],
+            ]
+        );
+        // } else {
+        //     $builder->add(
+        //         'roles',
+        //         ChoiceType::class,
+        //         [
+        //             'required' => true,
+        //             'multiple' => false,
+        //             'expanded' => false,
+        //             'choices'  => [
+        //                 'Moniteur' => 'ROLE_MOD',
+        //                 'Administrateur' => 'ROLE_ADMIN',
+        //                 'Superadministrateur' => 'ROLE_SUPERADMIN',
+        //             ],
+        //         ]
+        //     );
+        // }
         $builder
             ->add('password', PasswordType::class)
             ->add('society');

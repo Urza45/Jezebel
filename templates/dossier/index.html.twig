@@ -12,77 +12,61 @@
 		dossiers.<br/>
 		<a href="{{ path('app_dossier_new') }}" class="btn btn-success link-dark">Ajouter un dossier</a>
 	</center>
-	{# Moteur de recherche #}
-	{# <hr>
-	<div class="container container-fluid">
-		<div class="row justify-content-evenly">
-			<div class="col-lg-12">
-				{{ form_start(form) }}
-				<div class="form-group row">
-					<div class="row justify-content-evenly">
-						<div class="col-lg-4 col-12">
-							{{ form_label(form.numDossier)}}
-							{{ form_widget(form.numDossier)}}
-							{{ form_errors(form.numDossier) }}
-						</div>
-						<div class="col-lg-4 col-12">
-							{{ form_label(form.idClient)}}
-							{{ form_widget(form.idClient)}}
-							{{ form_errors(form.idClient) }}
-						</div>
-						<div class="col-lg-4 col-12">
-							{{ form_row(form.submit) }}
-							<a href="{{ path('app_dossier_index') }}" class="form-control btn btn-danger link-dark">Réinitialliser</a>
-						</div>
-					</div>
-				</div>
-				{{ form_end(form) }}
-			</div>
-		</div>
-	</div>
-	<hr> #}
-	{# Fin moteur de recherche #}
 
 	<table id="formatedTable" class="table-bordered table-hover table-responsive">
 		<thead>
 			<tr>
 				<th>Dossier</th>
 				<th>Client</th>
-				{# <th>Facture</th> #}
-				{# <th>Début</th> #}
-				{# <th>Fin</th> #}
-				<th>Contact(s)</th>
-				<th>Type</th>
-				{# <th>Adresse Intervention</th> #}
-				<th>Norme</th>
 
-				<th>Actions</th>
+				<th>
+					Contact(s)
+				</th>
+				<th>
+					Type
+				</th>
+				{# <th>Adresse Intervention</th> #}
+				<th>
+					Norme
+				</th>
+				<th>
+					Actions
+				</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% set style = 'row-b' %}
 			{% for dossier in dossiers %}
 				<tr>
-					<td>{{ dossier.numDossier }}
-					</td>
-					{# <td>{{ dossier.numFacture }}</td> #}
-					{# <td>{{ dossier.dateDebut ? dossier.dateDebut|date('d/m/Y') : '' }}</td> #}
-					{# <td>{{ dossier.dateFin ? dossier.dateFin|date('d/m/Y') : '' }}</td> #}
 					<td>
-					{{ dossier.idClient }}
+						{{ dossier.numDossier }}
 					</td>
-						<td>
-							{% if dossier.idClient.contactClients is defined %}
+					<td>
+						{{ dossier.idClient }}
+					</td>
+					<td>
+						{% if dossier.idClient.contactClients is defined %}
+							{% if dossier.idClient.contactClients|length > 0 %}
 								{% for contact in dossier.idClient.contactClients %}
-								{{ contact.nom }}
-								{{ contact.prenom}}
-							<br/>
-
-							{% endfor %}
+									{{ contact.nom }}
+									{{ contact.prenom}}
+									{{ contact.telephone1}}
+									<br/>
+								{% endfor %}
+							{% else %}
+								<form action="{{path('app_dossier_edit', {'id': dossier.id}) }}" method="post">
+									<input type="hidden" name="dossier" value="{{ dossier.id }}">
+									<button type="submit" class="btn btn-sm btn-success link-white w-75 disabled">
+										<i class="fa-regular fa-address-book"></i>Contact</a>
+								</form>
+							{% endif %}
 						{% else %}
-							Pas de contact trouvé
+							<form action="{{path('app_dossier_edit', {'id': dossier.id}) }}" method="post">
+								<input type="hidden" name="dossier" value="{{ dossier.id }}">
+								<button type="submit" class="btn btn-sm btn-success link-white w-75 disabled">
+									<i class="fa-regular fa-address-book"></i>Contact</a>
+							</form>
 						{% endif %}
-						<i class="fa-solid fa-address-book"></i>Ajouter un contact
 					</td>
 					<td>{{ dossier.type }}</td>
 					<td>{{ dossier.idNorme }}</td>

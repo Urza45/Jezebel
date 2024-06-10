@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devis index{% endblock %}
+
+{% block body %}
+    <h1>Devis index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numero</th>
+                <th>Date</th>
+                <th>Tva</th>
+                <th>Acompte</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Adresse2</th>
+                <th>CodePostal</th>
+                <th>Ville</th>
+                <th>Telephone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devi in devis %}
+            <tr>
+                <td>{{ devi.id }}</td>
+                <td>{{ devi.numero }}</td>
+                <td>{{ devi.date ? devi.date|date('Y-m-d') : '' }}</td>
+                <td>{{ devi.tva }}</td>
+                <td>{{ devi.acompte }}</td>
+                <td>{{ devi.nom }}</td>
+                <td>{{ devi.adresse }}</td>
+                <td>{{ devi.adresse2 }}</td>
+                <td>{{ devi.codePostal }}</td>
+                <td>{{ devi.ville }}</td>
+                <td>{{ devi.telephone }}</td>
+                <td>
+                    <a href="{{ path('app_factures_devis_show', {'id': devi.id}) }}">show</a>
+                    <a href="{{ path('app_factures_devis_edit', {'id': devi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_factures_devis_new') }}">Create new</a>
+{% endblock %}

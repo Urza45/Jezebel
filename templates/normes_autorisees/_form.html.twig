@@ -1,4 +1,30 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{# {{ form_widget(form) }} #}
+<div class="form-group">
+	<div class="row justify-content-evenly">
+		<div class="col-lg-4 col-12">
+			{{ form_row(form.society, {'label': 'Société (*) :', 'attr' : { 'placeholder': 'Société', 'class': 'form-control'} })}}
+		</div>
+		<div class="col-lg-4 col-12">
+			{{ form_row(form.normes, {'label': 'Norme (*) :', 'attr' : { 'placeholder': 'Norme', 'class': 'form-control'} })}}
+		</div>
+	</div>
+</div>
+<br>
+<div class="form-group">
+	<div class="row justify-content-evenly">
+		<div class="col-md-4 col-12">
+			{{ form_row(form.pricePerCandidate, {'label': 'Prix par candidat (*) :', 'attr' : { 'class': ''} })}}
+		</div>
+		<div class="col-lg-4 col-12">
+			{{ form_row(form.pricePerGroup, {'label': 'Prix par groupe (*) :', 'attr' : { 'class': ''} })}}
+		</div>
+		<div class="col-lg-4 col-12">
+			{{ form_row(form.pricePerMonitor, {'label': 'Prix par instrcuteur (*) :', 'attr' : { 'class': ''} })}}
+		</div>
+	</div>
+</div>
+<br>
+<button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
+

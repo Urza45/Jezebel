@@ -7,17 +7,20 @@
 namespace App\Services;
 
 use FPDF;
-use App\Services\templates_fpdf;
 use App\Entity\Norme;
-//use App\Services\PDF;
 use App\Entity\Client;
+//use App\Services\PDF;
 use App\Entity\Dossier;
 use App\Entity\Candidat;
 use App\Entity\Categorie;
+use App\Services\templates_fpdf;
 use App\Repository\CandidatRepository;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 use App\Repository\CategoriechoisieRepository;
+use App\Repository\NormeRepository;
 
 /**
  * Description of PDF
@@ -321,54 +324,57 @@ class PDF extends templates_fpdf
      * @param  mixed $candidatRepository
      * @return void
      */
-    public function executeDossier(Dossier $dossier, Client $client, CandidatRepository $candidatRepository)
+    public function executeDossier(Dossier $dossier, Client $client, ManagerRegistry $registry, Security $security)
     {
         $id_dossier = $dossier->getId();
+        $candidats = new CandidatRepository( $registry, $security);
+        $normes = new NormeRepository($registry);
+        $fpdf = new PDF();
 
-        $pdf = new PDF();
+        $fpdf->AliasNbPages();
+        $fpdf->AddPage();
+        $fpdf = $this->firstPage('Titre', 'soustitre');
+        // $fpdf->AddPage();
+        
+        // $dossier = $this->managers->getManagerOf('Dossier')->getUnique($id_dossier);
+        // $client =  $this->managers->getManagerOf('Client')->getUnique($dossier['id_client']);
+        // $candidats = $dossier->
 
-        $pdf->AliasNbPages();
-        $pdf->AddPage();
-        $pdf = $this->processGarde($pdf);
-        $pdf->AddPage();
-
-        $dossier = $this->managers->getManagerOf('Dossier')->getUnique($id_dossier);
-        $client =  $this->managers->getManagerOf('Client')->getUnique($dossier['id_client']);
-        $candidats = $this->managers->getManagerOf('Candidat')->getList($dossier['id_client'], $id_dossier);
-        $norme = $this->managers->getManagerOf('Norme')->getUnique($dossier['id_norme']);
-
-        $this->processDossier($pdf, $dossier, $client, $norme);
-        $this->processCandidat($pdf, $candidats, $norme);
+        $candidats = $candidats->findByIdClient($client->getId());
+        // $candidats = $this->managers->getManagerOf('Candidat')->getList($dossier['id_client'], $id_dossier);
+        $norme = $normes->getByIdclient();
+        $this->processDossier($fpdf, $dossier, $client, $norme);
+        $this->processCandidat($fpdf, $candidats, $norme);
         $testeur = $this->managers->getManagerOf('UserEntity')->getUnique($dossier['id_testeur']);
         $formateur = $this->managers->getManagerOf('UserEntity')->getUnique($dossier['id_formateur']);
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->Cell(0, 10, utf8_decode('Intervenants'), 1, 0, 'C');
-        $pdf->Ln(15);
+        $fpdf->Ln(5);
+        $fpdf->SetFont('Arial', 'B', 15);
+        $fpdf->Cell(0, 10, utf8_decode('Intervenants'), 1, 0, 'C');
+        $fpdf->Ln(15);
         /* Ligne 1 */
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->SetTextColor(0, 0, 255);
-        $pdf->Cell(50, 10, utf8_decode('Formateur :'), 0, 0, 'R');
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(30, 10, utf8_decode($formateur['_name'] . ' ' . $formateur['surname']), 0, 1, 'L');
+        $fpdf->SetFont('Arial', '', 12);
+        $fpdf->SetTextColor(0, 0, 255);
+        $fpdf->Cell(50, 10, utf8_decode('Formateur :'), 0, 0, 'R');
+        $fpdf->SetTextColor(0, 0, 0);
+        $fpdf->Cell(30, 10, utf8_decode($formateur['_name'] . ' ' . $formateur['surname']), 0, 1, 'L');
         /* Ligne 2 */
-        $pdf->SetTextColor(0, 0, 255);
-        $pdf->Cell(50, 10, utf8_decode('Testeur :'), 0, 0, 'R');
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->Cell(30, 10, utf8_decode($testeur['_name'] . ' ' . $testeur['surname']), 0, 1, 'L');
+        $fpdf->SetTextColor(0, 0, 255);
+        $fpdf->Cell(50, 10, utf8_decode('Testeur :'), 0, 0, 'R');
+        $pdfpdff->SetTextColor(0, 0, 0);
+        $fpdf->Cell(30, 10, utf8_decode($testeur['_name'] . ' ' . $testeur['surname']), 0, 1, 'L');
         foreach ($candidats as $candidat) {
             $managerCandidat = $this->managers->getManagerOf('Candidat');
-            $pdf->AddPage();
-            $this->processResultat($pdf, $candidat, $dossier);
+            $fpdf->AddPage();
+            $this->processResultat($fpdf, $candidat, $dossier);
             $listeCategorieChoisies = $managerCandidat->getCategoriesChoisies($candidat['id']);
             foreach ($listeCategorieChoisies as $value) {
-                $pdf->AddPage();
+                $fpdf->AddPage();
                 $note1 = $managerCandidat->loadNotes1($candidat['id'], $value);
                 $note2 = $managerCandidat->loadNotes2($candidat['id'], $value);
                 $this->processFormulaire($pdf, $norme['id'], $value, $note1, $note2);
             }
         }
-        $pdf->Output('I', 'DoC.pdf', true);
+        $fpdf->Output('I', 'DoC.pdf', true);
     }
 
     /**

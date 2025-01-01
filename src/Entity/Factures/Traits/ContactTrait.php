@@ -4,6 +4,8 @@ namespace App\Entity\Factures\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use function PHPUnit\Framework\isNull;
+
 /**
  * Contact.
  *
@@ -74,7 +76,10 @@ trait ContactTrait
      */
     public function getTelephone(): string
     {
-        return $this;
+        if (isNull($this->telephone)) {
+            $this->telephone = '';
+        }
+        return $this->telephone;
     }
 
     /**
@@ -88,7 +93,7 @@ trait ContactTrait
     {
         $this->ville = $ville;
 
-        return $this;
+        return $this->ville;
     }
 
     /**

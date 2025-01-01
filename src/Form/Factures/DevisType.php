@@ -6,6 +6,8 @@ use App\Entity\Factures\Devis;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class DevisType extends AbstractType
 {
@@ -21,7 +23,20 @@ class DevisType extends AbstractType
             ->add('adresse2')
             ->add('codePostal')
             ->add('ville')
-            ->add('telephone')
+            ->add('telephone', TextType::class)
+            ->add(
+                'lignes',
+                CollectionType::class,
+                [
+                    'label' => 'Prestations',
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    // 'prototype' => true,
+                    'entry_type' => LigneType::class,
+                    'entry_options' => ['label' => false],
+                    'by_reference' => false,
+                ])
         ;
     }
 

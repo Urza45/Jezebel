@@ -108,6 +108,7 @@ abstract class FactureAbstract
         return $this->numero;
     }
 
+
     /**
      * Set numero.
      *

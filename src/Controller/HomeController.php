@@ -55,7 +55,13 @@ class HomeController extends AbstractController
     {
         $fpdf = new PDF();
         $fpdf->setLogo('./images/logo/' . $this->getUser()->getSociety()->getId() . '.jpg');
-        $fpdf->setAddHeader(1);
+        $fpdf->setAddHeader(PDF::WITH_HEADER);
+        $fpdf->setAddFooter(PDF::WITH_FOOTER);
+        $fpdf->AliasNbPages(); 
+        $fpdf->setTitre('Facture');
+        $fpdf->setSousTitre('un');
+        $fpdf->setReference('dddd');
+        $fpdf->setAdresse('TEST');
         
         $fpdf->AddPage();
         $fpdf->SetFont('Arial', 'B', 16);

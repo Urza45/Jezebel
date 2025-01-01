@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Facture;
+use App\Entity\Factures\Facture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

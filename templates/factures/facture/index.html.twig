@@ -4,9 +4,20 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Facture index</h1>
-
-	<table class="table">
+	<h1>Liste des factures</h1>
+	<center>
+		Il y a actuellement
+		{% set counter = 0 %}
+		{% for facture in factures %}
+			{% if facture not in devis %}
+				{% set counter = counter + 1 %}
+			{% endif %}
+		{% endfor %}
+		{{ counter }}
+		factures.<br/>
+		<a href="{{ path('app_factures_facture_new') }}" class="btn btn-success link-dark">Ajouter une facture</a>
+	</center>
+	<table id="formatedTable" class="table-bordered table-hover table-responsive">
 		<thead>
 			<tr>
 				<th>Id</th>
@@ -25,9 +36,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<pre>
-            {{ dump(factures) }}
-        </pre>
 			{% for facture in factures %}
 				{% if facture not in devis %}
 					<tr>
@@ -44,8 +52,12 @@
 						<td>{{ facture.ville }}</td>
 						<td>{{ facture.telephone }}</td>
 						<td>
-							<a href="{{ path('app_factures_facture_show', {'id': facture.id}) }}">show</a>
-							<a href="{{ path('app_factures_facture_edit', {'id': facture.id}) }}">edit</a>
+							<a href="{{ path('app_factures_facture_show', {'id': facture.id}) }}">
+								<i class="fa-regular fa-eye"></i>
+							</a>
+							<a href="{{path('app_factures_facture_edit',{'id':facture.id})}}">
+								<i class="fa-solid fa-file-pen"></i>
+							</a>
 						</td>
 					</tr>
 				{% endif %}
@@ -56,6 +68,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
 	<a href="{{ path('app_factures_facture_new') }}">Create new</a>
 {% endblock %}

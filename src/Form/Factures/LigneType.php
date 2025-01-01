@@ -4,6 +4,7 @@ namespace App\Form\Factures;
 
 use App\Entity\Factures\TVA;
 use App\Entity\Factures\Facture\Ligne;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,7 +18,15 @@ class LigneType extends AbstractType
         $builder
             // ->add('id')
             ->add('description')
-            ->add('quantite')
+            ->add(
+                'quantite',
+                IntegerType::class,
+                [
+                    'attr' => [
+                        'min' => 0
+                    ]
+                ]
+            )
             ->add('prix', MoneyType::class)
             ->add(
                 'tva',

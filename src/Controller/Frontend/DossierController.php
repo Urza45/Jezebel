@@ -2,6 +2,7 @@
 
 namespace App\Controller\Frontend;
 
+use App\Services\PDF;
 use App\Entity\Dossier;
 use App\Entity\Society;
 use App\Entity\Candidat;
@@ -9,14 +10,18 @@ use App\Entity\Categorie;
 use App\Form\DossierType;
 use App\Entity\Categoriechoisie;
 use App\Form\ChoiceCategoriesType;
+use App\Repository\ClientRepository;
 use App\Repository\DossierRepository;
 use App\Repository\SocietyRepository;
 use App\Form\Search\SearchDossierType;
 use App\Repository\CandidatRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -251,6 +256,46 @@ class DossierController extends AbstractController
                 'form2' => $form2,
                 'retour' => 'Dossier',
             ]
+        );
+    }
+
+    /**
+     * PrintDossier
+     *
+     * @param \App\Entity\Dossier $dossier
+     * 
+     *  @Route("/{id}/print_dossier", name="app_dossier_pdf", methods={"GET", "POST"})
+     * 
+     * @return void
+     */
+    public function PrintDossier(Dossier $dossier, ClientRepository $clientRepository, ManagerRegistry $registry, Security $security) {
+        $fpdf = new PDF();
+
+        $clients = $clientRepository->findById($dossier->getIdClient());
+        $client = $clients[0];
+
+        $fpdf->setLogo('./images/logo/' . $this->getUser()->getSociety()->getId() . '.jpg');
+        $fpdf->setAddHeader(PDF::WITH_HEADER);
+        $fpdf->setAddFooter(PDF::WITH_FOOTER);
+        $fpdf->AliasNbPages(); 
+        $fpdf->setTitre('Facture');
+        $fpdf->setSousTitre('un');
+        $fpdf->setReference('dddd');
+        $fpdf->setAdresse('TEST');
+        
+        $fpdf->AddPage();
+        $fpdf->SetFont('Arial', 'B', 16);
+        $fpdf->Cell(40, 10, 'Hello World !');
+
+        $fpdf->executeDossier($dossier, $client, $registry, $security);
+        $fpdf->AddPage();
+
+        return new Response(
+            $fpdf->Output(),
+            200,
+            array(
+                'Content-Type' => 'application/pdf'
+            )
         );
     }
 }

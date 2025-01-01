@@ -51,7 +51,6 @@ class DossierType extends AbstractType
     {
 
         $user = $this->security;
-        dump($this->security->getUser()->getSociety()->getId());
         $builder
             ->add(
                 'dateDebut',

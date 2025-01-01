@@ -6,6 +6,8 @@ use App\Entity\Factures\TVA;
 use App\Entity\Factures\Facture;
 use App\Form\Factures\LigneType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +19,14 @@ class FactureType extends AbstractType
     {
         $builder
             ->add('numero')
-            ->add('date')
+            ->add(
+                'date',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'attr' => ['class' => 'js-datepicker'],
+                ]
+            )
             ->add('tva')
             ->add('acompte')
             ->add('reference')
@@ -26,7 +35,7 @@ class FactureType extends AbstractType
             ->add('adresse2')
             ->add('code_postal')
             ->add('ville')
-            ->add('telephone')
+            ->add('telephone', TextType::class)
             ->add(
                 'lignes',
                 CollectionType::class,

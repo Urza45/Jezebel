@@ -56,12 +56,26 @@
 										<i class="fa-solid fa-file"></i>
 										Dossiers</a>
 								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_factures_devis_index') }}">
+										<i class="fa-solid fa-file-invoice"></i>
+										Devis
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_factures_facture_index') }}">
+										<i class="fa-solid fa-file-invoice-dollar"></i>
+										Factures
+									</a>
+								</li>
 								<li><hr class="dropdown-divider"></li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_candidat_index') }}">
 										<i class="fa-solid fa-user"></i>
 										Candidats</a>
 								</li>
+
+
 							</ul>
 						</li>
 					{% endif %}

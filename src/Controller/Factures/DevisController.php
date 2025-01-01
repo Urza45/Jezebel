@@ -3,6 +3,7 @@
 namespace App\Controller\Factures;
 
 use App\Entity\Factures\Devis;
+use App\Entity\Factures\Facture;
 use App\Form\Factures\DevisType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,8 +22,8 @@ class DevisController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $devis = $entityManager
-            ->getRepository(Devis::class)
-            ->findByType('devis');
+        ->getRepository(Devis::class)
+        ->findAll();
 
         return $this->render('factures/devis/index.html.twig', [
             'devis' => $devis,
@@ -35,7 +36,9 @@ class DevisController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $devi = new Devis();
-        $form = $this->createForm(FactureType::class, $devi);
+        // var_dump($devi);
+
+        $form = $this->createForm(DevisType::class, $devi);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

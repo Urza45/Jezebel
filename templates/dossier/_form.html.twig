@@ -9,10 +9,10 @@
 						{{ form_row(form.numDossier, {'label': 'Numéro de dossier (*) :', 'attr' : { 'placeholder': 'Généré automatiquement', 'class': 'form-control'} })}}
 					</div>
 					{# <div class="col-lg-4 col-12">
-						{{ form_row(form.numFacture, {'label': 'Numéro de facture (*) :', 'attr' : { 'placeholder': 'Numéro de facture', 'class': 'form-control'} })}}
-					</div> #}
+											{{ form_row(form.numFacture, {'label': 'Numéro de facture (*) :', 'attr' : { 'placeholder': 'Numéro de facture', 'class': 'form-control'} })}}
+										</div> #}
 					<div class="col-lg-4 col-12">
-						{{ form_row(form.idClient, {'label': 'Client (*) :', 'attr' : {   'placeholder': 'Client', 'class': 'form-select'} })}}
+						{{ form_row(form.idClient, {'label': 'Client (*) :', 'attr' : { 'placeholder': 'Client' } })}}
 					</div>
 				</div>
 				<br/>
@@ -21,10 +21,10 @@
 						{{ form_row(form.type, {"label": "Intitulé de l'action", "params": {"inline": true } }) }}
 					</div>
 					<div class="col-lg-4 col-12">
-						{{ form_row(form.dateDebut, {'label': 'Date de début (*) :', 'attr' : { 'class': 'form-select'} })}}
+						{{ form_row(form.dateDebut, {'label': 'Date de début (*) :', 'attr' : { 'class': 'form-control'} })}}
 					</div>
 					<div class="col-lg-4 col-12">
-						{{ form_row(form.dateFin, {'label': 'Date de fin (*) :', 'attr' : { 'class': 'form-select'} })}}
+						{{ form_row(form.dateFin, {'label': 'Date de fin (*) :', 'attr' : { 'class': 'form-control'} })}}
 					</div>
 				</div>
 				<br/>
@@ -61,10 +61,10 @@
 					</div>
 				</div>
 				{# <div class="col-lg-4 col-12">
-					{{ form_row(form.society, {'label': 'Société (*) :', 'attr' : {
-							
-					 } })}}
-				</div> #}
+									{{ form_row(form.society, {'label': 'Société (*) :', 'attr' : {
+											
+									 } })}}
+								</div> #}
 				<button class="btn btn-success">
 					{{ button_label|default('Enregistrer') }}</button>
 			</div>

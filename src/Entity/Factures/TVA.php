@@ -95,4 +95,9 @@ class TVA
     {
         return sprintf('%s %%', number_format($this->getTva(), 2, ',', ' '));
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 }
